@@ -1,38 +1,47 @@
 'use client';
 
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Mail, Users, Heart, Zap } from 'lucide-react';
+import { Heart, Mail, Users, Zap } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function AboutPage() {
   const teamMembers = [
     {
       id: 1,
-      name: 'Team Member 1',
+      name: 'Adam Moore',
       role: 'Creative Director',
       bio: 'Visionary storyteller with a passion for digital experiences.',
-      image: '/api/placeholder/300/300',
+      image: 'https://autoink.us/img/team/adam.m.jpg',
     },
     {
       id: 2,
-      name: 'Team Member 2',
-      role: 'Lead Developer',
-      bio: 'Code architect who turns dreams into digital reality.',
-      image: '/api/placeholder/300/300',
+      name: 'Crisia Merino',
+      role: 'Operations Director',
+      bio: 'Strategic leader orchestrating seamless workflows and empowering teams to deliver exceptional results.',
+      image: 'https://autoink.us/img/team/crisia.m.jpg',
     },
     {
       id: 3,
-      name: 'Team Member 3',
-      role: 'Video Producer',
+      name: 'Denilson Sibrian',
+      role: 'Video Production / Photography',
       bio: 'Master of visual storytelling and cinematic magic.',
-      image: '/api/placeholder/300/300',
+      image: 'https://autoink.us/img/team/denilson.s.jpg',
     },
     {
       id: 4,
-      name: 'Team Member 4',
-      role: 'Brand Strategist',
-      bio: 'Brand whisperer who crafts compelling narratives.',
-      image: '/api/placeholder/300/300',
+      name: 'Peighton Moore',
+      role: 'Brand Strategist / Marketing',
+      bio: 'Strategic visionary crafting brand narratives that resonate with audiences.',
+      image:
+        'https://media.licdn.com/dms/image/v2/D5635AQE_wgCoAiKpnQ/profile-framedphoto-shrink_800_800/B56ZcSo_QiHUAk-/0/1748364424590?e=1752012000&v=beta&t=Q1Sj8qU5OlkmqbDFmB5ETL8t1JBR13AwdYLHwrXPfE8', // No image available
+    },
+    {
+      id: 5,
+      name: 'Robert Sibrian',
+      role: 'Photographer',
+      bio: 'Capturing moments that tell stories.',
+      image: 'https://ampnet.sfo2.cdn.digitaloceanspaces.com/Fam/IMG_4958.JPG',
     },
   ];
 
@@ -146,15 +155,28 @@ export default function AboutPage() {
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">
             Meet Our Team
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {teamMembers.map(member => (
               <div
                 key={member.id}
                 className="text-center bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl border border-white/30 dark:border-slate-700/30 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
               >
-                <div className="w-24 h-24 bg-gradient-to-r from-teal-600 to-orange-600 dark:from-pink-600 dark:to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <Users className="h-10 w-10 text-white" />
-                </div>
+                {member.image && !member.image.includes('/api/placeholder') ? (
+                  <div className="w-24 h-24 mx-auto mb-4 overflow-hidden rounded-full">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      width={96}
+                      height={96}
+                      className="w-full h-full object-cover"
+                      unoptimized
+                    />
+                  </div>
+                ) : (
+                  <div className="w-24 h-24 bg-gradient-to-r from-teal-600 to-orange-600 dark:from-pink-600 dark:to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <Users className="h-10 w-10 text-white" />
+                  </div>
+                )}
                 <h3 className="text-xl font-bold mb-2 text-slate-900 dark:text-slate-100">
                   {member.name}
                 </h3>
