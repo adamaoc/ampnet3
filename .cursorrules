@@ -47,8 +47,10 @@ This is a Next.js 15 portfolio website for AmpNet Media, a creative media studio
 - Use App Router for all routing (static generation)
 - Components in `src/_components/` for main page sections
 - UI components in `src/components/ui/` using Radix UI patterns
-- Data files in `src/data/` for static content
-- Client components for interactive features
+- Data files in `src/data/` for static content and generated build-time data
+- Client components for interactive features only (no API calls)
+- **Build-time data generation** via prebuild scripts
+- Import data functions from `@/data/websites` (not direct API calls)
 - All data must be available at build time
 
 ## Styling Guidelines
@@ -72,10 +74,12 @@ This is a Next.js 15 portfolio website for AmpNet Media, a creative media studio
 ## Data Management
 
 - Static data in `src/data/works.ts` for portfolio items
-- All data must be available at build time
-- For external data: fetch during build process, not at runtime
+- **Build-time data fetching** from FlexHub API via `scripts/fetch-build-data.mjs`
+- Generated TypeScript files in `src/data/websites-generated.ts` (auto-created during build)
+- All data must be available at build time - no runtime API calls
 - Type all data structures properly using centralized types
-- No dynamic API calls from client components
+- **No dynamic API calls from client components** - use static data functions instead
+- Graceful fallback handling when external APIs are unavailable during build
 
 ## File Organization
 
@@ -95,6 +99,8 @@ This is a Next.js 15 portfolio website for AmpNet Media, a creative media studio
 - Ensure responsive design works on all screen sizes
 - Use Next.js Image component with `unoptimized: true` (required for static export)
 - Use semantic HTML and proper heading hierarchy
+- **Test full build process** with `npm run build` to verify data fetching
+- Never use runtime API calls - import from static data functions instead
 
 ## Performance Considerations
 
@@ -125,5 +131,8 @@ This is a Next.js 15 portfolio website for AmpNet Media, a creative media studio
 - `output: 'export'` in next.config.ts
 - `images: { unoptimized: true }` required for static export
 - `trailingSlash: true` for better static hosting compatibility
-- Build generates static files in `out` folder
+- **Prebuild script** (`scripts/fetch-build-data.mjs`) fetches external data
+- Build generates static files in `out` folder with embedded data
+- **Auto-generated files**: `src/data/websites-generated.ts` (excluded from git)
 - No server-side features available in production
+- **Build process**: `prebuild` → `next build` → static export

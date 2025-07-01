@@ -1,38 +1,11 @@
 'use client';
 
 import PlaceholderImage from '@/_components/PlaceholderImage';
+import { getFeaturedWebsites } from '@/data/websites';
+import type { SiteCardProps } from '@/types';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-
-interface Website {
-  id: string;
-  name: string;
-  domain: string;
-  logo: string | null;
-  coverImage: string | null;
-  description: string | null;
-  createdAt: string;
-  updatedAt: string;
-  features: Array<{
-    id: string;
-    type: string;
-    displayName: string;
-    description: string;
-    config: unknown;
-  }>;
-}
-
-interface ApiResponse {
-  sites: Website[];
-  count: number;
-  lastUpdated: string;
-}
-
-interface SiteCardProps {
-  site: Website;
-}
 
 function SiteCard({ site }: SiteCardProps) {
   return (
@@ -76,38 +49,8 @@ function SiteCard({ site }: SiteCardProps) {
 }
 
 export default function Work() {
-  const [websites, setWebsites] = useState<Website[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchWebsites = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          'https://flexhub.ampnet.media/api/public/sites'
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data: ApiResponse = await response.json();
-        // Sort by most recent updated and take top 2
-        const sortedSites = data.sites.sort(
-          (a, b) =>
-            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-        );
-        setWebsites(sortedSites.slice(0, 4));
-      } catch (err) {
-        console.error('Error fetching websites:', err);
-        setWebsites([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchWebsites();
-  }, []);
+  // Use static data generated at build time
+  const websites = getFeaturedWebsites();
 
   return (
     <section id="work" className="py-20 px-6">
@@ -122,21 +65,14 @@ export default function Work() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
-          {loading
-            ? // Loading skeletons
-              Array.from({ length: 4 }).map((_, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-4 bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-full border border-white/20 dark:border-slate-700/20 p-3 pr-6 animate-pulse"
-                >
-                  <div className="w-12 h-12 bg-slate-300 dark:bg-slate-700 rounded-full flex-shrink-0"></div>
-                  <div className="flex-grow min-w-0">
-                    <div className="h-5 w-3/4 bg-slate-300 dark:bg-slate-700 rounded mb-1"></div>
-                    <div className="h-4 w-1/2 bg-slate-300 dark:bg-slate-700 rounded"></div>
-                  </div>
-                </div>
-              ))
-            : websites.map(site => <SiteCard key={site.id} site={site} />)}
+          {websites.length > 0 ? (
+            websites.map(site => <SiteCard key={site.id} site={site} />)
+          ) : (
+            // Fallback if no websites available
+            <div className="col-span-2 text-center py-8 text-slate-600 dark:text-slate-400">
+              No featured websites available
+            </div>
+          )}
         </div>
         <div className="flex justify-end">
           <Link

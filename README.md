@@ -1,31 +1,32 @@
 # AmpNet Media Portfolio
 
-A modern portfolio website for AmpNet Media - a creative media studio that crafts digital experiences. This Next.js application showcases our creative work, websites we've built, and services we offer.
+A modern portfolio website for AmpNet Media - a creative media studio that crafts digital experiences. This **statically exported** Next.js application showcases our creative work, websites we've built, and services we offer.
 
 ## 🌐 Live URLs
 
 - **Production**: [https://ampnet.media](https://ampnet.media)
-- **Backend API**: [https://flexhub.ampnet.media](https://flexhub.ampnet.media)
-- **Dev Backend**: [localhost:3005](http://localhost:3005)
+- **Data Source**: [https://flexhub.ampnet.media](https://flexhub.ampnet.media) (fetched at build time)
 
 ## 🚀 Features
 
 - **Portfolio Showcase**: Display of creative works including video projects, web advertising, and social media campaigns
-- **Website Gallery**: Showcase of websites built with features and descriptions
+- **Website Gallery**: Showcase of websites built with features and descriptions (fetched at build time)
 - **Services Overview**: Highlighting our digital media and web development services
 - **Contact Integration**: Contact forms and information
 - **Responsive Design**: Mobile-first responsive design with Tailwind CSS
 - **Dark Mode Support**: Built-in dark/light mode toggle
 - **Modern UI**: Beautiful gradient designs and animations
+- **Static Export**: Fully static site generation for optimal performance
 
 ## 🛠 Tech Stack
 
-- **Framework**: Next.js 15 (App Router)
+- **Framework**: Next.js 15 (App Router with Static Export)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS v4
 - **UI Components**: Radix UI + Custom components
 - **Icons**: Lucide React
 - **Runtime**: React 19
+- **Deployment**: Static hosting (no server required)
 
 ## 📁 Project Structure
 
@@ -34,7 +35,7 @@ src/
 ├── _components/          # Main page components
 │   ├── Hero.tsx         # Hero section with branding
 │   ├── Services.tsx     # Services we offer
-│   ├── Work.tsx         # Portfolio display
+│   ├── Work.tsx         # Portfolio display (uses static data)
 │   ├── About.tsx        # About section
 │   └── Contact.tsx      # Contact information
 ├── app/                 # Next.js app router
@@ -44,10 +45,57 @@ src/
 │   ├── magic/           # Magic page
 │   └── works/           # Works gallery with dynamic routes
 ├── components/ui/       # Reusable UI components
+├── types/              # Centralized TypeScript definitions
+│   ├── api.ts          # API response types
+│   ├── components.ts   # Component prop types
+│   ├── data.ts         # Data structure types
+│   └── index.ts        # Type exports
 ├── data/               # Static data files
-│   ├── works.ts        # Portfolio works and websites data
-│   └── blog.ts         # Blog-related data
-└── lib/                # Utilities and configurations
+│   ├── works.ts        # Portfolio works data
+│   ├── blog.ts         # Blog-related data
+│   ├── websites.ts     # Re-exports from generated data
+│   └── websites-generated.ts # Auto-generated (build time)
+├── lib/                # Utilities and configurations
+└── scripts/            # Build-time scripts
+    └── fetch-build-data.mjs # Data fetching script
+```
+
+## 🏗 Build-Time Data Fetching
+
+This project uses a **build-time data fetching** approach for optimal static hosting:
+
+### How It Works
+
+1. **Prebuild Script** (`scripts/fetch-build-data.mjs`):
+
+   - Runs automatically before `npm run build`
+   - Fetches fresh data from FlexHub API
+   - Generates `src/data/websites-generated.ts` with TypeScript exports
+   - Includes fallback handling if API is unavailable
+
+2. **Static Data Integration**:
+
+   - Components import from `@/data/websites`
+   - No runtime API calls or loading states needed
+   - Data is embedded in the static build
+
+3. **Graceful Fallbacks**:
+   - If FlexHub API is down during build, uses empty fallback data
+   - Build never fails due to API issues
+   - Site remains functional with available data
+
+### Generated Files
+
+```typescript
+// src/data/websites-generated.ts (auto-generated)
+export const websitesApiData: ApiResponse = {
+  /* fresh data */
+};
+export const featuredWebsitesData: Website[] = [
+  /* latest websites */
+];
+export const getAllWebsites = () => websitesApiData.sites;
+export const getFeaturedWebsites = () => featuredWebsitesData;
 ```
 
 ## 🏗 Getting Started
@@ -77,40 +125,56 @@ The application will be available at [http://localhost:3232](http://localhost:32
 
 ```bash
 npm run dev       # Start development server on port 3232
-npm run build     # Build for production
-npm run start     # Start production server
-npm run export    # Export static site
+npm run build     # Fetch data + build for production (static export)
+npm run start     # Start production server (for testing)
+npm run export    # Alias for build
 npm run lint      # Run ESLint
 ```
 
+### Build Process
+
+```bash
+npm run build
+```
+
+**What happens:**
+
+1. `prebuild` script fetches latest data from FlexHub API
+2. Generates `websites-generated.ts` with fresh data
+3. Next.js builds with static data embedded
+4. Exports to `out/` folder for deployment
+5. Result: Fully static site with latest data
+
 ## 🎨 Portfolio Data
 
-The portfolio pulls data from two main sources:
+The portfolio uses a hybrid data approach:
 
 1. **Static Data** (`src/data/works.ts`): Creative works like video projects and campaigns
-2. **FlexHub API**: Website portfolio data with features and configurations
+2. **Build-Time Fetched** (`src/data/websites-generated.ts`): Website portfolio data from FlexHub API
 
 ### Works Categories
 
 - **Web Video**: Video content and productions
 - **Web Advertising**: Digital advertising campaigns
 - **Social Media**: Social media content and campaigns
-- **Website**: Custom websites with various features (blogs, newsletters, contact management, etc.)
+- **Website**: Custom websites with various features (fetched from FlexHub at build time)
 
 ## 🔧 Development
 
-### Environment Configuration
+### TypeScript Architecture
 
-The app connects to different backends based on environment:
+The project uses a centralized type system:
 
-- **Production**: `https://flexhub.ampnet.media`
-- **Development**: `localhost:3005`
+- **Prefer `type` over `interface`** for most definitions
+- **Centralized types** in `src/types/` folder
+- **Import types** with `import type` syntax
+- **Re-export** all types from `src/types/index.ts`
 
 ### Key Components
 
 - `Hero`: Main landing section with brand messaging
 - `Services`: Overview of services offered
-- `Work`: Portfolio grid display
+- `Work`: Portfolio grid display (uses `getFeaturedWebsites()`)
 - `About`: Company information
 - `Contact`: Contact forms and information
 
@@ -118,7 +182,7 @@ The app connects to different backends based on environment:
 
 The project uses Tailwind CSS v4 with:
 
-- Custom gradient designs
+- Custom gradient designs (`from-teal-600 to-orange-600` light, `from-pink-600 to-purple-600` dark)
 - Dark mode support
 - Responsive layouts
 - Modern UI patterns with glassmorphism effects
@@ -131,66 +195,95 @@ Project images are stored in `public/images/projects/` and include:
 - Company logos and branding
 - Portfolio thumbnails
 
-## ✅ Production Checklist
+## 🚀 Deployment
 
-Before deploying to production, the following tasks need to be completed:
+### Static Hosting Deployment
 
-### 🔗 Backend Integration
+This project generates a fully static site suitable for any static hosting platform:
 
-- [ ] **Contact Form Integration**: Hook up contact form submissions to FlexHub backend API
-  - Connect form to `https://flexhub.ampnet.media` for production
-  - Implement proper error handling and success states
-  - Add form validation and user feedback
+```bash
+# Build with fresh data
+npm run build
 
-### 📊 Content Management
+# Deploy the out/ folder to:
+# - GitHub Pages
+# - Netlify
+# - Vercel
+# - Any static hosting service
+```
+
+### Deployment Checklist
+
+✅ **Ready for Production:**
+
+- Static export configured (`output: 'export'`)
+- Build-time data fetching implemented
+- No runtime dependencies
+- Optimized for static hosting
+
+### CI/CD Integration
+
+For automated deployments, ensure your build pipeline:
+
+1. Runs `npm install`
+2. Runs `npm run build` (includes data fetching)
+3. Deploys the `out/` folder
+4. Has access to FlexHub API during build time
+
+### Environment Variables
+
+**None required!** 🎉
+
+- No API keys or environment variables needed
+- FlexHub API is publicly accessible for build-time fetching
+- Fully self-contained static deployment
+
+## ✅ Production Status
+
+### ✅ Completed Features
+
+- [x] **Static Export Configuration**: Fully configured for static hosting
+- [x] **Build-Time Data Fetching**: FlexHub integration at build time
+- [x] **Type System**: Centralized TypeScript architecture
+- [x] **Website Portfolio**: Dynamic website gallery from FlexHub
+- [x] **Responsive Design**: Mobile-first responsive layouts
+- [x] **Dark Mode**: Complete light/dark mode support
+
+### 🔄 Remaining Tasks
+
+#### 📊 Content Management
 
 - [ ] **Creative Works API**: Implement FlexHub integration for creative works data
   - Currently using static data in `src/data/works.ts`
   - Need FlexHub feature to manage creative projects (video, advertising, social media)
-  - Replace static works data with dynamic API calls
+  - Add to build-time fetching script
 
-### 👥 Team Section
+#### 👥 Team Section
 
 - [ ] **About Page Team Section**: Complete team member profiles
   - Add real team member information and professional photos
   - Store team photos in `public/images/team/`
   - Update About component with actual team data
-  - Ensure responsive design for team cards
 
-### 📝 Blog/Articles System
+#### 📝 Blog/Articles System
 
 - [ ] **Magic Page Implementation**: Build blog/articles functionality
   - Create FlexHub integration for blog posts/articles
-  - Implement similar pattern to websites portfolio but for content
-  - Add article detail pages with dynamic routing
-  - Include categories, tags, and search functionality
+  - Add to build-time fetching script
+  - Implement article detail pages with dynamic routing
 
-### 🎨 Final Polish
+#### 🔗 Contact Integration
+
+- [ ] **Contact Form Backend**: Implement form submission handling
+  - Requires server-side endpoint (not available in static export)
+  - Consider Netlify Forms, Formspree, or similar service
+  - Add proper validation and user feedback
+
+#### 🎨 Final Polish
 
 - [ ] **Design Quality Assurance**: Complete design review
-  - Test all components in both light and dark modes
-  - Verify responsive design across all screen sizes (mobile, tablet, desktop)
-  - Check gradient consistency and glassmorphism effects
-  - Validate accessibility compliance (ARIA labels, keyboard navigation)
-  - Optimize images and loading performance
-
-### 🧪 Testing & Optimization
-
-- [ ] **Cross-browser Testing**: Test across different browsers
-- [ ] **Performance Audit**: Run Lighthouse audit and optimize
-- [ ] **SEO Optimization**: Add meta tags, structured data, and sitemap
-- [ ] **Error Handling**: Implement proper error boundaries and fallbacks
-
-## 🚀 Deployment
-
-This project is configured for deployment on Vercel or any platform supporting Next.js:
-
-```bash
-npm run build
-npm run start
-```
-
-The built application will serve the portfolio at the production URL: [https://ampnet.media](https://ampnet.media)
+- [ ] **Performance Optimization**: Run Lighthouse audit
+- [ ] **SEO Enhancement**: Add meta tags and structured data
 
 ## 🤝 Contributing
 
@@ -198,8 +291,16 @@ This is a private portfolio project for AmpNet Media. For internal development:
 
 1. Create feature branches from `main`
 2. Follow TypeScript and ESLint configurations
-3. Test responsive design across devices
-4. Ensure dark mode compatibility
+3. Use centralized types from `src/types/`
+4. Test build process with `npm run build`
+5. Ensure static export compatibility
+
+## 📋 Notes
+
+- **Static Only**: This site has no server-side runtime features
+- **Fresh Data**: Website data is refreshed on every build
+- **Build Dependencies**: Requires internet access during build for data fetching
+- **Fallback Handling**: Build never fails; uses empty data if API unavailable
 
 ## 📄 License
 
