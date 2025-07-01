@@ -2,24 +2,54 @@
 
 ## Project Overview
 
-This is a Next.js 15 portfolio website for AmpNet Media, a creative media studio. The site showcases creative works, websites built, and services offered.
+This is a Next.js 15 portfolio website for AmpNet Media, a creative media studio. The site showcases creative works, websites built, and services offered. **This is a statically exported site** that builds to the `out` folder for deployment.
 
 ## Key Information
 
 - **Live URL**: https://ampnet.media
-- **Backend API**: https://flexhub.ampnet.media (prod), localhost:3005 (dev)
+- **Build Output**: Static export to `out` folder
 - **Dev Server**: localhost:3232
-- **Framework**: Next.js 15 with App Router
+- **Framework**: Next.js 15 with App Router (Static Export)
 - **Styling**: Tailwind CSS v4
 - **Language**: TypeScript with React 19
+- **Deployment**: Static hosting (no server-side features available)
+
+## Static Export Constraints
+
+⚠️ **CRITICAL**: This is a static export site. The following are NOT available:
+
+- Server-side API routes
+- Server-side rendering at runtime
+- Dynamic backend API calls during user interaction
+- Server actions or server components with runtime features
+
+## TypeScript Guidelines
+
+- **Always use `type` instead of `interface`** unless the type is specifically designed to be extended/overwritten
+- **Use `interface` only when**:
+  - You need declaration merging
+  - The type is designed to be extended by other modules/libraries
+  - You're extending existing interfaces from third-party libraries
+- **Centralize types in `src/types/`** folder with logical organization:
+  - `src/types/api.ts` - API response and request types
+  - `src/types/components.ts` - Component prop types
+  - `src/types/data.ts` - Data structure types
+  - `src/types/index.ts` - Re-export all types for easy importing
+- **Type naming conventions**:
+  - Use PascalCase for type names
+  - Prefix component prop types with component name (e.g., `SiteCardProps`)
+  - Use descriptive names that indicate purpose
+- **Import types with `import type`** syntax for type-only imports
+- **Export types individually** and also from index.ts for convenience
 
 ## Architecture Patterns
 
-- Use App Router for all routing
+- Use App Router for all routing (static generation)
 - Components in `src/_components/` for main page sections
 - UI components in `src/components/ui/` using Radix UI patterns
 - Data files in `src/data/` for static content
-- Server components by default, client components only when needed
+- Client components for interactive features
+- All data must be available at build time
 
 ## Styling Guidelines
 
@@ -33,7 +63,8 @@ This is a Next.js 15 portfolio website for AmpNet Media, a creative media studio
 ## Component Structure
 
 - Keep components focused and single-responsibility
-- Use TypeScript interfaces for all props
+- Use TypeScript types for all props (prefer `type` over `interface`)
+- Import prop types from `src/types/` folder
 - Implement proper accessibility (ARIA labels, semantic HTML)
 - Use Lucide React for all icons
 - Follow the existing design system patterns
@@ -41,17 +72,20 @@ This is a Next.js 15 portfolio website for AmpNet Media, a creative media studio
 ## Data Management
 
 - Static data in `src/data/works.ts` for portfolio items
-- External API calls for dynamic website data from FlexHub
-- Type all data structures properly
-- Use proper error handling for API calls
+- All data must be available at build time
+- For external data: fetch during build process, not at runtime
+- Type all data structures properly using centralized types
+- No dynamic API calls from client components
 
 ## File Organization
 
 - Main page components: `src/_components/`
+- Page components: `src/app/PAGE/_components/`
 - App router pages: `src/app/`
 - Reusable UI: `src/components/ui/`
+- Type definitions: `src/types/`
 - Utilities: `src/lib/`
-- Types: Define inline or in separate `.types.ts` files
+- Types: Centralized in `src/types/` with index.ts for re-exports
 
 ## Development Guidelines
 
@@ -59,15 +93,15 @@ This is a Next.js 15 portfolio website for AmpNet Media, a creative media studio
 - Follow ESLint and Prettier configurations
 - Test components in both light and dark modes
 - Ensure responsive design works on all screen sizes
-- Optimize images and use Next.js Image component
+- Use Next.js Image component with `unoptimized: true` (required for static export)
 - Use semantic HTML and proper heading hierarchy
 
 ## Performance Considerations
 
-- Use Next.js Image optimization for all images
-- Implement proper loading states
-- Use React Suspense for async components
-- Minimize client-side JavaScript where possible
+- Images are unoptimized due to static export - optimize manually before adding
+- Implement proper loading states for client-side interactions
+- Use React Suspense for async components (client-side only)
+- All JavaScript runs client-side - minimize bundle size
 - Optimize Tailwind CSS bundle size
 
 ## Common Patterns
@@ -84,10 +118,12 @@ This is a Next.js 15 portfolio website for AmpNet Media, a creative media studio
 - Websites: Client websites with feature configurations
 - All items should have: title, category, image, description, dates
 - Images stored in `public/images/projects/`
+- All data must be static and available at build time
 
-## API Integration
+## Static Export Configuration
 
-- FlexHub backend provides website portfolio data
-- Handle both production and development environments
-- Implement proper error states and loading states
-- Type all API responses properly
+- `output: 'export'` in next.config.ts
+- `images: { unoptimized: true }` required for static export
+- `trailingSlash: true` for better static hosting compatibility
+- Build generates static files in `out` folder
+- No server-side features available in production

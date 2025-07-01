@@ -1,15 +1,4 @@
-export interface BlogPost {
-  id: number;
-  title: string;
-  excerpt: string;
-  content: string;
-  author: string;
-  publishedAt: string;
-  readTime: string;
-  category: string;
-  image: string;
-  featured: boolean;
-}
+import type { BlogPost } from '@/types';
 
 export const blogPosts: BlogPost[] = [
   {
