@@ -3,7 +3,7 @@
 export type Website = {
   id: string;
   name: string;
-  domain: string;
+  domain: string | null;
   logo: string | null;
   coverImage: string | null;
   description: string | null;

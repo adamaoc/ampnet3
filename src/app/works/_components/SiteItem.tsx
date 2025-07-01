@@ -5,7 +5,7 @@ import Link from 'next/link';
 interface Website {
   id: string;
   name: string;
-  domain: string;
+  domain: string | null;
   logo: string | null;
   coverImage: string | null;
   description: string | null;
@@ -60,11 +60,13 @@ const SiteItem = ({ site }: SiteItemProps) => {
               <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">
                 {site.name}
               </h3>
-              <div className="px-3 py-1 bg-gradient-to-r from-teal-500/20 to-orange-500/20 dark:from-teal-400/20 dark:to-orange-400/20 rounded-full">
-                <span className="text-xs font-medium text-teal-700 dark:text-teal-300">
-                  {site.domain}
-                </span>
-              </div>
+              {site.domain && (
+                <div className="px-3 py-1 bg-gradient-to-r from-teal-500/20 to-orange-500/20 dark:from-teal-400/20 dark:to-orange-400/20 rounded-full">
+                  <span className="text-xs font-medium text-teal-700 dark:text-teal-300">
+                    {site.domain}
+                  </span>
+                </div>
+              )}
             </div>
 
             {site.description && (

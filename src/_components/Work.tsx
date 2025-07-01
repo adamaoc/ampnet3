@@ -36,7 +36,7 @@ function SiteCard({ site }: SiteCardProps) {
           {site.name}
         </h3>
         <div className="flex items-center gap-1 text-sm text-teal-600 dark:text-teal-400">
-          <span className="truncate">{site.domain}</span>
+          <span className="truncate">{site.domain || 'No domain'}</span>
         </div>
       </div>
 

@@ -1,33 +1,10 @@
 import Contact from '@/_components/Contact';
 import PlaceholderImage from '@/_components/PlaceholderImage';
+import type { ApiResponse, Website } from '@/types';
 import { ArrowLeft, Calendar, ExternalLink, RefreshCw } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-
-interface Website {
-  id: string;
-  name: string;
-  domain: string;
-  logo: string | null;
-  coverImage: string | null;
-  description: string | null;
-  createdAt: string;
-  updatedAt: string;
-  features: Array<{
-    id: string;
-    type: string;
-    displayName: string;
-    description: string;
-    config: unknown;
-  }>;
-}
-
-interface ApiResponse {
-  sites: Website[];
-  count: number;
-  lastUpdated: string;
-}
 
 async function getWebsite(id: string): Promise<Website | null> {
   try {
@@ -160,15 +137,17 @@ export default async function WorkPage({
                     <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">
                       {website.name}
                     </h1>
-                    <a
-                      href={`https://${website.domain}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500/20 to-orange-500/20 dark:from-teal-400/20 dark:to-orange-400/20 rounded-full px-4 py-2 text-teal-700 dark:text-teal-300 hover:from-teal-500/30 hover:to-orange-500/30 transition-all duration-300"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      {website.domain}
-                    </a>
+                    {website.domain && (
+                      <a
+                        href={`https://${website.domain}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500/20 to-orange-500/20 dark:from-teal-400/20 dark:to-orange-400/20 rounded-full px-4 py-2 text-teal-700 dark:text-teal-300 hover:from-teal-500/30 hover:to-orange-500/30 transition-all duration-300"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        {website.domain}
+                      </a>
+                    )}
                   </div>
 
                   {website.description && (
@@ -255,7 +234,7 @@ export default async function WorkPage({
                       Domain:
                     </span>
                     <span className="text-slate-900 dark:text-white font-medium">
-                      {website.domain}
+                      {website.domain || 'No domain'}
                     </span>
                   </div>
                   <div className="flex justify-between">
