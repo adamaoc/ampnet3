@@ -1,0 +1,93 @@
+# AmpNet Media Portfolio - Cursor Rules
+
+## Project Overview
+
+This is a Next.js 15 portfolio website for AmpNet Media, a creative media studio. The site showcases creative works, websites built, and services offered.
+
+## Key Information
+
+- **Live URL**: https://ampnet.media
+- **Backend API**: https://flexhub.ampnet.media (prod), localhost:3005 (dev)
+- **Dev Server**: localhost:3232
+- **Framework**: Next.js 15 with App Router
+- **Styling**: Tailwind CSS v4
+- **Language**: TypeScript with React 19
+
+## Architecture Patterns
+
+- Use App Router for all routing
+- Components in `src/_components/` for main page sections
+- UI components in `src/components/ui/` using Radix UI patterns
+- Data files in `src/data/` for static content
+- Server components by default, client components only when needed
+
+## Styling Guidelines
+
+- Use Tailwind CSS exclusively
+- Implement responsive-first design (mobile-first)
+- Support both light and dark modes
+- Use gradient designs consistently: `from-teal-600 to-orange-600` for light, `from-pink-600 to-purple-600` for dark
+- Maintain glassmorphism effects with `backdrop-blur-sm` and border transparency
+- Use rounded-full for buttons and cards for consistency
+
+## Component Structure
+
+- Keep components focused and single-responsibility
+- Use TypeScript interfaces for all props
+- Implement proper accessibility (ARIA labels, semantic HTML)
+- Use Lucide React for all icons
+- Follow the existing design system patterns
+
+## Data Management
+
+- Static data in `src/data/works.ts` for portfolio items
+- External API calls for dynamic website data from FlexHub
+- Type all data structures properly
+- Use proper error handling for API calls
+
+## File Organization
+
+- Main page components: `src/_components/`
+- App router pages: `src/app/`
+- Reusable UI: `src/components/ui/`
+- Utilities: `src/lib/`
+- Types: Define inline or in separate `.types.ts` files
+
+## Development Guidelines
+
+- Always use TypeScript
+- Follow ESLint and Prettier configurations
+- Test components in both light and dark modes
+- Ensure responsive design works on all screen sizes
+- Optimize images and use Next.js Image component
+- Use semantic HTML and proper heading hierarchy
+
+## Performance Considerations
+
+- Use Next.js Image optimization for all images
+- Implement proper loading states
+- Use React Suspense for async components
+- Minimize client-side JavaScript where possible
+- Optimize Tailwind CSS bundle size
+
+## Common Patterns
+
+- Button styling: Use gradient backgrounds with hover effects
+- Cards: Use backdrop-blur and border transparency
+- Typography: Use gradient text effects for headings
+- Spacing: Follow consistent padding/margin patterns (pt-40, pb-20, px-6)
+- Icons: Always pair with text and use consistent sizing (h-4 w-4, h-5 w-5)
+
+## Portfolio Data Structure
+
+- Works: Creative projects (video, advertising, social media)
+- Websites: Client websites with feature configurations
+- All items should have: title, category, image, description, dates
+- Images stored in `public/images/projects/`
+
+## API Integration
+
+- FlexHub backend provides website portfolio data
+- Handle both production and development environments
+- Implement proper error states and loading states
+- Type all API responses properly
