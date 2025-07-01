@@ -1,22 +1,92 @@
 'use client';
 
-import { useState } from 'react';
-import { Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Send } from 'lucide-react';
+import { useState } from 'react';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     fullName: '',
-    service: '',
     email: '',
+    company: '',
+    service: '',
     message: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    'idle' | 'success' | 'error'
+  >('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    // You can add form submission logic here
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const apiBaseUrl =
+        process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api';
+      const siteId =
+        process.env.NEXT_PUBLIC_SITE_ID ||
+        '8ad1bc58-fdb0-44ac-b021-251a06bd2bec';
+
+      const response = await fetch(
+        `${apiBaseUrl}/public/sites/${siteId}/contact`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            data: {
+              fullName: formData.fullName,
+              email: formData.email,
+              company: formData.company,
+              reasonForContact: formData.service,
+              message: formData.message,
+            },
+          }),
+        }
+      );
+
+      if (response.ok) {
+        // Handle the response - API returns 201 with no body
+        const contentType = response.headers.get('content-type');
+
+        if (contentType && contentType.includes('application/json')) {
+          try {
+            await response.json();
+          } catch {
+            // No JSON body, which is fine for 201 responses
+            console.log(
+              'No JSON response body, which is expected for 201 Created'
+            );
+          }
+        }
+
+        setSubmitStatus('success');
+        // Reset form
+        setFormData({
+          fullName: '',
+          email: '',
+          company: '',
+          service: '',
+          message: '',
+        });
+      } else {
+        console.error(
+          'Form submission failed:',
+          response.status,
+          response.statusText
+        );
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -50,6 +120,25 @@ export default function ContactPage() {
 
         {/* Contact Form */}
         <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-white/50 dark:border-slate-700/50 rounded-3xl p-8 md:p-12 shadow-2xl">
+          {/* Status Messages */}
+          {submitStatus === 'success' && (
+            <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-xl">
+              <p className="text-green-700 dark:text-green-300 font-medium">
+                Thank you! Your message has been sent successfully. We&apos;ll
+                get back to you soon.
+              </p>
+            </div>
+          )}
+
+          {submitStatus === 'error' && (
+            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded-xl">
+              <p className="text-red-700 dark:text-red-300 font-medium">
+                Sorry, there was an error sending your message. Please try
+                again.
+              </p>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Full Name */}
             <div>
@@ -68,6 +157,45 @@ export default function ContactPage() {
                 onChange={handleChange}
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:ring-2 focus:ring-teal-500 dark:focus:ring-pink-500 focus:border-transparent transition-all duration-200"
                 placeholder="Enter your full name"
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+              >
+                Email Address *
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:ring-2 focus:ring-teal-500 dark:focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                placeholder="Enter your email address"
+              />
+            </div>
+
+            {/* Company */}
+            <div>
+              <label
+                htmlFor="company"
+                className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+              >
+                Company
+              </label>
+              <input
+                type="text"
+                id="company"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:ring-2 focus:ring-teal-500 dark:focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                placeholder="Enter your company name"
               />
             </div>
 
@@ -98,26 +226,6 @@ export default function ContactPage() {
               </select>
             </div>
 
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
-              >
-                Email Address *
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:ring-2 focus:ring-teal-500 dark:focus:ring-pink-500 focus:border-transparent transition-all duration-200"
-                placeholder="Enter your email address"
-              />
-            </div>
-
             {/* Message */}
             <div>
               <label
@@ -143,9 +251,10 @@ export default function ContactPage() {
               <Button
                 type="submit"
                 size="lg"
-                className="w-full bg-gradient-to-r from-teal-600 to-orange-600 dark:from-pink-600 dark:to-purple-600 hover:from-teal-700 hover:to-orange-700 dark:hover:from-pink-700 dark:hover:to-purple-700 text-white rounded-xl px-8 py-4 text-lg font-medium transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-teal-600 to-orange-600 dark:from-pink-600 dark:to-purple-600 hover:from-teal-700 hover:to-orange-700 dark:hover:from-pink-700 dark:hover:to-purple-700 text-white rounded-xl px-8 py-4 text-lg font-medium transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                Send Message
+                {isSubmitting ? 'Sending...' : 'Send Message'}
                 <Send className="ml-2 h-5 w-5" />
               </Button>
             </div>
