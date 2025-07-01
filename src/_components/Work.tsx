@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import PlaceholderImage from '@/_components/PlaceholderImage';
-import { ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 interface Website {
   id: string;
@@ -42,9 +43,11 @@ function SiteCard({ site }: SiteCardProps) {
       {/* Circular Logo */}
       <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-teal-100 to-orange-100 dark:from-teal-900/50 dark:to-orange-900/50 border border-white/30 dark:border-slate-600/30 flex-shrink-0">
         {site.logo ? (
-          <img
+          <Image
             src={site.logo}
             alt={site.name}
+            width={48}
+            height={48}
             className="w-full h-full object-cover"
           />
         ) : (
@@ -80,7 +83,9 @@ export default function Work() {
     const fetchWebsites = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:3005/api/public/sites');
+        const response = await fetch(
+          'https://flexhub.ampnet.media/api/public/sites'
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

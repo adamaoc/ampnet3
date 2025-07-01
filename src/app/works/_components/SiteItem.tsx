@@ -1,4 +1,5 @@
 import PlaceholderImage from '@/_components/PlaceholderImage';
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface Website {
@@ -40,9 +41,11 @@ const SiteItem = ({ site }: SiteItemProps) => {
           <div className="relative">
             <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-teal-100 to-orange-100 dark:from-teal-900/50 dark:to-orange-900/50 p-1">
               {site.logo || site.coverImage ? (
-                <img
+                <Image
                   src={site.logo || site.coverImage || ''}
                   alt={site.name}
+                  width={60}
+                  height={60}
                   className="w-full h-full object-cover rounded-xl"
                 />
               ) : (

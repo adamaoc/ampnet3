@@ -1,8 +1,9 @@
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import { ArrowLeft, ExternalLink, Calendar, RefreshCw } from 'lucide-react';
-import PlaceholderImage from '@/_components/PlaceholderImage';
 import Contact from '@/_components/Contact';
+import PlaceholderImage from '@/_components/PlaceholderImage';
+import { ArrowLeft, Calendar, ExternalLink, RefreshCw } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 interface Website {
   id: string;
@@ -30,16 +31,18 @@ interface ApiResponse {
 
 async function getWebsite(id: string): Promise<Website | null> {
   try {
-    const response = await fetch('http://localhost:3005/api/public/sites', {
-      next: { revalidate: 60 }, // Revalidate every minute
-    });
+    const response = await fetch(
+      `https://flexhub.ampnet.media/api/public/sites`
+    );
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      console.error(`Failed to fetch sites: ${response.status}`);
+      return null;
     }
 
     const data: ApiResponse = await response.json();
     const website = data.sites.find(site => site.id === id);
+
     return website || null;
   } catch (error) {
     console.error('Error fetching website:', error);
@@ -57,26 +60,40 @@ const formatDate = (dateString: string) => {
 
 export async function generateStaticParams() {
   try {
-    const response = await fetch('http://localhost:3005/api/public/sites');
+    const response = await fetch(
+      'https://flexhub.ampnet.media/api/public/sites'
+    );
 
     if (!response.ok) {
       console.error(`Failed to fetch sites: ${response.status}`);
-      return [];
+      // Return a fallback entry for static export when API is not available
+      return [{ id: 'example' }];
     }
 
     const data: ApiResponse = await response.json();
 
-    return data.sites.map(site => ({
-      id: site.id,
-    }));
+    if (data.sites && data.sites.length > 0) {
+      return data.sites.map(site => ({
+        id: site.id,
+      }));
+    }
+
+    // Fallback when no sites are returned
+    return [{ id: 'example' }];
   } catch (error) {
     console.error('Error in generateStaticParams:', error);
-    return [];
+    // Return a fallback entry for static export when API is not available
+    return [{ id: 'example' }];
   }
 }
 
-export default async function WorkPage({ params }: { params: { id: string } }) {
-  const website = await getWebsite(params.id);
+export default async function WorkPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const website = await getWebsite(id);
 
   if (!website) {
     notFound();
@@ -104,10 +121,11 @@ export default async function WorkPage({ params }: { params: { id: string } }) {
             {/* Cover Image */}
             <div className="aspect-[21/9] overflow-hidden bg-gradient-to-br from-teal-100 to-orange-100 dark:from-teal-900/50 dark:to-orange-900/50 border-b border-white/30 dark:border-slate-700/30">
               {website.coverImage || website.logo ? (
-                <img
+                <Image
                   src={website.coverImage || website.logo || ''}
                   alt={website.name}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
@@ -123,9 +141,11 @@ export default async function WorkPage({ params }: { params: { id: string } }) {
                 <div className="flex-shrink-0">
                   <div className="w-24 h-24 rounded-3xl overflow-hidden shadow-xl bg-gradient-to-br from-teal-100 to-orange-100 dark:from-teal-900/50 dark:to-orange-900/50 p-2">
                     {website.logo ? (
-                      <img
+                      <Image
                         src={website.logo}
                         alt={website.name}
+                        width={88}
+                        height={88}
                         className="w-full h-full object-cover rounded-2xl"
                       />
                     ) : (
