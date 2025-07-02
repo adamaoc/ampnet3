@@ -5,7 +5,7 @@ export default function Footer() {
         <div className="text-2xl font-bold bg-gradient-to-r from-teal-600 to-orange-600 dark:from-pink-600 dark:to-purple-600 bg-clip-text text-transparent mb-4">
           ampnet (media)
         </div>
-        <p className="text-slate-500 dark:text-slate-800">
+        <p className="text-slate-500 dark:text-slate-200">
           © {new Date().getFullYear()} ampnet media. Crafting digital
           experiences with love.
         </p>

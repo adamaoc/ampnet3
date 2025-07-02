@@ -1,6 +1,7 @@
 'use client';
 
 import { getAllWebsites } from '@/data/websites';
+import type { Website } from '@/types/api';
 import SiteItem from './SiteItem';
 
 const SitesList = () => {
@@ -16,7 +17,9 @@ const SitesList = () => {
       </div>
       <div className="max-w-6xl mx-auto bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-white/50 dark:border-slate-700/50 rounded-3xl p-8 md:p-12 shadow-2xl">
         {websites.length > 0 ? (
-          websites.map(site => <SiteItem key={site.id} site={site} />)
+          websites.map((site: Website) => (
+            <SiteItem key={site.id} site={site} />
+          ))
         ) : (
           <div className="text-center py-8 text-slate-600 dark:text-slate-400">
             No websites available
