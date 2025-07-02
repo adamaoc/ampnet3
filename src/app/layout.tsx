@@ -50,6 +50,38 @@ export default function RootLayout({
         {/* Theme Color for Mobile Browsers */}
         <meta name="theme-color" content="#0f172a" />
         <meta name="msapplication-TileColor" content="#0f172a" />
+
+        {/* Prevent dark mode flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                function getThemePreference() {
+                  if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+                    return localStorage.getItem('theme');
+                  }
+                  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                
+                const theme = getThemePreference();
+                const html = document.documentElement;
+                
+                if (theme === 'dark') {
+                  html.classList.add('dark');
+                  html.setAttribute('data-theme', 'dark');
+                } else {
+                  html.classList.remove('dark');
+                  html.setAttribute('data-theme', 'light');
+                }
+                
+                // Store the theme preference
+                if (typeof localStorage !== 'undefined') {
+                  localStorage.setItem('theme', theme);
+                }
+              })();
+            `,
+          }}
+        />
       </head>
       <body className={inter.className} suppressHydrationWarning={true}>
         <div className="min-h-screen transition-all duration-500">

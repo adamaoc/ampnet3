@@ -15,7 +15,7 @@ export default function Contact() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center bg-white text-teal-600 dark:text-purple-900 hover:bg-slate-100 rounded-full px-6 py-2 text-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
+            className="inline-flex items-center justify-center bg-white text-teal-600 dark:text-purple-900 hover:bg-slate-100 rounded-full px-6 py-2 text-md md:text-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
           >
             Start Your Project
             <ArrowRight className="ml-2 h-5 w-5" />

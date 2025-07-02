@@ -146,23 +146,23 @@ export default function Navigation() {
 
   useEffect(() => {
     setMounted(true);
-    // Check for saved theme preference or default to 'light'
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches;
-    const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
-    setDarkMode(shouldBeDark);
+    // Sync with the theme that was already set by the inline script
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    setDarkMode(currentTheme === 'dark');
   }, []);
 
   useEffect(() => {
     if (!mounted) return;
 
+    // Update the theme when user toggles
+    const html = document.documentElement;
     if (darkMode) {
-      document.documentElement.setAttribute('data-theme', 'dark');
+      html.classList.add('dark');
+      html.setAttribute('data-theme', 'dark');
       localStorage.setItem('theme', 'dark');
     } else {
-      document.documentElement.setAttribute('data-theme', 'light');
+      html.classList.remove('dark');
+      html.setAttribute('data-theme', 'light');
       localStorage.setItem('theme', 'light');
     }
   }, [darkMode, mounted]);
