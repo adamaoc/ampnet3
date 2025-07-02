@@ -1,10 +1,10 @@
 'use client';
 
-import { Menu, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useState, useEffect } from 'react';
+import { Menu, Moon, Sun } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 function HomeNavItems() {
   return (
@@ -93,11 +93,11 @@ function MenuDropdown({
       name: 'About',
       url: '/about',
     },
-    {
-      id: 1004,
-      name: 'Magic',
-      url: '/magic',
-    },
+    // {
+    //   id: 1004,
+    //   name: 'Magic',
+    //   url: '/magic',
+    // },
   ];
   return (
     <>

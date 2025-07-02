@@ -1,7 +1,6 @@
 import Contact from '@/_components/Contact';
 import PlaceholderImage from '@/_components/PlaceholderImage';
 import SitesList from '@/app/works/_components/SitesList';
-import { works } from '@/data/works';
 import Image from 'next/image';
 
 const WorkImage = ({ image, title }: { image: string; title: string }) => {
@@ -42,7 +41,7 @@ export default function WorksPage() {
           </p>
         </div>
       </div>
-      <div className="max-w-6xl mx-auto flex justify-end mb-6 pr-4">
+      {/* <div className="max-w-6xl mx-auto flex justify-end mb-6 pr-4">
         <div className="bg-white dark:bg-slate-900 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-full px-4 py-1 shadow-2xl min-w-[106px] text-slate-400 dark:text-teal-200">
           {works.length} Projects
         </div>
@@ -67,7 +66,7 @@ export default function WorksPage() {
             </div>
           );
         })}
-      </div>
+      </div> */}
       <SitesList />
       <Contact />
     </div>
