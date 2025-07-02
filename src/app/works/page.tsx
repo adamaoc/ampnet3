@@ -1,27 +1,27 @@
 import Contact from '@/_components/Contact';
-import PlaceholderImage from '@/_components/PlaceholderImage';
+// import PlaceholderImage from '@/_components/PlaceholderImage';
 import SitesList from '@/app/works/_components/SitesList';
-import Image from 'next/image';
+// import Image from 'next/image';
 
-const WorkImage = ({ image, title }: { image: string; title: string }) => {
-  return (
-    <div className="flex-basis-[80px] flex-shrink-0 flex-grow-0">
-      <div className="rounded-full overflow-hidden">
-        {image ? (
-          <Image
-            src={image}
-            alt={title}
-            width={50}
-            height={50}
-            className="w-[50px] h-[50px]"
-          />
-        ) : (
-          <PlaceholderImage width={50} height={50} />
-        )}
-      </div>
-    </div>
-  );
-};
+// const WorkImage = ({ image, title }: { image: string; title: string }) => {
+//   return (
+//     <div className="flex-basis-[80px] flex-shrink-0 flex-grow-0">
+//       <div className="rounded-full overflow-hidden">
+//         {image ? (
+//           <Image
+//             src={image}
+//             alt={title}
+//             width={50}
+//             height={50}
+//             className="w-[50px] h-[50px]"
+//           />
+//         ) : (
+//           <PlaceholderImage width={50} height={50} />
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
 
 export default function WorksPage() {
   return (

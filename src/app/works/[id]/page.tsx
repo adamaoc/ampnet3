@@ -83,7 +83,7 @@ export default async function WorkPage({
         <div className="max-w-6xl mx-auto">
           <Link
             href="/works"
-            className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 transition-colors duration-300"
+            className="hidden md:inline-flex items-center gap-2 text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 transition-colors duration-300"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Works
@@ -95,24 +95,28 @@ export default async function WorkPage({
       <div className="px-6 mb-12">
         <div className="max-w-6xl mx-auto">
           <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-white/50 dark:border-slate-700/50 rounded-3xl overflow-hidden shadow-2xl">
-            {/* Cover Image */}
-            <div className="aspect-[21/9] overflow-hidden bg-gradient-to-br from-teal-100 to-orange-100 dark:from-teal-900/50 dark:to-orange-900/50 border-b border-white/30 dark:border-slate-700/30">
-              {website.coverImage || website.logo ? (
+            {/* Cover Image - Only show if there's a dedicated cover image */}
+            {website.coverImage && (
+              <div className="relative aspect-[21/9] overflow-hidden bg-gradient-to-br from-teal-100 to-orange-100 dark:from-teal-900/50 dark:to-orange-900/50 border-b border-white/30 dark:border-slate-700/30">
                 <Image
-                  src={website.coverImage || website.logo || ''}
+                  src={website.coverImage}
                   alt={website.name}
                   fill
                   className="object-cover"
                 />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <PlaceholderImage width={400} height={200} />
-                </div>
-              )}
-            </div>
+              </div>
+            )}
 
             {/* Content */}
-            <div className="p-8 md:p-12">
+            <div
+              className={`p-8 md:p-12 ${
+                !website.coverImage ? 'pt-12 md:pt-16' : ''
+              } ${
+                website.coverImage
+                  ? 'border-t border-teal-300/40 dark:border-slate-600/40'
+                  : ''
+              }`}
+            >
               <div className="flex flex-col lg:flex-row lg:items-start gap-8">
                 {/* Logo */}
                 <div className="flex-shrink-0">

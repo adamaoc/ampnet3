@@ -1,8 +1,8 @@
-import type React from 'react';
-import { Inter } from 'next/font/google';
-import './globals.css';
-import Navigation from '@/_components/Navigation';
 import Footer from '@/_components/Footer';
+import Navigation from '@/_components/Navigation';
+import { Inter } from 'next/font/google';
+import type React from 'react';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,6 +25,31 @@ export default function RootLayout({
           name="description"
           content="We craft digital magic through web video, development, advertising, and social media"
         />
+
+        {/* Favicon and Icons */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link
+          rel="icon"
+          href="/favicon-16x16.png"
+          type="image/png"
+          sizes="16x16"
+        />
+        <link
+          rel="icon"
+          href="/favicon-32x32.png"
+          type="image/png"
+          sizes="32x32"
+        />
+
+        {/* Apple Touch Icon */}
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+        {/* Web App Manifest */}
+        <link rel="manifest" href="/site.webmanifest" />
+
+        {/* Theme Color for Mobile Browsers */}
+        <meta name="theme-color" content="#0f172a" />
+        <meta name="msapplication-TileColor" content="#0f172a" />
       </head>
       <body className={inter.className} suppressHydrationWarning={true}>
         <div className="min-h-screen transition-all duration-500">

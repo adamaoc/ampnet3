@@ -2,7 +2,7 @@
 
 import PlaceholderImage from '@/_components/PlaceholderImage';
 import { getFeaturedWebsites } from '@/data/websites';
-import type { SiteCardProps } from '@/types';
+import type { SiteCardProps, Website } from '@/types';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -35,9 +35,11 @@ function SiteCard({ site }: SiteCardProps) {
         <h3 className="text-lg font-semibold text-slate-900 dark:text-white truncate mb-0.5">
           {site.name}
         </h3>
-        <div className="flex items-center gap-1 text-sm text-teal-600 dark:text-teal-400">
-          <span className="truncate">{site.domain || 'No domain'}</span>
-        </div>
+        {site.domain && (
+          <div className="flex items-center gap-1 text-sm text-teal-600 dark:text-teal-400">
+            <span className="truncate">{site.domain}</span>
+          </div>
+        )}
       </div>
 
       {/* Hover Arrow */}
@@ -66,7 +68,9 @@ export default function Work() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
           {websites.length > 0 ? (
-            websites.map(site => <SiteCard key={site.id} site={site} />)
+            websites.map((site: Website) => (
+              <SiteCard key={site.id} site={site} />
+            ))
           ) : (
             // Fallback if no websites available
             <div className="col-span-2 text-center py-8 text-slate-600 dark:text-slate-400">

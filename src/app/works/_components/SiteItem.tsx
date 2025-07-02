@@ -37,8 +37,8 @@ const SiteItem = ({ site }: SiteItemProps) => {
     <Link href={`/works/${site.id}`} className="block">
       <div className="group relative bg-white/40 dark:bg-slate-800/40 backdrop-blur-xl border border-white/30 dark:border-slate-600/30 rounded-2xl p-6 mb-6 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:bg-gradient-to-br hover:from-white/60 hover:to-teal-50/60 dark:hover:from-slate-800/60 dark:hover:to-teal-900/20 cursor-pointer">
         {/* Header Section */}
-        <div className="flex items-start gap-4 mb-4">
-          <div className="relative">
+        <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-4">
+          <div className="relative flex-shrink-0 self-start">
             <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-teal-100 to-orange-100 dark:from-teal-900/50 dark:to-orange-900/50 p-1">
               {site.logo || site.coverImage ? (
                 <Image
@@ -55,13 +55,14 @@ const SiteItem = ({ site }: SiteItemProps) => {
             <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-teal-500 to-orange-500 rounded-full shadow-md"></div>
           </div>
 
-          <div className="flex-grow">
-            <div className="flex items-center gap-3 mb-2">
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">
+          <div className="flex-grow min-w-0">
+            {/* Title Row */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-3">
+              <h3 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">
                 {site.name}
               </h3>
               {site.domain && (
-                <div className="px-3 py-1 bg-gradient-to-r from-teal-500/20 to-orange-500/20 dark:from-teal-400/20 dark:to-orange-400/20 rounded-full">
+                <div className="px-3 py-1 bg-gradient-to-r from-teal-500/20 to-orange-500/20 dark:from-teal-400/20 dark:to-orange-400/20 rounded-full self-start">
                   <span className="text-xs font-medium text-teal-700 dark:text-teal-300">
                     {site.domain}
                   </span>
@@ -69,14 +70,15 @@ const SiteItem = ({ site }: SiteItemProps) => {
               )}
             </div>
 
+            {/* Description */}
             {site.description && (
-              <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-3 text-sm sm:text-base">
                 {site.description}
               </p>
             )}
 
             {/* Date Information */}
-            <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs text-slate-500 dark:text-slate-400">
               <div className="flex items-center gap-1">
                 <svg
                   className="w-3 h-3"
