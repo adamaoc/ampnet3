@@ -12,36 +12,42 @@ export default function AboutPage() {
       name: 'Adam Moore',
       role: 'Creative Director',
       bio: 'Visionary storyteller with a passion for digital experiences.',
-      image: 'https://autoink.us/img/team/adam.m.jpg',
+      image: '/images/adam.m.jpg',
     },
     {
       id: 2,
       name: 'Crisia Merino',
       role: 'Operations Director',
       bio: 'Strategic leader orchestrating seamless workflows and empowering teams to deliver exceptional results.',
-      image: 'https://autoink.us/img/team/crisia.m.jpg',
+      image: '/images/crisia_m.jpg',
     },
     {
       id: 3,
       name: 'Denilson Sibrian',
       role: 'Video Production / Photography',
       bio: 'Master of visual storytelling and cinematic magic.',
-      image: 'https://autoink.us/img/team/denilson.s.jpg',
+      image: '/images/denilson_s.jpg',
     },
     {
       id: 4,
       name: 'Peighton Moore',
       role: 'Brand Strategist / Marketing',
       bio: 'Strategic visionary crafting brand narratives that resonate with audiences.',
-      image:
-        'https://media.licdn.com/dms/image/v2/D5635AQE_wgCoAiKpnQ/profile-framedphoto-shrink_800_800/B56ZcSo_QiHUAk-/0/1748364424590?e=1752012000&v=beta&t=Q1Sj8qU5OlkmqbDFmB5ETL8t1JBR13AwdYLHwrXPfE8', // No image available
+      image: '/images/peighton.jpeg',
     },
     {
       id: 5,
       name: 'Robert Sibrian',
       role: 'Photographer',
       bio: 'Capturing moments that tell stories.',
-      image: 'https://ampnet.sfo2.cdn.digitaloceanspaces.com/Fam/IMG_4958.JPG',
+      image: '/images/robert-sibrian.jpeg',
+    },
+    {
+      id: 6,
+      name: 'Juan Martin',
+      role: 'Business Development',
+      bio: 'A master at B2B sales and business development.',
+      image: '/images/juan-ceo.jpg',
     },
   ];
 
@@ -183,7 +189,7 @@ export default function AboutPage() {
                 <p className="text-teal-600 dark:text-pink-400 font-medium mb-3">
                   {member.role}
                 </p>
-                <p className="text-sm text-slate-600 dark:text-slate-300">
+                <p className="text-sm text-slate-600 dark:text-slate-300 px-4">
                   {member.bio}
                 </p>
               </div>
