@@ -10,8 +10,8 @@ export default function AboutPage() {
     {
       id: 1,
       name: 'Adam Moore',
-      role: 'Creative Director',
-      bio: 'Visionary storyteller with a passion for digital experiences.',
+      role: 'CTO',
+      bio: 'Driving technology forward with a passion for digital experiences.',
       image: '/images/adam.m.jpg',
     },
     {
