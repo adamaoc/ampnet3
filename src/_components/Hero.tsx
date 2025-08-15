@@ -1,5 +1,4 @@
 import { ArrowRight, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 export default function Hero() {
@@ -29,13 +28,13 @@ export default function Hero() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button
-            size="lg"
-            className="rounded-full bg-gradient-to-r from-teal-600 to-orange-600 dark:from-pink-600 dark:to-purple-600 hover:from-teal-700 hover:to-orange-700 dark:hover:from-pink-700 dark:hover:to-purple-700 text-white border-0 px-8 py-6 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+          <Link
+            href="/works"
+            className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-teal-600 to-orange-600 dark:from-pink-600 dark:to-purple-600 hover:from-teal-700 hover:to-orange-700 dark:hover:from-pink-700 dark:hover:to-purple-700 text-white border-0 px-6 py-2 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300"
           >
             View Our Work
             <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+          </Link>
           <Link
             href="/contact"
             className="inline-flex items-center justify-center rounded-full border-2 border-teal-200 dark:border-teal-200 hover:bg-teal-50 dark:hover:bg-teal-900/20 px-6 py-2 text-lg font-medium dark:text-teal-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
