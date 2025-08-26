@@ -34,7 +34,7 @@ const SiteItem = ({ site }: SiteItemProps) => {
   };
 
   return (
-    <Link href={`/works/${site.id}`} className="block">
+    <Link href={`/works/websites/${site.id}`} className="block">
       <div className="group relative bg-white/40 dark:bg-slate-800/40 backdrop-blur-xl border border-white/30 dark:border-slate-600/30 rounded-2xl p-6 mb-6 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:bg-gradient-to-br hover:from-white/60 hover:to-teal-50/60 dark:hover:from-slate-800/60 dark:hover:to-teal-900/20 cursor-pointer">
         {/* Header Section */}
         <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-4">

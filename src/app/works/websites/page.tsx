@@ -1,10 +1,10 @@
 import Contact from '@/_components/Contact';
 import { getCombinedWorks } from '@/data/works';
-import WorksList from './_components/WorksList';
+import WorksList from '../_components/WorksList';
 
-export default function WorksPage() {
+export default function WebsiteWorksPage() {
   const allWorks = getCombinedWorks();
-  console.log({ allWorks });
+
   return (
     <div className="pt-28 pb-20 px-6">
       <div className="max-w-7xl mx-auto">

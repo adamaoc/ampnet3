@@ -25,3 +25,31 @@ export type ApiResponse = {
   count: number;
   lastUpdated: string;
 };
+
+export type WorkItem = {
+  id: string;
+  title: string;
+  category: string;
+  image: string;
+  description: string;
+  excerpt?: string;
+  type: 'work' | 'website';
+  date: string;
+  client?: string | null;
+  featured?: boolean;
+  technologies?: string[];
+  duration?: string;
+  results?: string;
+  githubUrl?: string | null;
+  videoUrl?: string | null;
+  url?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  features?: WebsiteFeature[];
+};
+
+export type WorksApiResponse = {
+  works: WorkItem[];
+  count: number;
+  lastUpdated: string;
+};

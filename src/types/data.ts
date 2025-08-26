@@ -12,15 +12,3 @@ export type BlogPost = {
   image: string;
   featured: boolean;
 };
-
-export type WorkItem = {
-  id: string;
-  title: string;
-  category: string;
-  image: string;
-  description: string;
-  type: 'work' | 'website';
-  date?: string;
-  url?: string;
-  features?: string[];
-};

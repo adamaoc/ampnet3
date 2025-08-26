@@ -1,25 +1,59 @@
+// Import API works data
+import type { WorkItem } from '@/types';
+import { getAllWorks, getFeaturedWorks } from './api-works';
+import { getAllWebsites, getFeaturedWebsites } from './websites';
+
+// Legacy static works data (keeping for backward compatibility)
 export const works = [
   {
+    title: 'Photopti',
+    category: 'cli-tool',
+    image:
+      'https://private-user-images.githubusercontent.com/3495338/478528149-5184517a-572f-4580-905b-01f9b751f529.jpg?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTUyODYzODAsIm5iZiI6MTc1NTI4NjA4MCwicGF0aCI6Ii8zNDk1MzM4LzQ3ODUyODE0OS01MTg0NTE3YS01NzJmLTQ1ODAtOTA1Yi0wMWY5Yjc1MWY1MjkuanBnP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDgxNSUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTA4MTVUMTkyODAwWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9NTA5NWJjYTY5NzcxMDFjYWQxMGFhMjgzYTRlYjVhOTZjMWNmMTA0YzY1NDI1MGQ3NGJiYzlhYzk0MDU5OGMyNyZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.kwqJRsdXVxn_QvUjJCSOQ_MoWOKIbq8l8t2S_9hpPRg',
+    description:
+      'This is an Open Source CLI tool for photo resizing, renaming, and optimization.',
+    created_at: '2025-08-15',
+    updated_at: '2025-08-15',
+  },
+  {
+    title: 'Mustang Video Project',
+    category: 'video',
+    image:
+      'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/f12af726-c2c4-48b5-8ff7-84d6c7fd6f12/coverImage-1751424380283-1751424380283.png',
+    description: 'Video shoot for automotive project',
+    created_at: '2025-04-09',
+    updated_at: '2025-04-09',
+  },
+  {
     title: 'Project Mustang',
-    category: 'Web Video',
+    category: 'video',
     image: '/images/projects/project-mustang-cover.jpg',
-    description: 'Celebrating the Ford Mustang',
+    description:
+      'Celebrating the Ford Mustang with a cinematic video production',
     created_at: '2025-01-01',
     updated_at: '2025-01-01',
   },
   {
     title: 'TXGarage Ad Campaign',
-    category: 'Web Advertising',
+    category: 'advertising',
     image: '/images/projects/TX-GARAGE-big-quare.png',
-    description: 'Ad campaign for TXGarage',
+    description: 'Comprehensive ad campaign for TXGarage automotive magazine',
     created_at: '2025-01-01',
     updated_at: '2025-01-01',
   },
   {
     title: 'TXGarage Social Launch',
-    category: 'Social Media',
+    category: 'social-media',
     image: '/images/projects/TX-GARAGE-big-quare.png',
-    description: 'Social launch for TXGarage',
+    description: 'Social media launch campaign for TXGarage',
+    created_at: '2025-01-01',
+    updated_at: '2025-01-01',
+  },
+  {
+    title: 'SEO Optimization Project',
+    category: 'seo',
+    image: '',
+    description: 'Search engine optimization for existing websites',
     created_at: '2025-01-01',
     updated_at: '2025-01-01',
   },
@@ -68,7 +102,7 @@ export const websites = [
     image: '/images/projects/TX-GARAGE-big-quare.png',
     description: 'Blog for automotive enthusiasts',
     createdAt: '2025-06-22T11:02:05.437Z',
-    updatedAt: '2025-06-22T11:02:05.437Z',
+    updatedAt: '2025-06-22T11:02:05.477Z',
     features: [
       {
         id: 'caadffab-8a54-404f-bb10-bc24cb041335',
@@ -187,6 +221,7 @@ export const websites = [
   },
 ];
 
+// Combine all works and websites for the works page
 export const allWorks = [
   ...works.map(work => ({
     ...work,
@@ -203,3 +238,97 @@ export const allWorks = [
 ].sort((a, b) => {
   return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
 });
+
+// Function to get combined works data (API works + websites)
+export const getCombinedWorks = (): WorkItem[] => {
+  try {
+    // Get API works data
+    const apiWorks = getAllWorks();
+
+    // Get websites data
+    const apiWebsites = getAllWebsites();
+
+    // Convert websites to work format
+    const websiteWorks = apiWebsites.map(site => ({
+      id: site.id,
+      title: site.name,
+      category: 'website',
+      image: site.logo || site.coverImage || '',
+      description: site.description || '',
+      type: 'website' as const,
+      date: site.createdAt,
+      url: site.domain ? `https://${site.domain}` : undefined,
+      createdAt: site.createdAt,
+      updatedAt: site.updatedAt,
+      features: site.features,
+    }));
+
+    // Combine and sort by date
+    return [...apiWorks, ...websiteWorks].sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+  } catch {
+    // Fallback to static data if generated files don't exist
+    // Convert static data to WorkItem format
+    const staticWorks: WorkItem[] = allWorks.map(work => ({
+      id: work.title.toLowerCase().replace(/\s+/g, '-'),
+      title: work.title,
+      category: work.category,
+      image: work.image,
+      description: work.description,
+      excerpt: work.description.substring(0, 150) + '...',
+      type: work.type as 'work' | 'website',
+      date: work.updatedAt,
+      createdAt: work.updatedAt,
+      updatedAt: work.updatedAt,
+    }));
+    return staticWorks;
+  }
+};
+
+// Function to get featured works for homepage
+export const getFeaturedWorksForHomepage = (): WorkItem[] => {
+  try {
+    // Get API works data
+    const apiWorks = getFeaturedWorks();
+
+    // Get featured websites
+    const apiWebsites = getFeaturedWebsites();
+
+    // Convert websites to work format
+    const websiteWorks: WorkItem[] = apiWebsites.map(site => ({
+      id: site.id,
+      title: site.name,
+      category: 'website',
+      image: site.logo || site.coverImage || '',
+      description: site.description || '',
+      type: 'website' as const,
+      date: site.createdAt,
+      url: site.domain ? `https://${site.domain}` : undefined,
+      createdAt: site.createdAt,
+      updatedAt: site.updatedAt,
+      features: site.features,
+    }));
+
+    // Combine and sort by date, take first 6
+    return [...apiWorks, ...websiteWorks]
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 6);
+  } catch {
+    // Fallback to static data if generated files don't exist
+    // Convert static data to WorkItem format
+    const staticWorks: WorkItem[] = allWorks.map(work => ({
+      id: work.title.toLowerCase().replace(/\s+/g, '-'),
+      title: work.title,
+      category: work.category,
+      image: work.image,
+      description: work.description,
+      excerpt: work.description.substring(0, 150) + '...',
+      type: work.type as 'work' | 'website',
+      date: work.updatedAt,
+      createdAt: work.updatedAt,
+      updatedAt: work.updatedAt,
+    }));
+    return staticWorks.slice(0, 6);
+  }
+};
