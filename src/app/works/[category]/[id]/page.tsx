@@ -1,5 +1,6 @@
 import Contact from '@/_components/Contact';
 import PlaceholderImage from '@/_components/PlaceholderImage';
+import TagPill from '@/components/ui/tag-pill';
 import { getCombinedWorks } from '@/data/works';
 import type { WorkItem } from '@/types';
 import { ArrowLeft, Calendar, ExternalLink, Github } from 'lucide-react';
@@ -33,20 +34,6 @@ const getCategoryLabel = (category: string) => {
     consulting: 'Consulting',
   };
   return labels[category] || category;
-};
-
-const getCategoryColor = (category: string) => {
-  const colors: Record<string, string> = {
-    website: 'from-blue-500 to-cyan-500',
-    video: 'from-purple-500 to-pink-500',
-    'cli-tool': 'from-green-500 to-emerald-500',
-    seo: 'from-orange-500 to-red-500',
-    'social-media': 'from-pink-500 to-rose-500',
-    advertising: 'from-yellow-500 to-orange-500',
-    design: 'from-indigo-500 to-purple-500',
-    consulting: 'from-teal-500 to-blue-500',
-  };
-  return colors[category] || 'from-gray-500 to-gray-600';
 };
 
 const formatDate = (dateString: string) => {
@@ -148,15 +135,7 @@ export default async function WorkPage({
                     <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">
                       {workItem.title}
                     </h1>
-                    <div className="px-4 py-2 bg-gradient-to-r from-teal-500/20 to-orange-500/20 dark:from-teal-400/20 dark:to-orange-400/20 rounded-full self-start">
-                      <span
-                        className={`text-sm font-medium bg-gradient-to-r ${getCategoryColor(
-                          workItem.category
-                        )} bg-clip-text text-transparent`}
-                      >
-                        {getCategoryLabel(workItem.category)}
-                      </span>
-                    </div>
+                    <TagPill label={getCategoryLabel(workItem.category)} />
                   </div>
                   {/* Meta Information */}
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
@@ -246,12 +225,7 @@ export default async function WorkPage({
 
                   <div className="flex flex-wrap gap-3">
                     {workItem.technologies.map((tech, index) => (
-                      <span
-                        key={index}
-                        className="px-4 py-2 bg-white/50 dark:bg-slate-700/50 backdrop-blur-sm border border-white/40 dark:border-slate-600/40 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300"
-                      >
-                        {tech}
-                      </span>
+                      <TagPill key={index} label={tech} />
                     ))}
                   </div>
                 </div>
