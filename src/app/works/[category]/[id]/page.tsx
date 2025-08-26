@@ -82,7 +82,7 @@ export default async function WorkPage({
   if (!workItem) {
     notFound();
   }
-  console.log({ workItem });
+
   return (
     <div className="min-h-screen">
       {/* Navigation */}

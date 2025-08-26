@@ -4,7 +4,7 @@ import WorksList from './_components/WorksList';
 
 export default function WorksPage() {
   const allWorks = getCombinedWorks();
-  console.log({ allWorks });
+
   return (
     <div className="pt-28 pb-20 px-6">
       <div className="max-w-7xl mx-auto">

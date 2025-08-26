@@ -3,10 +3,10 @@
 import fs from 'fs';
 import path from 'path';
 
-// Get site ID from environment variable or use default for local development
+// Get site ID and API URL from environment variables or use defaults for local development
 const SITE_ID =
-  process.env.FLEXHUB_SITE_ID || 'c679a9bd-e6f3-4148-90d3-b5793f22b1c1';
-const BASE_URL = process.env.FLEXHUB_BASE_URL || 'http://localhost:3005';
+  process.env.NEXT_PUBLIC_SITE_ID || 'c679a9bd-e6f3-4148-90d3-b5793f22b1c1';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api';
 
 async function fetchWebsiteData() {
   console.log('🔄 Fetching website data for build...');
@@ -114,9 +114,7 @@ async function fetchWorksData() {
   console.log('🔄 Fetching works data for build...');
 
   try {
-    const response = await fetch(
-      `${BASE_URL}/api/public/sites/${SITE_ID}/works`
-    );
+    const response = await fetch(`${API_URL}/public/sites/${SITE_ID}/works`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

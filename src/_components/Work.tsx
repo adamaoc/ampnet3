@@ -90,7 +90,7 @@ function WorkCard({ work }: { work: WorkItem }) {
 export default function Work() {
   // Use static data generated at build time
   const featuredWorks = getFeaturedWorksForHomepage();
-  console.log({ featuredWorks });
+
   return (
     <section id="work" className="py-20 px-6">
       <div className="max-w-7xl mx-auto">

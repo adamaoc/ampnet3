@@ -58,9 +58,6 @@ export default function ContactPage() {
             await response.json();
           } catch {
             // No JSON body, which is fine for 201 responses
-            console.log(
-              'No JSON response body, which is expected for 201 Created'
-            );
           }
         }
 
