@@ -119,3 +119,167 @@ When creating an estimate, I consider:
 - Every project starts with a discovery call and written proposal outlining scope and deliverables.
 - I provide itemized estimates before any contract is signed.
 - All prices are starting points and subject to adjustment based on timeline, revisions, and complexity.
+
+## **7. Project Planning Workflow**
+
+Use this systematic approach when planning a new project to determine timeline, pricing, and technical requirements.
+
+### **Step 1: Project Type Classification**
+
+Determine the project category based on complexity and requirements:
+
+- **Static Marketing Page** - Single-page or small multi-page site, no backend
+- **Corporate / Brochure Site** - Multi-page with light integrations (contact forms, email)
+- **Dynamic Site with Backend** - Custom backend, authentication, dashboards, database
+- **Full SaaS / Web App** - Multi-service architecture, multi-tenant, complex integrations
+
+### **Step 2: Infrastructure Ownership Decision**
+
+**Option A: Client-Owned Infrastructure**
+
+- Client manages hosting, domain, and infrastructure
+- Flat fee for development work
+- Client handles ongoing maintenance
+
+**Option B: Developer-Owned Infrastructure**
+
+- We manage all hosting and infrastructure
+- Monthly retainer covers hosting + maintenance
+- Faster updates and streamlined management
+
+### **Step 3: Infrastructure Cost Calculation (Developer-Owned Only)**
+
+If we're hosting, calculate monthly infrastructure costs:
+
+**Core Hosting:**
+
+- Static Site: $5/month
+- Corporate Site: $10/month
+- Dynamic Site: $12/month
+- Full App: $50/month
+
+**Additional Services:**
+
+- Image Hosting (DigitalOcean Spaces): $5/month
+- Database (DigitalOcean Managed DB): $20/month
+- Email Hosting (Zoho): $3/month
+- Email Sending (Resend): $5/month
+- Domain Registration: $2/month
+- **FlexHub CMS**: $5/month (if applicable)
+
+**Total Monthly Infrastructure Cost:**
+
+- Static: $5 + $5 (images) + $2 (domain) = **$12/month**
+- Corporate: $10 + $5 + $3 + $5 + $2 = **$25/month**
+- Dynamic: $12 + $5 + $20 + $3 + $5 + $2 = **$47/month**
+- Full App: $50 + $5 + $20 + $3 + $5 + $2 = **$85/month**
+
+### **Step 4: Development Planning**
+
+**User Stories & Time Estimates:**
+
+Create a detailed breakdown of features and estimated development time:
+
+**Example for Corporate Site:**
+
+- Home page design & development: 8 hours
+- About page with team section: 4 hours
+- Services page with feature cards: 6 hours
+- Contact page with form integration: 4 hours
+- Blog system setup: 8 hours
+- SEO optimization: 3 hours
+- Testing & refinement: 4 hours
+- **Total: 37 hours**
+
+**Timeline Calculation:**
+
+- Development time ÷ 6 hours per day = Days needed
+- Add 20% buffer for revisions and testing
+- Example: 37 hours ÷ 6 = 6.2 days + 20% = **8 days**
+
+### **Step 5: Final Pricing Calculation**
+
+**Development Cost:** Hours × Hourly Rate
+**Infrastructure Cost:** Monthly hosting (if developer-owned)
+**Add-ons:** Domain management, email setup, design system, etc.
+
+**Example Quote:**
+
+- Corporate site development: 37 hours × $75/hour = $2,775
+- Monthly hosting: $25/month
+- Domain management: +$15/year
+- **Total: $2,775 + $25/month + $15/year**
+
+### **Step 6: Risk Assessment**
+
+Identify potential project risks and mitigation strategies:
+
+**High-Risk Factors:**
+
+- **Unclear Requirements** - Client doesn't know what they want
+- **Tight Deadlines** - Unrealistic timeline expectations
+- **Budget Constraints** - Project scope exceeds available budget
+- **Technical Complexity** - Unproven technologies or integrations
+- **Stakeholder Changes** - Multiple decision makers with conflicting opinions
+
+**Risk Mitigation Strategies:**
+
+- **Discovery Phase** - Comprehensive requirements gathering before pricing
+- **Phased Approach** - Break large projects into smaller, manageable phases
+- **Change Control** - Clear process for handling scope changes
+- **Regular Check-ins** - Weekly progress updates and feedback loops
+- **Documentation** - Written agreements for all decisions and changes
+
+**Red Flags to Watch For:**
+
+- "We'll figure it out as we go"
+- "This should be simple, right?"
+- "We have a tight budget but big dreams"
+- "We need it done yesterday"
+- "Can you just add this one small thing?"
+
+### **Step 7: Scope Creep Prevention**
+
+Establish clear boundaries and change management processes:
+
+**Scope Definition:**
+
+- **Included Features** - Detailed list of what's covered in the base price
+- **Excluded Features** - Clear list of what's NOT included
+- **Assumptions** - Document all assumptions about requirements
+- **Dependencies** - External factors that could impact timeline/cost
+
+**Change Management Process:**
+
+1. **Change Request** - Client submits written request for changes
+2. **Impact Assessment** - Evaluate time/cost impact of the change
+3. **Client Approval** - Written approval before proceeding
+4. **Updated Timeline** - Adjust schedule if necessary
+5. **Additional Billing** - Charge for changes outside original scope
+
+**Common Scope Creep Areas:**
+
+- **Design Revisions** - "Can we try a different color scheme?"
+- **Feature Additions** - "While you're at it, can you add..."
+- **Content Changes** - "Actually, we want to change all the copy"
+- **Integration Requests** - "Can you connect it to our CRM?"
+- **Performance Expectations** - "It needs to be faster"
+
+**Prevention Strategies:**
+
+- **Detailed Contracts** - Specific deliverables and exclusions
+- **Change Request Forms** - Formal process for all modifications
+- **Regular Reviews** - Weekly check-ins to catch scope drift early
+- **Clear Communication** - Document all conversations and decisions
+- **Stakeholder Alignment** - Ensure all decision makers are on the same page
+
+### **Step 8: Proposal Structure**
+
+1. **Project Overview** - What we're building and why
+2. **Technical Approach** - Stack, infrastructure, and methodology
+3. **Timeline** - Development phases and milestones
+4. **Investment** - Development cost + ongoing costs
+5. **Risk Assessment** - Identified risks and mitigation strategies
+6. **Scope Definition** - What's included and excluded
+7. **Change Management** - Process for handling scope changes
+8. **Next Steps** - How to get started
