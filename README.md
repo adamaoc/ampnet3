@@ -229,14 +229,26 @@ For automated deployments, ensure your build pipeline:
 2. Runs `npm run build` (includes data fetching)
 3. Deploys the `out/` folder
 4. Has access to FlexHub API during build time
+5. Sets `NEXT_PUBLIC_AMPGAUGE_SRC` and `NEXT_PUBLIC_AMPGAUGE_SITE` for the production build only (see Environment Variables)
 
 ### Environment Variables
 
-**None required!** 🎉
+FlexHub data fetching does not need an API key. AmpGauge is optional and is **off unless both variables below are set at build time**.
 
-- No API keys or environment variables needed
-- FlexHub API is publicly accessible for build-time fetching
-- Fully self-contained static deployment
+`NEXT_PUBLIC_*` values are inlined into the static export. Leave both unset for local `npm run dev` and for preview builds so those builds do not send page views. Set both only on the production build.
+
+| Variable | Production value |
+| --- | --- |
+| `NEXT_PUBLIC_AMPGAUGE_SRC` | `https://gauge.ampnet.media/t.js` |
+| `NEXT_PUBLIC_AMPGAUGE_SITE` | `ampnet` |
+
+When both are non-empty, the root layout adds this before `</head>` on every page:
+
+```html
+<script defer src="https://gauge.ampnet.media/t.js" data-site="ampnet"></script>
+```
+
+Page views only. This site does not call `ampgauge()` for custom events. If either variable is missing, the script is not rendered.
 
 ## ✅ Production Status
 
