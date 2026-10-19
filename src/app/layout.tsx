@@ -82,6 +82,13 @@ export default function RootLayout({
             `,
           }}
         />
+
+        {/* AmpGauge: page views only */}
+        <script
+          defer
+          src="https://gauge.ampnet.media/t.js"
+          data-site="ampnet"
+        />
       </head>
       <body className={inter.className} suppressHydrationWarning={true}>
         <div className="min-h-screen transition-all duration-500">
