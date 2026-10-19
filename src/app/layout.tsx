@@ -6,6 +6,11 @@ import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
+// Inlined at build time. Both must be set or the tag is omitted, so dev and
+// preview builds do not send page views.
+const ampGaugeSrc = process.env.NEXT_PUBLIC_AMPGAUGE_SRC;
+const ampGaugeSite = process.env.NEXT_PUBLIC_AMPGAUGE_SITE;
+
 // Move metadata to a separate file since client components can't export metadata
 // export const metadata: Metadata = {
 //   title: "ampnet (media) - Digital Creative Studio",
@@ -82,6 +87,10 @@ export default function RootLayout({
             `,
           }}
         />
+
+        {ampGaugeSrc && ampGaugeSite ? (
+          <script defer src={ampGaugeSrc} data-site={ampGaugeSite} />
+        ) : null}
       </head>
       <body className={inter.className} suppressHydrationWarning={true}>
         <div className="min-h-screen transition-all duration-500">
