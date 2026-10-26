@@ -19,4 +19,6 @@ export const SITE = {
   gravityRailCredit:
     'Gravity Rail: marketing website for an industrial rail logistics company. Designed, built, hosted, and maintained by AmpNet.',
   gravityRailUrl: 'https://gravity-rail.com',
+  alsoAvailable:
+    'Also available: web advertising and social media. Ask when you get in touch.',
 } as const;

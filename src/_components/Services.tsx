@@ -1,3 +1,4 @@
+import { SITE } from '@/data/site-copy';
 import { headline, lede, surface } from '@/lib/studio';
 import { Boxes, Globe } from 'lucide-react';
 
@@ -42,7 +43,7 @@ export default function Services() {
           ))}
         </div>
         <p className="mt-6 text-sm text-slate-600 dark:text-slate-300">
-          Also available: web advertising and social media.
+          {SITE.alsoAvailable}
         </p>
       </div>
     </section>

@@ -62,12 +62,18 @@ const COPY: Record<string, PortfolioCopy> = {
   },
   [IDS.emizel]: {
     summary: 'Bilingual call-center site and job board. Built by AmpNet.',
+    description: 'Bilingual call-center site and job board. Built by AmpNet.',
+    creditOnly: true,
   },
   [IDS.txgarage]: {
     summary: 'Texas auto magazine. Built by AmpNet.',
+    description: 'Texas auto magazine. Built by AmpNet.',
+    creditOnly: true,
   },
   [IDS.devision]: {
     summary: 'Portfolio and booking. Built by AmpNet.',
+    description: 'Portfolio and booking. Built by AmpNet.',
+    creditOnly: true,
   },
   [IDS.photopti]: {
     title: 'Photopti',
@@ -76,6 +82,16 @@ const COPY: Record<string, PortfolioCopy> = {
   [IDS.wink]: {
     title: 'W-Ink',
     summary: 'Open-source React editor. Built by AmpNet.',
+  },
+  [IDS.scheduleClean]: {
+    summary: 'Built by AmpNet.',
+    description: 'Built by AmpNet.',
+    creditOnly: true,
+  },
+  [IDS.pirateBen]: {
+    summary: 'Built by AmpNet.',
+    description: 'Built by AmpNet.',
+    creditOnly: true,
   },
   [IDS.deepfakeGoldfish]: {
     summary: 'Built by AmpNet.',
@@ -134,7 +150,7 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     IDS.emizel,
     'Emizel',
     'emizel.com',
-    'Your trusted partner for call center operations, staffing, and bilingual support.',
+    'Bilingual call-center site and job board. Built by AmpNet.',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/c88dba6f-b3fa-46fb-8fce-5881dd308043/logo-1751424293056-1751424293056.png',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/c88dba6f-b3fa-46fb-8fce-5881dd308043/coverImage-1751424258630-1751424258630.png',
     '2025-06-22T11:53:31.223Z',
@@ -144,7 +160,7 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     IDS.txgarage,
     'TXGarage',
     'txgarage.com',
-    'An online magazine dedicated to the Texas automotive consumer.',
+    'Texas auto magazine. Built by AmpNet.',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/a3258a5d-d450-4377-a878-7834701396ce/logo-1751171753353-1751171753353.png',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/a3258a5d-d450-4377-a878-7834701396ce/coverImage-1751424594033-1751424594033.png',
     '2025-06-22T11:44:14.231Z',
@@ -154,7 +170,7 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     IDS.devision,
     'Devision Media',
     'devisionmedia.net',
-    'Portfolio site for Devision Media and Denilson - Photography and Videography work. Using a custom Booking feature and dynamic Portfolio.',
+    'Portfolio and booking. Built by AmpNet.',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/6e954991-5a93-40ba-81e4-2a813b85ab47/logo-1752896576598-1752896576598.png',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/6e954991-5a93-40ba-81e4-2a813b85ab47/coverImage-1752896551334-1752896551334.png',
     '2025-07-17T13:49:35.121Z',
@@ -164,7 +180,7 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     IDS.scheduleClean,
     'Schedule Clean',
     'schedulecleandallas.com',
-    'Dallas area cleaning, get a quote',
+    'Built by AmpNet.',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/326556ad-58e9-48e1-a13c-00de528d11a0/logo-1752505716765-1752505716765.png',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/326556ad-58e9-48e1-a13c-00de528d11a0/coverImage-1752505722488-1752505722488.png',
     '2025-07-14T15:07:48.918Z',
@@ -174,7 +190,7 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     IDS.pirateBen,
     'Pirate Ben',
     'pirateben.com',
-    'This site was built for a YouTuber and Twitch streamer pulling in actual data and videos from YouTube and Twitch.',
+    'Built by AmpNet.',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/36247f43-b687-49b1-a51f-6fad95bd5a94/logo-1751728217448-1751728217448.png',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/36247f43-b687-49b1-a51f-6fad95bd5a94/coverImage-1751728224403-1751728224403.png',
     '2025-06-22T12:02:03.797Z',
@@ -296,8 +312,6 @@ const FALLBACK_WORKS: Record<string, WorkItem> = {
     date: '2025-08-04T00:00:00.000Z',
     createdAt: '2025-08-26T01:45:45.351Z',
     updatedAt: '2025-09-04T03:34:59.946Z',
-    results:
-      'Fun open source tool being used by a handful of teams and individuals. ',
   },
   [IDS.wink]: {
     ...baseWork(
@@ -316,7 +330,6 @@ const FALLBACK_WORKS: Record<string, WorkItem> = {
     date: '2025-09-08T00:00:00.000Z',
     createdAt: '2025-09-09T18:53:12.962Z',
     updatedAt: '2025-09-19T15:49:09.879Z',
-    results: 'Open source project being used across ampnet media apps.',
   },
   [IDS.scheduleClean]: {
     ...baseWork(
@@ -448,13 +461,23 @@ function curatePortfolio(apiWorks: WorkItem[], sites: Website[]): WorkItem[] {
       };
     }
 
+    const creditOnly = copy?.creditOnly ?? work.type === 'website';
+    const summary =
+      copy?.summary ??
+      (creditOnly ? 'Built by AmpNet.' : work.excerpt || work.description);
+
     work = {
       ...work,
       title: (copy?.title ?? work.title).trim(),
-      summary: copy?.summary ?? work.excerpt ?? work.description,
-      description: copy?.description ?? work.description,
-      creditOnly: copy?.creditOnly ?? false,
+      summary,
+      description: copy?.description ?? (creditOnly ? summary : work.description),
+      creditOnly,
     };
+
+    // Usage lines from the works feed were cut. Do not republish them.
+    if (id === IDS.photopti || id === IDS.wink) {
+      work = { ...work, results: undefined };
+    }
 
     projects.push(work);
   }

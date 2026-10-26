@@ -1,6 +1,6 @@
 // Auto-generated file - DO NOT EDIT MANUALLY
 // Generated at build time from FlexHub API
-// Last updated: 2026-10-26T04:24:28.773Z
+// Last updated: 2026-10-26T04:54:07.263Z
 
 import type { WorkItem } from '@/types';
 
@@ -22,7 +22,6 @@ export const worksApiData = {
         "Javascript"
       ],
       "duration": "2 weeks",
-      "results": "Fun open source tool being used by a handful of teams and individuals. ",
       "githubUrl": "https://github.com/ampnetmedia/photopti",
       "videoUrl": null,
       "url": "https://github.com/ampnetmedia/photopti",
@@ -45,7 +44,6 @@ export const worksApiData = {
         "Typescript"
       ],
       "duration": null,
-      "results": "Open source project being used across ampnet media apps.",
       "githubUrl": "https://github.com/ampnetmedia/wink-wysiwyg",
       "videoUrl": null,
       "url": "https://www.npmjs.com/package/@ampnet/wink-wysiwyg",
@@ -72,7 +70,7 @@ export const worksApiData = {
       "Typescript"
     ]
   },
-  "lastUpdated": "2026-10-26T04:23:14.932Z"
+  "lastUpdated": "2026-10-26T04:51:33.031Z"
 };
 
 export const getAllWorks = (): WorkItem[] => (worksApiData.works || []) as WorkItem[];

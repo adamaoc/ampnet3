@@ -48,13 +48,7 @@ export default async function WebsiteCaseStudy({
 
   const created = formatPortfolioDate(website.createdAt);
   const updated = formatPortfolioDate(website.updatedAt);
-  const body = work.creditOnly ? work.description : work.summary;
-  const detail =
-    !work.creditOnly &&
-    website.description &&
-    website.description !== work.summary
-      ? website.description
-      : null;
+  const body = work.summary || work.description;
   const visitHref = website.domain ? `https://${website.domain}` : work.url;
 
   return (
@@ -104,11 +98,6 @@ export default async function WebsiteCaseStudy({
                 {work.title}
               </h1>
               {body ? <p className={`${lede} mt-4`}>{body}</p> : null}
-              {detail ? (
-                <p className="mt-3 text-slate-600 dark:text-slate-300">
-                  {detail}
-                </p>
-              ) : null}
               {(created || updated) && (
                 <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
                   {created ? `Created ${created}` : null}

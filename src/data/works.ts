@@ -64,7 +64,7 @@ export const websites = [
     name: 'Emizel',
     domain: 'emizel.com',
     image: '/images/projects/emizel-el.png',
-    description: 'Your trusted partner for call center operations',
+    description: 'Bilingual call-center site and job board. Built by AmpNet.',
     createdAt: '2025-06-23T16:48:50.106Z',
     updatedAt: '2025-06-23T16:49:05.477Z',
     features: [

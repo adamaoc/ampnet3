@@ -136,6 +136,12 @@ async function fetchWorksData() {
     const data = await response.json();
 
     // Map API response to our expected WorkItem format
+    // Photopti and W-Ink "results" lines were unverified usage claims.
+    const dropResults = new Set([
+      '80f46314-46f7-46ff-88c2-1094c1e50719',
+      '14b5a8cc-23d3-4b5c-8148-a162fabc42cc',
+    ]);
+
     const mappedWorks = (data.works || []).map(work => ({
       id: work.id,
       title: work.title,
@@ -149,7 +155,7 @@ async function fetchWorksData() {
       featured: work.featured,
       technologies: work.technologies || [],
       duration: work.duration,
-      results: work.results,
+      results: dropResults.has(work.id) ? undefined : work.results,
       githubUrl: work.githubUrl,
       videoUrl: work.videoUrl,
       url: work.url,
