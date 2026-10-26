@@ -15,6 +15,7 @@ type PlaceholderImageProps = {
   height?: number;
   category?: string;
   className?: string;
+  icon?: LucideIcon;
 };
 
 const getIconForCategory = (category?: string): LucideIcon => {
@@ -36,8 +37,9 @@ export default function PlaceholderImage({
   height = 48,
   category,
   className = '',
+  icon,
 }: PlaceholderImageProps) {
-  const Icon = getIconForCategory(category);
+  const Icon = icon ?? getIconForCategory(category);
 
   return (
     <div

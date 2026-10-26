@@ -1,21 +1,51 @@
 import Footer from '@/_components/Footer';
 import Navigation from '@/_components/Navigation';
+import { SITE } from '@/data/site-copy';
+import { SITE_ORIGIN } from '@/lib/seo';
+import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import type React from 'react';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
+const defaultTitle = 'AMPNET — We build digital experiences that perform';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_ORIGIN),
+  title: {
+    default: defaultTitle,
+    template: '%s — AMPNET',
+  },
+  description: SITE.heroSubhead,
+  alternates: { canonical: '/' },
+  openGraph: {
+    title: defaultTitle,
+    description: SITE.heroSubhead,
+    url: '/',
+    siteName: 'AMPNET',
+    type: 'website',
+    images: [
+      {
+        url: '/og.png',
+        width: 1200,
+        height: 630,
+        alt: defaultTitle,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: defaultTitle,
+    description: SITE.heroSubhead,
+    images: ['/og.png'],
+  },
+};
+
 // Inlined at build time. Both must be set or the tag is omitted, so dev and
 // preview builds do not send page views.
 const ampGaugeSrc = process.env.NEXT_PUBLIC_AMPGAUGE_SRC;
 const ampGaugeSite = process.env.NEXT_PUBLIC_AMPGAUGE_SITE;
-
-// Move metadata to a separate file since client components can't export metadata
-// export const metadata: Metadata = {
-//   title: "ampnet (media) - Digital Creative Studio",
-//   description: "We craft digital magic through web video, development, advertising, and social media",
-// }
 
 export default function RootLayout({
   children,
@@ -23,14 +53,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <title>ampnet (media) - Digital Creative Studio</title>
-        <meta
-          name="description"
-          content="We craft digital magic through web video, development, advertising, and social media"
-        />
-
         {/* Favicon and Icons */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link
@@ -65,7 +89,7 @@ export default function RootLayout({
                   if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
                     return localStorage.getItem('theme');
                   }
-                  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                  return 'dark';
                 }
                 
                 const theme = getThemePreference();
@@ -92,14 +116,16 @@ export default function RootLayout({
           <script defer src={ampGaugeSrc} data-site={ampGaugeSite} />
         ) : null}
       </head>
-      <body className={inter.className} suppressHydrationWarning={true}>
-        <div className="min-h-screen transition-all duration-500">
-          <div className="bg-gradient-to-br from-slate-50 via-purple-50 to-pink-50 dark:from-slate-900 dark:via-purple-900/50 dark:to-pink-900/50 min-h-screen">
-            <Navigation />
-            {children}
-            <Footer />
-          </div>
-        </div>
+      <body
+        className={`${inter.className} min-h-screen bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100`}
+        suppressHydrationWarning={true}
+      >
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
+        <Navigation />
+        <main id="main">{children}</main>
+        <Footer />
       </body>
     </html>
   );

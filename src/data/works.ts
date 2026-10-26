@@ -1,7 +1,6 @@
-// Import API works data
+// Legacy static records. Public pages read the curated portfolio instead.
 import type { WorkItem } from '@/types';
-import { getAllWorks, getFeaturedWorks } from './api-works';
-import { getAllWebsites, getFeaturedWebsites } from './websites';
+import { getFeaturedPortfolio, getPortfolioWorks } from './portfolio';
 
 // Legacy static works data (keeping for backward compatibility)
 export const works = [
@@ -65,7 +64,7 @@ export const websites = [
     name: 'Emizel',
     domain: 'emizel.com',
     image: '/images/projects/emizel-el.png',
-    description: 'Your trusted partner for call center operations',
+    description: 'Bilingual call-center site and job board. Built by AmpNet.',
     createdAt: '2025-06-23T16:48:50.106Z',
     updatedAt: '2025-06-23T16:49:05.477Z',
     features: [
@@ -127,25 +126,6 @@ export const websites = [
         config: null,
         createdAt: '2025-06-23T17:03:36.525Z',
         updatedAt: '2025-06-23T17:03:36.525Z',
-      },
-    ],
-  },
-  {
-    id: '86aba2ad-ab19-456b-80ef-2b577f363cf9',
-    name: 'Autoink.us',
-    domain: 'autoink.us',
-    image: '/images/projects/autoink-us.png',
-    description: 'Helping automotive brands grow their business',
-    createdAt: '2025-06-20T22:37:24.875Z',
-    updatedAt: '2025-06-20T22:37:24.875Z',
-    features: [
-      {
-        id: '9fe211eb-9b0e-4f5c-be0f-7a40801b42ee',
-        feature: 'SPONSORS',
-        isEnabled: true,
-        config: null,
-        createdAt: '2025-06-23T17:03:36.519Z',
-        updatedAt: '2025-06-23T17:03:36.519Z',
       },
     ],
   },
@@ -239,96 +219,7 @@ export const allWorks = [
   return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
 });
 
-// Function to get combined works data (API works + websites)
-export const getCombinedWorks = (): WorkItem[] => {
-  try {
-    // Get API works data
-    const apiWorks = getAllWorks();
+export const getCombinedWorks = (): WorkItem[] => getPortfolioWorks();
 
-    // Get websites data
-    const apiWebsites = getAllWebsites();
-
-    // Convert websites to work format
-    const websiteWorks = apiWebsites.map(site => ({
-      id: site.id,
-      title: site.name,
-      category: 'website',
-      image: site.logo || site.coverImage || '',
-      description: site.description || '',
-      type: 'website' as const,
-      date: site.createdAt,
-      url: site.domain ? `https://${site.domain}` : undefined,
-      createdAt: site.createdAt,
-      updatedAt: site.updatedAt,
-      features: site.features,
-    }));
-
-    // Combine and sort by date
-    return [...apiWorks, ...websiteWorks].sort((a, b) => {
-      return new Date(b.date).getTime() - new Date(a.date).getTime();
-    });
-  } catch {
-    // Fallback to static data if generated files don't exist
-    // Convert static data to WorkItem format
-    const staticWorks: WorkItem[] = allWorks.map(work => ({
-      id: work.title.toLowerCase().replace(/\s+/g, '-'),
-      title: work.title,
-      category: work.category,
-      image: work.image,
-      description: work.description,
-      excerpt: work.description.substring(0, 150) + '...',
-      type: work.type as 'work' | 'website',
-      date: work.updatedAt,
-      createdAt: work.updatedAt,
-      updatedAt: work.updatedAt,
-    }));
-    return staticWorks;
-  }
-};
-
-// Function to get featured works for homepage
-export const getFeaturedWorksForHomepage = (): WorkItem[] => {
-  try {
-    // Get API works data
-    const apiWorks = getFeaturedWorks();
-
-    // Get featured websites
-    const apiWebsites = getFeaturedWebsites();
-
-    // Convert websites to work format
-    const websiteWorks: WorkItem[] = apiWebsites.map(site => ({
-      id: site.id,
-      title: site.name,
-      category: 'website',
-      image: site.logo || site.coverImage || '',
-      description: site.description || '',
-      type: 'website' as const,
-      date: site.createdAt,
-      url: site.domain ? `https://${site.domain}` : undefined,
-      createdAt: site.createdAt,
-      updatedAt: site.updatedAt,
-      features: site.features,
-    }));
-
-    // Combine and sort by date, take first 6
-    return [...apiWorks, ...websiteWorks]
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 6);
-  } catch {
-    // Fallback to static data if generated files don't exist
-    // Convert static data to WorkItem format
-    const staticWorks: WorkItem[] = allWorks.map(work => ({
-      id: work.title.toLowerCase().replace(/\s+/g, '-'),
-      title: work.title,
-      category: work.category,
-      image: work.image,
-      description: work.description,
-      excerpt: work.description.substring(0, 150) + '...',
-      type: work.type as 'work' | 'website',
-      date: work.updatedAt,
-      createdAt: work.updatedAt,
-      updatedAt: work.updatedAt,
-    }));
-    return staticWorks.slice(0, 6);
-  }
-};
+export const getFeaturedWorksForHomepage = (): WorkItem[] =>
+  getFeaturedPortfolio();

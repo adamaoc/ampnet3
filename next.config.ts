@@ -8,9 +8,9 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'autoink.us',
+        hostname: 'flexhub-assets.nyc3.digitaloceanspaces.com',
         port: '',
-        pathname: '/img/team/**',
+        pathname: '/**',
       },
     ],
   },

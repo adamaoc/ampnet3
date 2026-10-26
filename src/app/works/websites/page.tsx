@@ -1,30 +1,27 @@
 import Contact from '@/_components/Contact';
 import { getCombinedWorks } from '@/data/works';
+import { pageMeta } from '@/lib/seo';
+import { headline, lede } from '@/lib/studio';
+import type { Metadata } from 'next';
 import WorksList from '../_components/WorksList';
 
+export const metadata: Metadata = pageMeta({
+  title: 'Websites',
+  description: 'Websites designed and built by AmpNet.',
+  path: '/works/websites/',
+});
+
 export default function WebsiteWorksPage() {
-  const allWorks = getCombinedWorks();
+  const websites = getCombinedWorks().filter(work => work.type === 'website');
 
   return (
-    <div className="pt-28 pb-20 px-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-teal-600 to-orange-600 dark:from-pink-600 dark:to-purple-600 bg-clip-text text-transparent">
-              Our Works
-            </span>
-            <br />
-            Creative Media
-          </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-            Explore our diverse portfolio of creative projects, websites, and
-            digital solutions
-          </p>
+    <div className="pb-8 pt-28">
+      <div className="mx-auto max-w-3xl px-6">
+        <h1 className={`${headline} text-4xl md:text-5xl`}>Websites</h1>
+        <p className={`${lede} mt-4`}>Sites designed, built, and shipped by AmpNet.</p>
+        <div className="mt-10">
+          <WorksList allWorks={websites} />
         </div>
-
-        {/* Works List with Filtering */}
-        <WorksList allWorks={allWorks} />
       </div>
       <Contact />
     </div>
