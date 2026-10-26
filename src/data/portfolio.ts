@@ -35,6 +35,20 @@ const ORDER: string[] = [
 const FEATURED = new Set<string>(ORDER.slice(0, 6));
 const LEAD = new Set<string>([IDS.gravityRail, IDS.emizel, IDS.txgarage]);
 
+// Same screenshots already in the portfolio, saved locally so the cards
+// do not depend on a remote image load. Not new artwork.
+const LOCAL_COVER: Record<string, string> = {
+  [IDS.emizel]: '/images/projects/emizel-cover.webp',
+  [IDS.txgarage]: '/images/projects/txgarage-cover.webp',
+  [IDS.devision]: '/images/projects/devision-cover.webp',
+  [IDS.wink]: '/images/projects/wink-cover.webp',
+};
+
+function isLogoArt(src: string | null | undefined): boolean {
+  if (!src) return false;
+  return src.split('?')[0].toLowerCase().includes('logo');
+}
+
 const DROPPED_IDS = new Set([
   'f12af726-c2c4-48b5-8ff7-84d6c7fd6f12',
   '396fda62-3465-4da0-a934-b82272819e99',
@@ -463,7 +477,8 @@ function curatePortfolio(apiWorks: WorkItem[], sites: Website[]): WorkItem[] {
         category: 'website',
       };
     } else if (work.image && work.type !== 'website') {
-      work = { ...work, hasCover: true };
+      // A logo file is not a page capture. W-Ink's file is a real editor shot.
+      work = { ...work, hasCover: !isLogoArt(work.image) };
     }
 
     const creditOnly = copy?.creditOnly ?? work.type === 'website';
@@ -478,8 +493,15 @@ function curatePortfolio(apiWorks: WorkItem[], sites: Website[]): WorkItem[] {
       description: copy?.description ?? (creditOnly ? summary : work.description),
       creditOnly,
       featured: FEATURED.has(id),
-      hasCover: work.hasCover || (!site && Boolean(work.image) && id === IDS.gravityRail),
+      hasCover:
+        work.hasCover ||
+        (!site && Boolean(work.image) && id === IDS.gravityRail),
     };
+
+    const localCover = LOCAL_COVER[id];
+    if (localCover) {
+      work = { ...work, image: localCover, hasCover: true };
+    }
 
     // Usage lines from the works feed were cut. Do not republish them.
     if (id === IDS.photopti || id === IDS.wink) {
@@ -519,6 +541,7 @@ export function getPublicWebsite(id: string): Website | null {
 
   return {
     ...site,
+    coverImage: LOCAL_COVER[id] || site.coverImage,
     name: work.title,
     description: work.creditOnly
       ? work.description

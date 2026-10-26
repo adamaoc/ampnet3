@@ -19,16 +19,17 @@ export default function WorkCard({
   const summary = work.summary || work.excerpt || work.description;
   const cover = Boolean(work.hasCover && work.image);
   const lead = emphasis === 'lead' && cover;
+  const banner = cover && !lead;
 
   return (
     <Link
       href={getWorkHref(work)}
       className={`group overflow-hidden rounded-2xl border border-slate-200 bg-white transition-colors hover:border-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-800 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-600 ${
-        lead ? 'block' : 'flex gap-4 p-4'
+        lead || banner ? 'block w-full' : 'flex gap-4 p-4'
       } ${className}`}
     >
-      <Thumb work={work} cover={cover} lead={lead} />
-      <div className={`min-w-0 flex-1 ${lead ? 'p-4 md:p-5' : ''}`}>
+      <Thumb work={work} lead={lead} banner={banner} />
+      <div className={`min-w-0 flex-1 ${lead || banner ? 'p-4 md:p-5' : ''}`}>
         <div className="flex items-baseline justify-between gap-3">
           <h3
             className={`font-semibold text-slate-950 dark:text-white ${
@@ -52,7 +53,7 @@ export default function WorkCard({
           </p>
         ) : null}
       </div>
-      {lead ? null : (
+      {lead || banner ? null : (
         <ArrowUpRight
           className="mt-0.5 h-4 w-4 shrink-0 text-slate-400 transition-colors group-hover:text-teal-800 dark:text-slate-500 dark:group-hover:text-teal-300"
           aria-hidden
@@ -64,41 +65,43 @@ export default function WorkCard({
 
 function Thumb({
   work,
-  cover,
   lead,
+  banner,
 }: {
   work: WorkItem;
-  cover: boolean;
   lead: boolean;
+  banner: boolean;
 }) {
-  if (lead) {
+  if (lead || banner) {
     return (
-      <div className="relative aspect-[16/9] bg-slate-100 dark:bg-slate-800">
+      <div
+        className={`relative bg-slate-100 dark:bg-slate-800 ${
+          lead ? 'aspect-[16/9]' : 'aspect-[5/2]'
+        }`}
+      >
         <Image
           src={work.image}
           alt=""
           fill
-          className="object-cover"
+          className={`object-cover ${banner ? 'object-top' : ''}`}
           unoptimized
+          {...(lead ? { priority: true } : { loading: 'eager' as const })}
         />
       </div>
     );
   }
 
   return (
-    <div
-      className={`shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800 ${
-        cover ? 'relative h-20 w-32' : 'h-14 w-14'
-      }`}
-    >
+    <div className="h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800">
       {work.image ? (
         <Image
           src={work.image}
           alt=""
-          width={cover ? 256 : 56}
-          height={cover ? 160 : 56}
-          className={`h-full w-full ${cover ? 'object-cover' : 'object-contain p-1.5'}`}
+          width={56}
+          height={56}
+          className="h-full w-full object-contain p-1.5"
           unoptimized
+          loading="eager"
         />
       ) : (
         <PlaceholderImage

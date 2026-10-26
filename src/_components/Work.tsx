@@ -22,15 +22,20 @@ export default function Work() {
             {SITE.secondaryCta}
           </Link>
         </div>
-        <div className="mt-8 grid gap-3 md:grid-cols-2">
-          {featuredWorks.map(work => (
-            <WorkCard
-              key={work.id}
-              work={work}
-              emphasis={isPortfolioLead(work.id) ? 'lead' : 'standard'}
-              className={work.id === 'gravity-rail' ? 'md:col-span-2' : ''}
-            />
-          ))}
+        <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-2">
+          {featuredWorks.map(work => {
+            const lead = isPortfolioLead(work.id);
+            return (
+              <WorkCard
+                key={work.id}
+                work={work}
+                emphasis={lead ? 'lead' : 'standard'}
+                className={
+                  work.id === 'gravity-rail' ? 'md:col-span-2' : undefined
+                }
+              />
+            );
+          })}
         </div>
       </div>
     </section>
