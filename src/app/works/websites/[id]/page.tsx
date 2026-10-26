@@ -8,7 +8,7 @@ import {
 } from '@/data/portfolio';
 import { pageMeta } from '@/lib/seo';
 import { headline, lede, secondaryButton, surface } from '@/lib/studio';
-import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, House } from 'lucide-react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -54,7 +54,7 @@ export default async function WebsiteCaseStudy({
   const visitHref = website.domain ? `https://${website.domain}` : work.url;
 
   return (
-    <article className="pb-8 pt-28">
+    <article className="pb-2 pt-28">
       <div className="mx-auto max-w-4xl px-6">
         <Link
           href="/works/"
@@ -89,17 +89,22 @@ export default async function WebsiteCaseStudy({
                   unoptimized
                 />
               ) : (
-                <PlaceholderImage width={64} height={64} category="website" />
+                <PlaceholderImage
+                  width={64}
+                  height={64}
+                  category="website"
+                  icon={id === 'realview' ? House : undefined}
+                />
               )}
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                 Website
               </p>
-              <h1 className={`${headline} mt-1 text-3xl md:text-4xl`}>
+              <h1 className={`${headline} mt-1 text-4xl md:text-5xl`}>
                 {work.title}
               </h1>
-              {body ? <p className={`${lede} mt-4`}>{body}</p> : null}
+              {body ? <p className={`${lede} mt-3`}>{body}</p> : null}
               {(created || updated) && (
                 <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
                   {created ? `Created ${created}` : null}
@@ -123,24 +128,26 @@ export default async function WebsiteCaseStudy({
 
           {!work.creditOnly && website.features.length > 0 ? (
             <div className="mt-8 border-t border-slate-200 pt-6 dark:border-slate-800">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+              <h2 className="text-sm font-semibold text-slate-500 dark:text-slate-400">
                 Included
               </h2>
               <ul className="mt-3 flex flex-wrap gap-2">
-                {website.features.map(feature => (
-                  <li
-                    key={feature.id}
-                    className="rounded-full border border-slate-200 px-3 py-1 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200"
-                  >
-                    {feature.displayName}
-                  </li>
-                ))}
+                {website.features
+                  .filter(feature => feature.displayName !== 'Works With')
+                  .map(feature => (
+                    <li
+                      key={feature.id}
+                      className="rounded-full border border-slate-200 px-3 py-1 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200"
+                    >
+                      {feature.displayName}
+                    </li>
+                  ))}
               </ul>
             </div>
           ) : null}
         </div>
       </div>
-      <Contact />
+      <Contact compact />
     </article>
   );
 }

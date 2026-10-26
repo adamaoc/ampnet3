@@ -1,7 +1,7 @@
 'use client';
 
 import WorkCard from '@/_components/WorkCard';
-import { getCategoryGroupLabel } from '@/data/portfolio';
+import { getCategoryGroupLabel, isPortfolioLead } from '@/data/portfolio';
 import type { WorkItem } from '@/types';
 import { useState } from 'react';
 
@@ -51,7 +51,11 @@ const WorksList = ({ allWorks }: WorksListProps) => {
       {filteredItems.length > 0 ? (
         <div className="flex flex-col gap-3">
           {filteredItems.map(item => (
-            <WorkCard key={item.id} work={item} />
+            <WorkCard
+              key={item.id}
+              work={item}
+              emphasis={isPortfolioLead(item.id) ? 'lead' : 'standard'}
+            />
           ))}
         </div>
       ) : (

@@ -33,6 +33,7 @@ const ORDER: string[] = [
 ];
 
 const FEATURED = new Set<string>(ORDER.slice(0, 6));
+const LEAD = new Set<string>([IDS.gravityRail, IDS.emizel, IDS.txgarage]);
 
 const DROPPED_IDS = new Set([
   'f12af726-c2c4-48b5-8ff7-84d6c7fd6f12',
@@ -142,7 +143,7 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     'gravity-rail.com',
     SITE.gravityRailCredit,
     '/images/projects/gravity-rail-logo.webp',
-    null,
+    '/images/projects/gravity-rail-cover.webp',
     '',
     ''
   ),
@@ -248,7 +249,7 @@ const FALLBACK_WORKS: Record<string, WorkItem> = {
     'Gravity Rail',
     'website',
     'website',
-    '/images/projects/gravity-rail-logo.webp',
+    '/images/projects/gravity-rail-cover.webp',
     SITE.gravityRailCredit,
     SITE.gravityRailUrl
   ),
@@ -446,11 +447,13 @@ function curatePortfolio(apiWorks: WorkItem[], sites: Website[]): WorkItem[] {
     }
 
     if (site) {
+      const cover = site.coverImage || null;
       work = {
         ...work,
         title: site.name || work.title,
         description: site.description || work.description,
-        image: site.logo || site.coverImage || work.image,
+        image: cover || site.logo || work.image,
+        hasCover: Boolean(cover),
         url: site.domain ? `https://${site.domain}` : work.url,
         date: site.createdAt || work.date,
         createdAt: site.createdAt || work.createdAt,
@@ -459,6 +462,8 @@ function curatePortfolio(apiWorks: WorkItem[], sites: Website[]): WorkItem[] {
         type: 'website',
         category: 'website',
       };
+    } else if (work.image && work.type !== 'website') {
+      work = { ...work, hasCover: true };
     }
 
     const creditOnly = copy?.creditOnly ?? work.type === 'website';
@@ -472,6 +477,8 @@ function curatePortfolio(apiWorks: WorkItem[], sites: Website[]): WorkItem[] {
       summary,
       description: copy?.description ?? (creditOnly ? summary : work.description),
       creditOnly,
+      featured: FEATURED.has(id),
+      hasCover: work.hasCover || (!site && Boolean(work.image) && id === IDS.gravityRail),
     };
 
     // Usage lines from the works feed were cut. Do not republish them.
@@ -492,6 +499,10 @@ export function getPortfolioWorks(): WorkItem[] {
 
 export function getFeaturedPortfolio(): WorkItem[] {
   return getPortfolioWorks().filter(work => FEATURED.has(work.id));
+}
+
+export function isPortfolioLead(id: string): boolean {
+  return LEAD.has(id);
 }
 
 export function getPortfolioWork(id: string): WorkItem | undefined {

@@ -31,6 +31,8 @@ export type WorkItem = {
   title: string;
   category: string;
   image: string;
+  /** True when `image` is a real cover, not a logo mark. */
+  hasCover?: boolean;
   description: string;
   excerpt?: string;
   /** One-line public credit. Cards use this; case studies may also show description. */

@@ -7,7 +7,7 @@ import {
   getPortfolioWorks,
 } from '@/data/portfolio';
 import { pageMeta } from '@/lib/seo';
-import { headline, lede, primaryButton, secondaryButton, surface } from '@/lib/studio';
+import { headline, lede, secondaryButton, surface } from '@/lib/studio';
 import { ArrowLeft, ArrowUpRight, Github } from 'lucide-react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
@@ -131,7 +131,7 @@ export default async function WorkCaseStudy({
                     href={work.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={primaryButton}
+                    className={secondaryButton}
                   >
                     Visit project
                     <ArrowUpRight className="h-4 w-4" />
@@ -143,7 +143,7 @@ export default async function WorkCaseStudy({
 
           {work.technologies && work.technologies.length > 0 ? (
             <div className="mt-8 border-t border-slate-200 pt-6 dark:border-slate-800">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+              <h2 className="text-sm font-semibold text-slate-500 dark:text-slate-400">
                 Technologies
               </h2>
               <ul className="mt-3 flex flex-wrap gap-2">

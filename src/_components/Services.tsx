@@ -2,7 +2,7 @@ import { SITE } from '@/data/site-copy';
 import { headline, lede, surface } from '@/lib/studio';
 import { Boxes, Globe } from 'lucide-react';
 
-const services = [
+export const serviceFacts = [
   {
     icon: Globe,
     title: 'Websites',
@@ -26,7 +26,7 @@ export default function Services() {
           Websites first, then tools and products.
         </p>
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {services.map(service => (
+          {serviceFacts.map(service => (
             <div key={service.title} className={`${surface} p-6`}>
               <service.icon
                 className="h-5 w-5 text-teal-800 dark:text-teal-300"

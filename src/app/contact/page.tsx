@@ -115,44 +115,6 @@ export default function ContactPage() {
         </p>
 
         <div className={`${surface} mt-10 p-6 md:p-8`}>
-          {submitStatus === 'success' && (
-            <p
-              role="status"
-              aria-live="polite"
-              className="mb-6 rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm text-teal-950 dark:border-teal-900 dark:bg-teal-950/40 dark:text-teal-100"
-            >
-              Your message was sent. You can also reach us at {SITE.email}.
-            </p>
-          )}
-
-          {submitStatus === 'error' && (
-            <p
-              role="status"
-              aria-live="polite"
-              className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950/40 dark:text-red-100"
-            >
-              The message did not send. Email{' '}
-              <a className="underline" href={`mailto:${SITE.email}`}>
-                {SITE.email}
-              </a>{' '}
-              instead.
-            </p>
-          )}
-
-          {submitStatus === 'misconfigured' && (
-            <p
-              role="status"
-              aria-live="polite"
-              className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950/40 dark:text-red-100"
-            >
-              The contact form is not configured for this build. Email{' '}
-              <a className="underline" href={`mailto:${SITE.email}`}>
-                {SITE.email}
-              </a>{' '}
-              instead.
-            </p>
-          )}
-
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label
@@ -255,6 +217,48 @@ export default function ContactPage() {
                 placeholder="What needs building?"
               />
             </div>
+
+            {submitStatus === 'success' && (
+              <p
+                role="status"
+                aria-live="polite"
+                className="rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm text-teal-950 dark:border-teal-900 dark:bg-teal-950/40 dark:text-teal-100"
+              >
+                Your message was sent. You can also reach us at{' '}
+                <a className="underline" href={`mailto:${SITE.email}`}>
+                  {SITE.email}
+                </a>
+                .
+              </p>
+            )}
+
+            {submitStatus === 'error' && (
+              <p
+                role="status"
+                aria-live="polite"
+                className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950/40 dark:text-red-100"
+              >
+                The message did not send. Email{' '}
+                <a className="underline" href={`mailto:${SITE.email}`}>
+                  {SITE.email}
+                </a>{' '}
+                instead.
+              </p>
+            )}
+
+            {submitStatus === 'misconfigured' && (
+              <p
+                role="status"
+                aria-live="polite"
+                className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950/40 dark:text-red-100"
+              >
+                The contact form is not configured for this build. Email{' '}
+                <a className="underline" href={`mailto:${SITE.email}`}>
+                  {SITE.email}
+                </a>{' '}
+                instead.
+              </p>
+            )}
 
             <button
               type="submit"

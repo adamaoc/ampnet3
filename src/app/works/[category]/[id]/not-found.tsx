@@ -1,4 +1,4 @@
-import { headline, primaryButton, secondaryButton, surface } from '@/lib/studio';
+import { headline, secondaryButton, surface } from '@/lib/studio';
 import Link from 'next/link';
 
 export default function NotFound() {
@@ -10,7 +10,7 @@ export default function NotFound() {
           That project is not on the public list.
         </p>
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-          <Link href="/works/" className={primaryButton}>
+          <Link href="/works/" className={secondaryButton}>
             Back to work
           </Link>
           <Link href="/" className={secondaryButton}>
