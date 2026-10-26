@@ -141,7 +141,7 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     'Gravity Rail',
     'gravity-rail.com',
     SITE.gravityRailCredit,
-    '/images/projects/gravity-rail-logo.png',
+    '/images/projects/gravity-rail-logo.webp',
     null,
     '',
     ''
@@ -248,7 +248,7 @@ const FALLBACK_WORKS: Record<string, WorkItem> = {
     'Gravity Rail',
     'website',
     'website',
-    '/images/projects/gravity-rail-logo.png',
+    '/images/projects/gravity-rail-logo.webp',
     SITE.gravityRailCredit,
     SITE.gravityRailUrl
   ),

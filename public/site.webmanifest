@@ -1,7 +1,7 @@
 {
-  "name": "ampnet (media) - Digital Creative Studio",
-  "short_name": "ampnet",
-  "description": "We craft digital magic through web video, development, advertising, and social media",
+  "name": "AMPNET",
+  "short_name": "AMPNET",
+  "description": "AmpNet is a creative and development studio in Dallas. We design and build websites, tools, and digital products that do a real job for the people who use them.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",

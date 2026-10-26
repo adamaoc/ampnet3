@@ -1,43 +1,12 @@
-'use client';
+import { sanitizeWorkHtml } from '@/lib/sanitize-work-html';
 
-import DOMPurify from 'dompurify';
-import { useEffect, useState } from 'react';
-
-interface SafeHtmlProps {
+type SafeHtmlProps = {
   html: string;
   className?: string;
-}
+};
 
 const SafeHtml = ({ html, className = '' }: SafeHtmlProps) => {
-  const [sanitizedHtml, setSanitizedHtml] = useState<string>('');
-
-  useEffect(() => {
-    // Only sanitize on the client side
-    const sanitized = DOMPurify.sanitize(html, {
-      ALLOWED_TAGS: [
-        'p',
-        'br',
-        'strong',
-        'em',
-        'u',
-        'a',
-        'ul',
-        'ol',
-        'li',
-        'h1',
-        'h2',
-        'h3',
-        'h4',
-        'h5',
-        'h6',
-        'blockquote',
-        'code',
-        'pre',
-      ],
-      ALLOWED_ATTR: ['href', 'target', 'rel'],
-    });
-    setSanitizedHtml(sanitized);
-  }, [html]);
+  const sanitizedHtml = sanitizeWorkHtml(html);
 
   return (
     <div

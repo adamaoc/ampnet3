@@ -1,14 +1,16 @@
 import Contact from '@/_components/Contact';
 import { getCombinedWorks } from '@/data/works';
+import { pageMeta } from '@/lib/seo';
 import { headline, lede } from '@/lib/studio';
 import type { Metadata } from 'next';
 import WorksList from './_components/WorksList';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: 'Work',
   description:
     'Websites, tools, and digital products built by AmpNet in Dallas.',
-};
+  path: '/works/',
+});
 
 export default function WorksPage() {
   const allWorks = getCombinedWorks();

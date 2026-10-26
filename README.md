@@ -233,9 +233,19 @@ For automated deployments, ensure your build pipeline:
 
 ### Environment Variables
 
-FlexHub data fetching does not need an API key. AmpGauge is optional and is **off unless both variables below are set at build time**.
+See `.env.example`. `NEXT_PUBLIC_*` values are inlined into the static export.
 
-`NEXT_PUBLIC_*` values are inlined into the static export. Leave both unset for local `npm run dev` and for preview builds so those builds do not send page views. Set both only on the production build.
+FlexHub data fetching does not need an API key. Works and the contact form share `NEXT_PUBLIC_API_URL` and use **different site ids**. `NEXT_PUBLIC_SITE_ID` is not read.
+
+| Variable | Default | Used by |
+| --- | --- | --- |
+| `NEXT_PUBLIC_API_URL` | `https://flexhub.ampnet.media/api` in production. `npm run dev` contact posts to `http://localhost:3005/api` when unset. | Works fetch and contact form |
+| `NEXT_PUBLIC_WORKS_SITE_ID` | `396fda62-3465-4da0-a934-b82272819e99` | `scripts/fetch-build-data.mjs` only (Photopti and W-Ink live on this site) |
+| `NEXT_PUBLIC_CONTACT_SITE_ID` | `8ad1bc58-fdb0-44ac-b021-251a06bd2bec` | Contact form only |
+
+A production build whose API URL is localhost or `127.0.0.1` does not submit the form. The page tells the visitor to email contact@ampnetmedia.com instead.
+
+AmpGauge is optional and is **off unless both variables below are set at build time**. Leave both unset for local `npm run dev` and for preview builds so those builds do not send page views. Set both only on the production build.
 
 | Variable | Production value |
 | --- | --- |

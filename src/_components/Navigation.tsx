@@ -1,11 +1,11 @@
 'use client';
 
 import { SITE } from '@/data/site-copy';
-import { lockup, primaryButton } from '@/lib/studio';
+import { iconButton, lockup, primaryButton } from '@/lib/studio';
 import { Menu, Moon, Sun, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const NAV = [
   { name: 'Services', href: '/#services' },
@@ -27,6 +27,7 @@ export default function Navigation() {
   const [mounted, setMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -52,6 +53,17 @@ export default function Navigation() {
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      setMenuOpen(false);
+      menuButtonRef.current?.focus();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [menuOpen]);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-slate-50/90 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-950/90">
@@ -90,7 +102,7 @@ export default function Navigation() {
         <button
           type="button"
           onClick={() => setDarkMode(!darkMode)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-800 hover:border-slate-400 dark:border-slate-700 dark:text-slate-100"
+          className={iconButton}
           aria-label={
             mounted && darkMode ? 'Switch to light mode' : 'Switch to dark mode'
           }
@@ -107,9 +119,11 @@ export default function Navigation() {
         </button>
 
         <button
+          ref={menuButtonRef}
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-800 md:hidden dark:border-slate-700 dark:text-slate-100"
+          className={`${iconButton} md:hidden`}
           aria-expanded={menuOpen}
+          aria-controls="primary-menu"
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           onClick={() => setMenuOpen(open => !open)}
         >
@@ -117,21 +131,23 @@ export default function Navigation() {
         </button>
       </nav>
 
-      {menuOpen ? (
-        <div className="border-t border-slate-200 bg-slate-50 px-4 py-4 md:hidden dark:border-slate-800 dark:bg-slate-950">
-          <div className="mx-auto flex max-w-6xl flex-col gap-1">
-            {NAV.map(item => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="rounded-lg px-3 py-3 text-base font-medium text-slate-800 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-900"
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
+      <div
+        id="primary-menu"
+        hidden={!menuOpen}
+        className={`${menuOpen ? 'block' : 'hidden'} border-t border-slate-200 bg-slate-50 px-4 py-4 md:hidden dark:border-slate-800 dark:bg-slate-950`}
+      >
+        <div className="mx-auto flex max-w-6xl flex-col gap-1">
+          {NAV.map(item => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="rounded-lg px-3 py-3 text-base font-medium text-slate-800 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-800 dark:text-slate-100 dark:hover:bg-slate-900"
+            >
+              {item.name}
+            </Link>
+          ))}
         </div>
-      ) : null}
+      </div>
     </header>
   );
 }

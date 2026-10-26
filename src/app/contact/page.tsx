@@ -1,6 +1,7 @@
 'use client';
 
 import { SITE } from '@/data/site-copy';
+import { contactSubmitUrl } from '@/lib/contact-api';
 import { headline, lede, primaryButton, surface } from '@/lib/studio';
 import { useState } from 'react';
 
@@ -18,7 +19,7 @@ export default function ContactPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
-    'idle' | 'success' | 'error'
+    'idle' | 'success' | 'error' | 'misconfigured'
   >('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,31 +27,29 @@ export default function ContactPage() {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    try {
-      const apiBaseUrl =
-        process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api';
-      const siteId =
-        process.env.NEXT_PUBLIC_SITE_ID ||
-        '8ad1bc58-fdb0-44ac-b021-251a06bd2bec';
+    const submitUrl = contactSubmitUrl();
+    if (!submitUrl) {
+      setSubmitStatus('misconfigured');
+      setIsSubmitting(false);
+      return;
+    }
 
-      const response = await fetch(
-        `${apiBaseUrl}/public/sites/${siteId}/contact`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+    try {
+      const response = await fetch(submitUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: {
+            fullName: formData.fullName,
+            email: formData.email,
+            company: formData.company,
+            reasonForContact: formData.service,
+            message: formData.message,
           },
-          body: JSON.stringify({
-            data: {
-              fullName: formData.fullName,
-              email: formData.email,
-              company: formData.company,
-              reasonForContact: formData.service,
-              message: formData.message,
-            },
-          }),
-        }
-      );
+        }),
+      });
 
       if (response.ok) {
         const contentType = response.headers.get('content-type');
@@ -117,14 +116,36 @@ export default function ContactPage() {
 
         <div className={`${surface} mt-10 p-6 md:p-8`}>
           {submitStatus === 'success' && (
-            <p className="mb-6 rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm text-teal-950 dark:border-teal-900 dark:bg-teal-950/40 dark:text-teal-100">
+            <p
+              role="status"
+              aria-live="polite"
+              className="mb-6 rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm text-teal-950 dark:border-teal-900 dark:bg-teal-950/40 dark:text-teal-100"
+            >
               Your message was sent. You can also reach us at {SITE.email}.
             </p>
           )}
 
           {submitStatus === 'error' && (
-            <p className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950/40 dark:text-red-100">
+            <p
+              role="status"
+              aria-live="polite"
+              className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950/40 dark:text-red-100"
+            >
               The message did not send. Email{' '}
+              <a className="underline" href={`mailto:${SITE.email}`}>
+                {SITE.email}
+              </a>{' '}
+              instead.
+            </p>
+          )}
+
+          {submitStatus === 'misconfigured' && (
+            <p
+              role="status"
+              aria-live="polite"
+              className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950/40 dark:text-red-100"
+            >
+              The contact form is not configured for this build. Email{' '}
               <a className="underline" href={`mailto:${SITE.email}`}>
                 {SITE.email}
               </a>{' '}

@@ -1,6 +1,7 @@
 import Footer from '@/_components/Footer';
 import Navigation from '@/_components/Navigation';
 import { SITE } from '@/data/site-copy';
+import { SITE_ORIGIN } from '@/lib/seo';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import type React from 'react';
@@ -8,12 +9,37 @@ import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
+const defaultTitle = 'AMPNET — We build digital experiences that perform';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_ORIGIN),
   title: {
-    default: 'AMPNET — We build digital experiences that perform',
+    default: defaultTitle,
     template: '%s — AMPNET',
   },
   description: SITE.heroSubhead,
+  alternates: { canonical: '/' },
+  openGraph: {
+    title: defaultTitle,
+    description: SITE.heroSubhead,
+    url: '/',
+    siteName: 'AMPNET',
+    type: 'website',
+    images: [
+      {
+        url: '/og.png',
+        width: 1200,
+        height: 630,
+        alt: defaultTitle,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: defaultTitle,
+    description: SITE.heroSubhead,
+    images: ['/og.png'],
+  },
 };
 
 // Inlined at build time. Both must be set or the tag is omitted, so dev and
@@ -94,8 +120,11 @@ export default function RootLayout({
         className={`${inter.className} min-h-screen bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100`}
         suppressHydrationWarning={true}
       >
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
         <Navigation />
-        {children}
+        <main id="main">{children}</main>
         <Footer />
       </body>
     </html>

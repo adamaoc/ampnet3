@@ -73,6 +73,37 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  [class*='hover:scale-']:hover,
+  [class*='group-hover:scale-'] {
+    transform: none;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 60;
+  transform: translateY(-200%);
+  border-radius: 9999px;
+  background: #fff;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #020617;
+}
+
+.skip-link:focus {
+  transform: none;
+  outline: 2px solid #115e59;
+  outline-offset: 2px;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

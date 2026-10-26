@@ -6,6 +6,7 @@ import {
   getPortfolioWork,
   getPortfolioWorks,
 } from '@/data/portfolio';
+import { pageMeta } from '@/lib/seo';
 import { headline, lede, primaryButton, secondaryButton, surface } from '@/lib/studio';
 import { ArrowLeft, ArrowUpRight, Github } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -30,13 +31,14 @@ export async function generateMetadata({
 }: {
   params: Promise<{ category: string; id: string }>;
 }): Promise<Metadata> {
-  const { id } = await params;
+  const { id, category } = await params;
   const work = getPortfolioWork(id);
   if (!work) return { title: 'Work' };
-  return {
+  return pageMeta({
     title: work.title,
-    description: work.summary || work.excerpt || work.description,
-  };
+    description: work.summary?.trim() || 'Built by AmpNet.',
+    path: `/works/${category}/${id}/`,
+  });
 }
 
 export default async function WorkCaseStudy({

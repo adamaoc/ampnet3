@@ -1,13 +1,15 @@
 import Contact from '@/_components/Contact';
 import { getCombinedWorks } from '@/data/works';
+import { pageMeta } from '@/lib/seo';
 import { headline, lede } from '@/lib/studio';
 import type { Metadata } from 'next';
 import WorksList from '../_components/WorksList';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: 'Websites',
   description: 'Websites designed and built by AmpNet.',
-};
+  path: '/works/websites/',
+});
 
 export default function WebsiteWorksPage() {
   const websites = getCombinedWorks().filter(work => work.type === 'website');

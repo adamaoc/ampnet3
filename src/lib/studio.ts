@@ -16,3 +16,6 @@ export const secondaryButton =
 
 export const lockup =
   'bg-gradient-to-r from-teal-700 to-orange-700 bg-clip-text font-bold tracking-tight text-transparent dark:from-teal-400 dark:to-orange-400';
+
+export const iconButton =
+  'inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-800 hover:border-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-800 dark:border-slate-700 dark:text-slate-100';

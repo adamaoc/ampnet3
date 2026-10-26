@@ -23,7 +23,11 @@ const WorksList = ({ allWorks }: WorksListProps) => {
 
   return (
     <>
-      <div className="mb-8 flex flex-wrap gap-2">
+      <div
+        className="mb-8 flex flex-wrap gap-2"
+        role="group"
+        aria-label="Filter work"
+      >
         <FilterButton
           active={selectedCategory === 'all'}
           onClick={() => setSelectedCategory('all')}
@@ -72,7 +76,8 @@ function FilterButton({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+      aria-pressed={active}
+      className={`rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-800 ${
         active
           ? 'bg-slate-950 text-white dark:bg-white dark:text-slate-950'
           : 'border border-slate-200 bg-white text-slate-700 hover:border-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200'

@@ -1,12 +1,14 @@
 import Contact from '@/_components/Contact';
 import { SITE } from '@/data/site-copy';
+import { pageMeta } from '@/lib/seo';
 import { headline, lede } from '@/lib/studio';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: 'About',
   description: SITE.about,
-};
+  path: '/about/',
+});
 
 export default function AboutPage() {
   return (

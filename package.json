@@ -12,14 +12,13 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
-    "@types/dompurify": "^3.0.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "dompurify": "^3.2.6",
     "lucide-react": "^0.523.0",
     "next": "15.3.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "sanitize-html": "^2.18.1",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {

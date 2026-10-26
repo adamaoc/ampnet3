@@ -3,9 +3,11 @@
 import fs from 'fs';
 import path from 'path';
 
-// Get site ID and API URL from environment variables or use defaults for local development
+// Works feed and the contact form use different site ids on purpose.
+// NEXT_PUBLIC_SITE_ID is not read here.
 const SITE_ID =
-  process.env.NEXT_PUBLIC_SITE_ID || '396fda62-3465-4da0-a934-b82272819e99';
+  process.env.NEXT_PUBLIC_WORKS_SITE_ID ||
+  '396fda62-3465-4da0-a934-b82272819e99';
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || 'https://flexhub.ampnet.media/api';
 const DROPPED_DOMAINS = new Set([
@@ -145,7 +147,7 @@ async function fetchWorksData() {
     const mappedWorks = (data.works || []).map(work => ({
       id: work.id,
       title: work.title,
-      category: work.category.toLowerCase().replace('_', '-'), // CLI_TOOL -> cli-tool
+      category: work.category.toLowerCase().replaceAll('_', '-'), // CLI_TOOL -> cli-tool
       image: work.image || '',
       description: work.description || '',
       excerpt: work.excerpt,

@@ -6,6 +6,7 @@ import {
   getPortfolioWorks,
   getPublicWebsite,
 } from '@/data/portfolio';
+import { pageMeta } from '@/lib/seo';
 import { headline, lede, secondaryButton, surface } from '@/lib/studio';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -27,10 +28,11 @@ export async function generateMetadata({
   const { id } = await params;
   const work = getPortfolioWork(id);
   if (!work) return { title: 'Work' };
-  return {
+  return pageMeta({
     title: work.title,
-    description: work.summary || work.description,
-  };
+    description: work.summary?.trim() || 'Built by AmpNet.',
+    path: `/works/websites/${id}/`,
+  });
 }
 
 export default async function WebsiteCaseStudy({
