@@ -22,7 +22,7 @@ export default function Work() {
             {SITE.secondaryCta}
           </Link>
         </div>
-        <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-2">
+        <div className="mt-8 grid grid-cols-1 items-start gap-3 md:grid-cols-2">
           {featuredWorks.map(work => {
             const lead = isPortfolioLead(work.id);
             return (
