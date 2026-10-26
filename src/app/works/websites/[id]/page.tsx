@@ -1,295 +1,155 @@
 import Contact from '@/_components/Contact';
 import PlaceholderImage from '@/_components/PlaceholderImage';
-import type { ApiResponse, Website } from '@/types';
-import { ArrowLeft, Calendar, ExternalLink, RefreshCw } from 'lucide-react';
+import {
+  formatPortfolioDate,
+  getPortfolioWork,
+  getPortfolioWorks,
+  getPublicWebsite,
+} from '@/data/portfolio';
+import { headline, lede, secondaryButton, surface } from '@/lib/studio';
+import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-async function getWebsite(id: string): Promise<Website | null> {
-  try {
-    const response = await fetch(
-      `https://flexhub.ampnet.media/api/public/sites`
-    );
-
-    if (!response.ok) {
-      console.error(`Failed to fetch sites: ${response.status}`);
-      return null;
-    }
-
-    const data: ApiResponse = await response.json();
-    const website = data.sites.find(site => site.id === id);
-
-    return website || null;
-  } catch (error) {
-    console.error('Error fetching website:', error);
-    return null;
-  }
+export function generateStaticParams() {
+  return getPortfolioWorks()
+    .filter(work => work.type === 'website')
+    .map(work => ({ id: work.id }));
 }
 
-const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-};
-
-export async function generateStaticParams() {
-  try {
-    const response = await fetch(
-      'https://flexhub.ampnet.media/api/public/sites'
-    );
-
-    if (!response.ok) {
-      console.error(`Failed to fetch sites: ${response.status}`);
-      // Return a fallback entry for static export when API is not available
-      return [{ id: 'example' }];
-    }
-
-    const data: ApiResponse = await response.json();
-
-    if (data.sites && data.sites.length > 0) {
-      return data.sites.map(site => ({
-        id: site.id,
-      }));
-    }
-
-    // Fallback when no sites are returned
-    return [{ id: 'example' }];
-  } catch (error) {
-    console.error('Error in generateStaticParams:', error);
-    // Return a fallback entry for static export when API is not available
-    return [{ id: 'example' }];
-  }
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const work = getPortfolioWork(id);
+  if (!work) return { title: 'Work' };
+  return {
+    title: work.title,
+    description: work.summary || work.description,
+  };
 }
 
-export default async function WorkPage({
+export default async function WebsiteCaseStudy({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const website = await getWebsite(id);
+  const website = getPublicWebsite(id);
+  const work = getPortfolioWork(id);
 
-  if (!website) {
+  if (!website || !work) {
     notFound();
   }
 
+  const created = formatPortfolioDate(website.createdAt);
+  const updated = formatPortfolioDate(website.updatedAt);
+  const body = work.creditOnly ? work.description : work.summary;
+  const detail =
+    !work.creditOnly &&
+    website.description &&
+    website.description !== work.summary
+      ? website.description
+      : null;
+  const visitHref = website.domain ? `https://${website.domain}` : work.url;
+
   return (
-    <div className="min-h-screen">
-      {/* Navigation */}
-      <div className="pt-28 pb-8 px-6">
-        <div className="max-w-6xl mx-auto">
-          <Link
-            href="/works"
-            className="hidden md:inline-flex items-center gap-2 text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 transition-colors duration-300"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Works
-          </Link>
-        </div>
-      </div>
+    <article className="pb-8 pt-28">
+      <div className="mx-auto max-w-4xl px-6">
+        <Link
+          href="/works/"
+          className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to work
+        </Link>
 
-      {/* Hero Section */}
-      <div className="px-6 mb-12">
-        <div className="max-w-6xl mx-auto">
-          <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-white/50 dark:border-slate-700/50 rounded-3xl overflow-hidden shadow-2xl">
-            {/* Cover Image - Only show if there's a dedicated cover image */}
-            {website.coverImage && (
-              <div className="relative aspect-[21/9] overflow-hidden bg-gradient-to-br from-teal-100 to-orange-100 dark:from-teal-900/50 dark:to-orange-900/50 border-b border-white/30 dark:border-slate-700/30">
+        {website.coverImage ? (
+          <div className="relative mt-6 aspect-[16/8] overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 dark:border-slate-800 dark:bg-slate-900">
+            <Image
+              src={website.coverImage}
+              alt=""
+              fill
+              className="object-cover"
+              unoptimized
+            />
+          </div>
+        ) : null}
+
+        <div className={`${surface} mt-6 p-6 md:p-8`}>
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800">
+              {website.logo || work.image ? (
                 <Image
-                  src={website.coverImage}
-                  alt={website.name}
-                  fill
-                  className="object-cover"
+                  src={website.logo || work.image}
+                  alt=""
+                  width={64}
+                  height={64}
+                  className="h-full w-full object-contain p-1.5"
+                  unoptimized
                 />
-              </div>
-            )}
-
-            {/* Content */}
-            <div
-              className={`p-8 md:p-12 ${
-                !website.coverImage ? 'pt-12 md:pt-16' : ''
-              } ${
-                website.coverImage
-                  ? 'border-t border-teal-300/40 dark:border-slate-600/40'
-                  : ''
-              }`}
-            >
-              <div className="flex flex-col lg:flex-row lg:items-start gap-8">
-                {/* Logo */}
-                <div className="flex-shrink-0">
-                  <div className="w-24 h-24 rounded-3xl overflow-hidden shadow-xl bg-gradient-to-br from-teal-100 to-orange-100 dark:from-teal-900/50 dark:to-orange-900/50 p-2">
-                    {website.logo ? (
-                      <Image
-                        src={website.logo}
-                        alt={website.name}
-                        width={88}
-                        height={88}
-                        className="w-full h-full object-cover rounded-2xl"
-                      />
-                    ) : (
-                      <PlaceholderImage width={88} height={88} />
-                    )}
-                  </div>
-                </div>
-
-                {/* Main Info */}
-                <div className="flex-grow">
-                  <div className="flex items-center gap-4 mb-4">
-                    <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">
-                      {website.name}
-                    </h1>
-                    {website.domain && (
-                      <a
-                        href={`https://${website.domain}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500/20 to-orange-500/20 dark:from-teal-400/20 dark:to-orange-400/20 rounded-full px-4 py-2 text-teal-700 dark:text-teal-300 hover:from-teal-500/30 hover:to-orange-500/30 transition-all duration-300"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        {website.domain}
-                      </a>
-                    )}
-                  </div>
-
-                  {website.description && (
-                    <p className="text-xl text-slate-600 dark:text-slate-300 leading-relaxed mb-6 max-w-3xl">
-                      {website.description}
-                    </p>
-                  )}
-
-                  {/* Date Information */}
-                  <div className="flex flex-wrap items-center gap-6 text-slate-500 dark:text-slate-400">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
-                      <span>Created {formatDate(website.createdAt)}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <RefreshCw className="w-4 h-4" />
-                      <span>Updated {formatDate(website.updatedAt)}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              ) : (
+                <PlaceholderImage width={64} height={64} category="website" />
+              )}
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Features Section */}
-      {website.features && website.features.length > 0 && (
-        <div className="px-6 mb-12">
-          <div className="max-w-6xl mx-auto">
-            <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-white/50 dark:border-slate-700/50 rounded-3xl p-8 md:p-12 shadow-2xl">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">
-                  Features & Capabilities
-                </h2>
-                <p className="text-lg text-slate-600 dark:text-slate-300">
-                  Explore the powerful features that make this site unique
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                Website
+              </p>
+              <h1 className={`${headline} mt-1 text-3xl md:text-4xl`}>
+                {work.title}
+              </h1>
+              {body ? <p className={`${lede} mt-4`}>{body}</p> : null}
+              {detail ? (
+                <p className="mt-3 text-slate-600 dark:text-slate-300">
+                  {detail}
                 </p>
-              </div>
+              ) : null}
+              {(created || updated) && (
+                <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
+                  {created ? `Created ${created}` : null}
+                  {created && updated ? ' · ' : null}
+                  {updated ? `Updated ${updated}` : null}
+                </p>
+              )}
+              {visitHref ? (
+                <a
+                  href={visitHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${secondaryButton} mt-6`}
+                >
+                  {website.domain || 'Visit site'}
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              ) : null}
+            </div>
+          </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {!work.creditOnly && website.features.length > 0 ? (
+            <div className="mt-8 border-t border-slate-200 pt-6 dark:border-slate-800">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                Included
+              </h2>
+              <ul className="mt-3 flex flex-wrap gap-2">
                 {website.features.map(feature => (
-                  <div
+                  <li
                     key={feature.id}
-                    className="group bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-white/40 dark:border-slate-600/40 rounded-2xl p-6 hover:bg-gradient-to-br hover:from-white/60 hover:to-teal-50/60 dark:hover:from-slate-800/60 dark:hover:to-teal-900/20 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                    className="rounded-full border border-slate-200 px-3 py-1 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200"
                   >
-                    <div className="flex items-start gap-3">
-                      <div className="w-3 h-3 rounded-full bg-gradient-to-r from-teal-500 to-orange-500 mt-2 flex-shrink-0"></div>
-                      <div className="min-w-0 flex-grow">
-                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
-                          {feature.displayName}
-                        </h3>
-                        {feature.description && (
-                          <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                            {feature.description}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                    {feature.displayName}
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Technical Details */}
-      <div className="px-6 mb-20">
-        <div className="max-w-6xl mx-auto">
-          <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-white/50 dark:border-slate-700/50 rounded-3xl p-8 md:p-12 shadow-2xl">
-            <h2 className="text-2xl md:text-3xl font-bold mb-8 bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">
-              Project Details
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-3">
-                  Project Information
-                </h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-slate-600 dark:text-slate-400">
-                      Domain:
-                    </span>
-                    <span className="text-slate-900 dark:text-white font-medium">
-                      {website.domain || 'No domain'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-600 dark:text-slate-400">
-                      Features:
-                    </span>
-                    <span className="text-slate-900 dark:text-white font-medium">
-                      {website.features.length}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-600 dark:text-slate-400">
-                      Status:
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-green-600 dark:text-green-400 font-medium">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      Active
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-3">
-                  Timeline
-                </h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-slate-600 dark:text-slate-400">
-                      Created:
-                    </span>
-                    <span className="text-slate-900 dark:text-white font-medium">
-                      {formatDate(website.createdAt)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-600 dark:text-slate-400">
-                      Last Updated:
-                    </span>
-                    <span className="text-slate-900 dark:text-white font-medium">
-                      {formatDate(website.updatedAt)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          ) : null}
         </div>
       </div>
-
       <Contact />
-    </div>
+    </article>
   );
 }

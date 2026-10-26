@@ -13,12 +13,8 @@ export default function MagicPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-teal-600 to-orange-600 dark:from-pink-600 dark:to-purple-600 bg-clip-text text-transparent">
-              Magic
-            </span>
-            <br />
-            Insights & Stories
+          <h1 className="mb-6 text-5xl font-semibold tracking-tight text-slate-950 dark:text-white md:text-6xl">
+            Magic
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
             Where creativity meets technology, and ideas transform into digital

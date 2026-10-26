@@ -5,8 +5,15 @@ import path from 'path';
 
 // Get site ID and API URL from environment variables or use defaults for local development
 const SITE_ID =
-  process.env.NEXT_PUBLIC_SITE_ID || 'c679a9bd-e6f3-4148-90d3-b5793f22b1c1';
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api';
+  process.env.NEXT_PUBLIC_SITE_ID || '396fda62-3465-4da0-a934-b82272819e99';
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'https://flexhub.ampnet.media/api';
+const DROPPED_DOMAINS = new Set([
+  'autoink.us',
+  'www.autoink.us',
+  'ampnet.media',
+  'www.ampnet.media',
+]);
 
 async function fetchWebsiteData() {
   console.log('🔄 Fetching website data for build...');
@@ -28,8 +35,14 @@ async function fetchWebsiteData() {
       fs.mkdirSync(dataDir, { recursive: true });
     }
 
-    // Sort and get featured websites (for homepage)
-    const sortedSites = data.sites.sort(
+    // Drop AutoInk and the self-referential ampnet.media case study.
+    // Homepage featuring is decided in src/data/portfolio.ts, not by recency.
+    data.sites = (data.sites || []).filter(
+      site => !DROPPED_DOMAINS.has((site.domain || '').toLowerCase())
+    );
+    data.count = data.sites.length;
+
+    const sortedSites = [...data.sites].sort(
       (a, b) =>
         new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
     );
@@ -171,16 +184,14 @@ export const getFeaturedWorks = (): WorkItem[] => {
   return works.filter(work => work.featured).slice(0, 6);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWorksByCategory = (_category: string): WorkItem[] => {
+export const getWorksByCategory = (category: string): WorkItem[] => {
   const works = (worksApiData.works || []) as WorkItem[];
-  return works.filter(work => work.category === _category);
+  return works.filter(work => work.category === category);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWorkById = (_id: string): WorkItem | undefined => {
+export const getWorkById = (id: string): WorkItem | undefined => {
   const works = (worksApiData.works || []) as WorkItem[];
-  return works.find(work => work.id === _id);
+  return works.find(work => work.id === id);
 };
 `;
 
@@ -216,12 +227,10 @@ export const getAllWorks = (): WorkItem[] => [];
 
 export const getFeaturedWorks = (): WorkItem[] => [];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getWorksByCategory = (_category: string): WorkItem[] => {
   return [];
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getWorkById = (_id: string): WorkItem | undefined => {
   return undefined;
 };

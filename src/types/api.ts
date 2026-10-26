@@ -33,6 +33,10 @@ export type WorkItem = {
   image: string;
   description: string;
   excerpt?: string;
+  /** One-line public credit. Cards use this; case studies may also show description. */
+  summary?: string;
+  /** Portfolio credit only. Do not expand into product marketing. */
+  creditOnly?: boolean;
   type: 'work' | 'website';
   date: string;
   client?: string | null;

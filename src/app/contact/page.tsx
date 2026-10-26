@@ -1,8 +1,11 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Send } from 'lucide-react';
+import { SITE } from '@/data/site-copy';
+import { headline, lede, primaryButton, surface } from '@/lib/studio';
 import { useState } from 'react';
+
+const fieldClass =
+  'w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-950 placeholder:text-slate-400 focus:border-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-800/30 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-500';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -50,7 +53,6 @@ export default function ContactPage() {
       );
 
       if (response.ok) {
-        // Handle the response - API returns 201 with no body
         const contentType = response.headers.get('content-type');
 
         if (contentType && contentType.includes('application/json')) {
@@ -62,7 +64,6 @@ export default function ContactPage() {
         }
 
         setSubmitStatus('success');
-        // Reset form
         setFormData({
           fullName: '',
           email: '',
@@ -98,52 +99,46 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="pt-28 pb-20 px-6">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-teal-600 to-orange-600 dark:from-pink-600 dark:to-purple-600 bg-clip-text text-transparent">
-              Let&apos;s Create
-            </span>
-            <br />
-            Something Amazing
-          </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-            Ready to bring your vision to life? Tell us about your project and
-            let&apos;s start crafting digital magic together.
-          </p>
-        </div>
+    <div className="px-6 pb-20 pt-28">
+      <div className="mx-auto max-w-2xl">
+        <h1 className={`${headline} text-4xl md:text-5xl`}>
+          {SITE.contactHeading}
+        </h1>
+        <p className={`${lede} mt-4`}>
+          Or email us at{' '}
+          <a
+            href={`mailto:${SITE.email}`}
+            className="font-semibold text-teal-800 underline underline-offset-4 dark:text-teal-300"
+          >
+            {SITE.email}
+          </a>
+          .
+        </p>
 
-        {/* Contact Form */}
-        <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-white/50 dark:border-slate-700/50 rounded-3xl p-8 md:p-12 shadow-2xl">
-          {/* Status Messages */}
+        <div className={`${surface} mt-10 p-6 md:p-8`}>
           {submitStatus === 'success' && (
-            <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-xl">
-              <p className="text-green-700 dark:text-green-300 font-medium">
-                Thank you! Your message has been sent successfully. We&apos;ll
-                get back to you soon.
-              </p>
-            </div>
+            <p className="mb-6 rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm text-teal-950 dark:border-teal-900 dark:bg-teal-950/40 dark:text-teal-100">
+              Your message was sent. You can also reach us at {SITE.email}.
+            </p>
           )}
 
           {submitStatus === 'error' && (
-            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded-xl">
-              <p className="text-red-700 dark:text-red-300 font-medium">
-                Sorry, there was an error sending your message. Please try
-                again.
-              </p>
-            </div>
+            <p className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950/40 dark:text-red-100">
+              The message did not send. Email{' '}
+              <a className="underline" href={`mailto:${SITE.email}`}>
+                {SITE.email}
+              </a>{' '}
+              instead.
+            </p>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Full Name */}
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label
                 htmlFor="fullName"
-                className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                className="mb-2 block text-sm font-medium text-slate-800 dark:text-slate-200"
               >
-                Full Name *
+                Full name *
               </label>
               <input
                 type="text"
@@ -152,18 +147,18 @@ export default function ContactPage() {
                 required
                 value={formData.fullName}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:ring-2 focus:ring-teal-500 dark:focus:ring-pink-500 focus:border-transparent transition-all duration-200"
-                placeholder="Enter your full name"
+                className={fieldClass}
+                placeholder="Your name"
+                autoComplete="name"
               />
             </div>
 
-            {/* Email */}
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                className="mb-2 block text-sm font-medium text-slate-800 dark:text-slate-200"
               >
-                Email Address *
+                Email *
               </label>
               <input
                 type="email"
@@ -172,16 +167,16 @@ export default function ContactPage() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:ring-2 focus:ring-teal-500 dark:focus:ring-pink-500 focus:border-transparent transition-all duration-200"
-                placeholder="Enter your email address"
+                className={fieldClass}
+                placeholder="you@company.com"
+                autoComplete="email"
               />
             </div>
 
-            {/* Company */}
             <div>
               <label
                 htmlFor="company"
-                className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                className="mb-2 block text-sm font-medium text-slate-800 dark:text-slate-200"
               >
                 Company
               </label>
@@ -191,18 +186,18 @@ export default function ContactPage() {
                 name="company"
                 value={formData.company}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:ring-2 focus:ring-teal-500 dark:focus:ring-pink-500 focus:border-transparent transition-all duration-200"
-                placeholder="Enter your company name"
+                className={fieldClass}
+                placeholder="Company name"
+                autoComplete="organization"
               />
             </div>
 
-            {/* Service */}
             <div>
               <label
                 htmlFor="service"
-                className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                className="mb-2 block text-sm font-medium text-slate-800 dark:text-slate-200"
               >
-                Service *
+                What do you need? *
               </label>
               <select
                 id="service"
@@ -210,24 +205,21 @@ export default function ContactPage() {
                 required
                 value={formData.service}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-teal-500 dark:focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                className={fieldClass}
               >
-                <option value="">Select a service</option>
-                <option value="web-development">Web Development</option>
-                <option value="video-production">Video Production</option>
-                <option value="digital-advertising">Digital Advertising</option>
-                <option value="social-media">Social Media</option>
-                <option value="branding">Branding & Design</option>
-                <option value="consultation">Consultation</option>
-                <option value="other">Other</option>
+                <option value="">Select one</option>
+                <option value="website">Website</option>
+                <option value="tool">Tool or product</option>
+                <option value="advertising">Web advertising</option>
+                <option value="social">Social media</option>
+                <option value="other">Something else</option>
               </select>
             </div>
 
-            {/* Message */}
             <div>
               <label
                 htmlFor="message"
-                className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                className="mb-2 block text-sm font-medium text-slate-800 dark:text-slate-200"
               >
                 Message *
               </label>
@@ -238,47 +230,20 @@ export default function ContactPage() {
                 rows={6}
                 value={formData.message}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:ring-2 focus:ring-teal-500 dark:focus:ring-pink-500 focus:border-transparent transition-all duration-200 resize-none"
-                placeholder="Tell us about your project, goals, timeline, and any specific requirements..."
+                className={`${fieldClass} resize-y`}
+                placeholder="What needs building?"
               />
             </div>
 
-            {/* Submit Button */}
-            <div className="pt-4">
-              <Button
-                type="submit"
-                size="lg"
-                disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-teal-600 to-orange-600 dark:from-pink-600 dark:to-purple-600 hover:from-teal-700 hover:to-orange-700 dark:hover:from-pink-700 dark:hover:to-purple-700 text-white rounded-xl px-8 py-4 text-lg font-medium transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-              >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
-                <Send className="ml-2 h-5 w-5" />
-              </Button>
-            </div>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className={`${primaryButton} w-full`}
+            >
+              {isSubmitting ? 'Sending...' : 'Send message'}
+            </button>
           </form>
         </div>
-
-        {/* Additional Contact Info */}
-        {/* <div className="mt-16 text-center">
-          <p className="text-slate-600 dark:text-slate-400 mb-4">
-            Prefer to reach out directly?
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="mailto:hello@ampnet.media"
-              className="text-teal-600 dark:text-pink-400 hover:text-teal-700 dark:hover:text-pink-300 font-medium transition-colors"
-            >
-              hello@ampnet.media
-            </a>
-            <span className="hidden sm:inline text-slate-400">•</span>
-            <a
-              href="tel:+1234567890"
-              className="text-teal-600 dark:text-pink-400 hover:text-teal-700 dark:hover:text-pink-300 font-medium transition-colors"
-            >
-              (123) 456-7890
-            </a>
-          </div>
-        </div> */}
       </div>
     </div>
   );

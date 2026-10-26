@@ -1,26 +1,29 @@
-import { ArrowRight } from 'lucide-react';
+import { SITE } from '@/data/site-copy';
 import Link from 'next/link';
 
 export default function Contact() {
   return (
-    <section className="py-20 px-6">
-      <div className="max-w-4xl mx-auto text-center">
-        <div className="bg-gradient-to-br from-teal-600 to-orange-600 dark:from-pink-600 dark:to-purple-600 rounded-3xl p-12 text-white">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to create something amazing?
-          </h2>
-          <p className="text-xl mb-8 opacity-90">
-            Let&apos;s bring your vision to life with our signature blend of
-            creativity and innovation
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center bg-white text-teal-600 dark:text-purple-900 hover:bg-slate-100 rounded-full px-6 py-2 text-md md:text-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
+    <section className="px-6 py-14">
+      <div className="mx-auto max-w-3xl rounded-2xl bg-slate-950 px-6 py-10 text-white md:px-10">
+        <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
+          {SITE.contactHeading}
+        </h2>
+        <p className="mt-4 text-slate-300">
+          Or email us at{' '}
+          <a
+            href={`mailto:${SITE.email}`}
+            className="font-medium text-white underline underline-offset-4"
           >
-            Start Your Project
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Link>
-        </div>
+            {SITE.email}
+          </a>
+          .
+        </p>
+        <Link
+          href={SITE.primaryHref}
+          className="mt-8 inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-950 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        >
+          {SITE.primaryCta}
+        </Link>
       </div>
     </section>
   );
