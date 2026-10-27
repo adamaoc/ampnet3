@@ -38,6 +38,7 @@ const LEAD = new Set<string>([IDS.gravityRail, IDS.emizel, IDS.txgarage]);
 // Same screenshots already in the portfolio, saved locally so the cards
 // do not depend on a remote image load. Not new artwork.
 const LOCAL_COVER: Record<string, string> = {
+  [IDS.gravityRail]: '/images/projects/gravity-rail-cover.webp',
   [IDS.emizel]: '/images/projects/emizel-cover.webp',
   [IDS.txgarage]: '/images/projects/txgarage-cover.webp',
   [IDS.devision]: '/images/projects/devision-cover.webp',

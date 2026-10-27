@@ -84,7 +84,7 @@ function Thumb({ work, lead }: { work: WorkItem; lead: boolean }) {
           src={work.image}
           alt=""
           fill
-          className="object-cover"
+          className={`object-cover ${banner ? 'object-top' : ''}`}
           unoptimized
           {...(lead ? { priority: true } : { loading: 'eager' as const })}
         />

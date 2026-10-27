@@ -7,7 +7,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = pageMeta({
   title: 'About',
-  description: SITE.about,
+  description: `${SITE.about} ${SITE.aboutClose}`,
   path: '/about/',
 });
 
