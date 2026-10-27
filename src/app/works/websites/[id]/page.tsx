@@ -65,7 +65,7 @@ export default async function WebsiteCaseStudy({
         </Link>
 
         {website.coverImage ? (
-          <div className="relative mt-6 aspect-[16/8] overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 dark:border-slate-800 dark:bg-slate-900">
+          <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 dark:border-slate-800 dark:bg-slate-900">
             <Image
               src={website.coverImage}
               alt=""

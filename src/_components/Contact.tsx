@@ -1,22 +1,20 @@
 import { SITE } from '@/data/site-copy';
+import { headline, lede, primaryButton } from '@/lib/studio';
 import Link from 'next/link';
 
 export default function Contact({ compact = false }: { compact?: boolean }) {
   return (
-    <section className={compact ? 'px-6 pb-8 pt-8' : 'px-6 py-14'}>
-      <div
-        className={`mx-auto max-w-3xl rounded-2xl bg-slate-950 px-6 text-white md:px-10 ${
-          compact ? 'py-8' : 'py-10'
-        }`}
-      >
-        <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
+    <section className={compact ? 'px-6 pb-10 pt-8' : 'px-6 pb-16 pt-8'}>
+      <div className="mx-auto max-w-3xl">
+        <h2 className={`${headline} text-3xl md:text-4xl`}>
           {SITE.contactHeading}
         </h2>
-        <p className="mt-4 text-slate-300">
+        <p className={`${lede} mt-4`}>{SITE.contactLede}</p>
+        <p className={`${lede} mt-3`}>
           Or email us at{' '}
           <a
             href={`mailto:${SITE.email}`}
-            className="font-medium text-white underline underline-offset-4"
+            className="font-semibold text-teal-800 underline underline-offset-4 dark:text-teal-300"
           >
             {SITE.email}
           </a>
@@ -24,7 +22,7 @@ export default function Contact({ compact = false }: { compact?: boolean }) {
         </p>
         <Link
           href={SITE.primaryHref}
-          className={`${compact ? 'mt-5' : 'mt-8'} inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-950 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white`}
+          className={`${primaryButton} ${compact ? 'mt-5' : 'mt-6'}`}
         >
           {SITE.primaryCta}
         </Link>

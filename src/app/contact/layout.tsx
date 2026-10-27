@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 
 export const metadata: Metadata = pageMeta({
   title: 'Start a project',
-  description: `${SITE.contactHeading} ${SITE.contactSecondary}`,
+  description: `${SITE.contactHeading} ${SITE.contactLede}`,
   path: '/contact/',
 });
 

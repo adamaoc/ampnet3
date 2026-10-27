@@ -38,6 +38,7 @@ const LEAD = new Set<string>([IDS.gravityRail, IDS.emizel, IDS.txgarage]);
 // Same screenshots already in the portfolio, saved locally so the cards
 // do not depend on a remote image load. Not new artwork.
 const LOCAL_COVER: Record<string, string> = {
+  [IDS.gravityRail]: '/images/projects/gravity-rail-cover.webp',
   [IDS.emizel]: '/images/projects/emizel-cover.webp',
   [IDS.txgarage]: '/images/projects/txgarage-cover.webp',
   [IDS.devision]: '/images/projects/devision-cover.webp',
@@ -76,41 +77,49 @@ const COPY: Record<string, PortfolioCopy> = {
     creditOnly: true,
   },
   [IDS.emizel]: {
-    summary: 'Bilingual call-center site and job board. Built by AmpNet.',
-    description: 'Bilingual call-center site and job board. Built by AmpNet.',
+    summary:
+      'Bilingual marketing site and job board for a San Salvador call center. Built by AmpNet.',
+    description:
+      'Bilingual marketing site and job board for a San Salvador call center. Built by AmpNet.',
     creditOnly: true,
   },
   [IDS.txgarage]: {
-    summary: 'Texas auto magazine. Built by AmpNet.',
-    description: 'Texas auto magazine. Built by AmpNet.',
+    summary: 'Texas auto magazine site and publishing stack. Built by AmpNet.',
+    description:
+      'Texas auto magazine site and publishing stack. Built by AmpNet.',
     creditOnly: true,
   },
   [IDS.devision]: {
-    summary: 'Portfolio and booking. Built by AmpNet.',
-    description: 'Portfolio and booking. Built by AmpNet.',
+    summary: 'Portfolio and booking site for a media brand. Built by AmpNet.',
+    description: 'Portfolio and booking site for a media brand. Built by AmpNet.',
     creditOnly: true,
   },
   [IDS.photopti]: {
     title: 'Photopti',
-    summary: 'Open-source CLI tool. Built by AmpNet.',
+    summary:
+      'Open-source CLI for resizing, optimizing, and renaming photos. Built by AmpNet.',
+    description:
+      'Open-source CLI for resizing, optimizing, and renaming photos. Built by AmpNet.',
   },
   [IDS.wink]: {
     title: 'W-Ink',
-    summary: 'Open-source React editor. Built by AmpNet.',
+    summary: 'Open-source React WYSIWYG editor. Built by AmpNet.',
+    description: 'Open-source React WYSIWYG editor. Built by AmpNet.',
   },
   [IDS.scheduleClean]: {
-    summary: 'Built by AmpNet.',
-    description: 'Built by AmpNet.',
+    summary: 'Scheduling site for a Dallas cleaning business. Built by AmpNet.',
+    description:
+      'Scheduling site for a Dallas cleaning business. Built by AmpNet.',
     creditOnly: true,
   },
   [IDS.pirateBen]: {
-    summary: 'Built by AmpNet.',
-    description: 'Built by AmpNet.',
+    summary: 'Personal site. Built by AmpNet.',
+    description: 'Personal site. Built by AmpNet.',
     creditOnly: true,
   },
   [IDS.deepfakeGoldfish]: {
-    summary: 'Built by AmpNet.',
-    description: 'Built by AmpNet.',
+    summary: 'Satirical AI news site. Built by AmpNet.',
+    description: 'Satirical AI news site. Built by AmpNet.',
     creditOnly: true,
   },
   // One-liner reused from Adam's public projects list. Staging stays visible
@@ -165,7 +174,7 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     IDS.emizel,
     'Emizel',
     'emizel.com',
-    'Bilingual call-center site and job board. Built by AmpNet.',
+    'Bilingual marketing site and job board for a San Salvador call center. Built by AmpNet.',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/c88dba6f-b3fa-46fb-8fce-5881dd308043/logo-1751424293056-1751424293056.png',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/c88dba6f-b3fa-46fb-8fce-5881dd308043/coverImage-1751424258630-1751424258630.png',
     '2025-06-22T11:53:31.223Z',
@@ -175,7 +184,7 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     IDS.txgarage,
     'TXGarage',
     'txgarage.com',
-    'Texas auto magazine. Built by AmpNet.',
+    'Texas auto magazine site and publishing stack. Built by AmpNet.',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/a3258a5d-d450-4377-a878-7834701396ce/logo-1751171753353-1751171753353.png',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/a3258a5d-d450-4377-a878-7834701396ce/coverImage-1751424594033-1751424594033.png',
     '2025-06-22T11:44:14.231Z',
@@ -185,7 +194,7 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     IDS.devision,
     'Devision Media',
     'devisionmedia.net',
-    'Portfolio and booking. Built by AmpNet.',
+    'Portfolio and booking site for a media brand. Built by AmpNet.',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/6e954991-5a93-40ba-81e4-2a813b85ab47/logo-1752896576598-1752896576598.png',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/6e954991-5a93-40ba-81e4-2a813b85ab47/coverImage-1752896551334-1752896551334.png',
     '2025-07-17T13:49:35.121Z',
@@ -195,7 +204,7 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     IDS.scheduleClean,
     'Schedule Clean',
     'schedulecleandallas.com',
-    'Built by AmpNet.',
+    'Scheduling site for a Dallas cleaning business. Built by AmpNet.',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/326556ad-58e9-48e1-a13c-00de528d11a0/logo-1752505716765-1752505716765.png',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/326556ad-58e9-48e1-a13c-00de528d11a0/coverImage-1752505722488-1752505722488.png',
     '2025-07-14T15:07:48.918Z',
@@ -205,7 +214,7 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     IDS.pirateBen,
     'Pirate Ben',
     'pirateben.com',
-    'Built by AmpNet.',
+    'Personal site. Built by AmpNet.',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/36247f43-b687-49b1-a51f-6fad95bd5a94/logo-1751728217448-1751728217448.png',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/36247f43-b687-49b1-a51f-6fad95bd5a94/coverImage-1751728224403-1751728224403.png',
     '2025-06-22T12:02:03.797Z',
@@ -215,7 +224,7 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     IDS.deepfakeGoldfish,
     'Deepfake Goldfish',
     'deepfakegoldfish.com',
-    'Built by AmpNet.',
+    'Satirical AI news site. Built by AmpNet.',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/937779d3-41af-47fa-9d99-c01f700d922e/logo-1751171650067-1751171650067.png',
     'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/937779d3-41af-47fa-9d99-c01f700d922e/coverImage-1751424477776-1751424477776.png',
     '2025-06-22T11:54:00.469Z',
@@ -316,11 +325,11 @@ const FALLBACK_WORKS: Record<string, WorkItem> = {
       'cli-tool',
       'work',
       'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/media/ampnet-media/works/1756172569401-Logo-Work-2.jpg',
-      'An open-source photo resizing, optimizing, and renaming tool built for the command line.',
+      'Open-source CLI for resizing, optimizing, and renaming photos. Built by AmpNet.',
       'https://github.com/ampnetmedia/photopti'
     ),
     excerpt:
-      'An open-source photo resizing, optimizing, and renaming tool built for the command line.',
+      'Open-source CLI for resizing, optimizing, and renaming photos. Built by AmpNet.',
     client: 'Open Source',
     technologies: ['Typescript', 'Javascript'],
     githubUrl: 'https://github.com/ampnetmedia/photopti',
@@ -335,10 +344,10 @@ const FALLBACK_WORKS: Record<string, WorkItem> = {
       'cli-tool',
       'work',
       'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/media/ampnet-media/works/1758296946370-wink-cover.jpg',
-      'A modern WYSIWYG editor with social smarts.',
+      'Open-source React WYSIWYG editor. Built by AmpNet.',
       'https://www.npmjs.com/package/@ampnet/wink-wysiwyg'
     ),
-    excerpt: 'A modern WYSIWYG editor with social smarts',
+    excerpt: 'Open-source React WYSIWYG editor. Built by AmpNet.',
     client: 'Open Source',
     technologies: ['React', 'Typescript'],
     githubUrl: 'https://github.com/ampnetmedia/wink-wysiwyg',
@@ -381,7 +390,7 @@ const FALLBACK_WORKS: Record<string, WorkItem> = {
       'website',
       'website',
       FALLBACK_WEBSITES[IDS.deepfakeGoldfish].logo || '',
-      'Built by AmpNet.',
+      'Satirical AI news site. Built by AmpNet.',
       'https://deepfakegoldfish.com'
     ),
     creditOnly: true,
