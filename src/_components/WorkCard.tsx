@@ -28,8 +28,12 @@ export default function WorkCard({
         lead || banner ? 'block w-full' : 'flex gap-4 p-4'
       } ${className}`}
     >
-      <Thumb work={work} lead={lead} banner={banner} />
-      <div className={`min-w-0 flex-1 ${lead || banner ? 'p-4 md:p-5' : ''}`}>
+      <Thumb work={work} lead={lead} />
+      <div
+        className={`min-w-0 flex-1 ${
+          lead ? 'p-4 md:p-5' : banner ? 'px-4 py-3' : ''
+        }`}
+      >
         <div className="flex items-baseline justify-between gap-3">
           <h3
             className={`font-semibold text-slate-950 dark:text-white ${
@@ -43,12 +47,16 @@ export default function WorkCard({
           </span>
         </div>
         {work.featured ? (
-          <p className="mt-1 text-xs font-semibold text-teal-800 dark:text-teal-300">
+          <p className="mt-0.5 text-xs font-semibold text-teal-800 dark:text-teal-300">
             Featured
           </p>
         ) : null}
         {summary ? (
-          <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+          <p
+            className={`mt-1 text-sm text-slate-600 dark:text-slate-300 ${
+              banner ? 'leading-snug' : 'leading-relaxed'
+            }`}
+          >
             {summary}
           </p>
         ) : null}
@@ -63,27 +71,20 @@ export default function WorkCard({
   );
 }
 
-function Thumb({
-  work,
-  lead,
-  banner,
-}: {
-  work: WorkItem;
-  lead: boolean;
-  banner: boolean;
-}) {
+function Thumb({ work, lead }: { work: WorkItem; lead: boolean }) {
+  const banner = Boolean(work.hasCover && work.image) && !lead;
   if (lead || banner) {
     return (
       <div
         className={`relative bg-slate-100 dark:bg-slate-800 ${
-          lead ? 'aspect-[16/9]' : 'aspect-[5/2]'
+          lead ? 'aspect-[16/9]' : 'aspect-[3/1] md:aspect-[5/2]'
         }`}
       >
         <Image
           src={work.image}
           alt=""
           fill
-          className={`object-cover ${banner ? 'object-top' : ''}`}
+          className="object-cover"
           unoptimized
           {...(lead ? { priority: true } : { loading: 'eager' as const })}
         />

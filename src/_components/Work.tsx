@@ -15,7 +15,7 @@ export default function Work() {
           <div>
             <h2 className={`${headline} text-3xl md:text-4xl`}>Work</h2>
             <p className="mt-3 max-w-xl text-slate-600 dark:text-slate-300">
-              Selected websites, tools, and products.
+              {SITE.worksIntro}
             </p>
           </div>
           <Link href={SITE.secondaryHref} className={secondaryButton}>

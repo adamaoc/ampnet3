@@ -103,7 +103,8 @@ export default function ContactPage() {
         <h1 className={`${headline} text-4xl md:text-5xl`}>
           {SITE.contactHeading}
         </h1>
-        <p className={`${lede} mt-4`}>
+        <p className={`${lede} mt-4`}>{SITE.contactLede}</p>
+        <p className={`${lede} mt-3`}>
           Or email us at{' '}
           <a
             href={`mailto:${SITE.email}`}

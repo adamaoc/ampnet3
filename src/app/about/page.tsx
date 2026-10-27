@@ -13,11 +13,12 @@ export const metadata: Metadata = pageMeta({
 
 export default function AboutPage() {
   return (
-    <div className="pb-2 pt-28">
+    <div className="pt-28">
       <div className="mx-auto max-w-3xl px-6">
         <h1 className={`${headline} text-4xl md:text-5xl`}>About</h1>
-        <p className={`${lede} mt-3`}>{SITE.about}</p>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
+        <p className={`${lede} mt-4`}>{SITE.about}</p>
+        <p className={`${lede} mt-4`}>{SITE.aboutClose}</p>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
           {serviceFacts.map(service => (
             <div key={service.title} className={`${surface} p-5`}>
               <service.icon
