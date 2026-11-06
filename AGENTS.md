@@ -26,7 +26,7 @@ Pages: home, about, contact, pricing, magic, works, and the work detail pages un
 
 `next.config.ts` sets `output: 'export'` and `trailingSlash: true`. `npm run build` writes the site to `out/`.
 
-Before the build, `scripts/fetch-build-data.mjs` downloads the website list from FlexHub and writes `src/data/websites-generated.ts`. That file is gitignored. Do not edit it by hand. Import website data from `@/data/websites`.
+The portfolio lives in `src/data/portfolio.ts`. Pictures live in `public/images/projects/`. Do not download project data at build time.
 
 These Next.js features are not available, because the site is a static export:
 
@@ -38,13 +38,9 @@ These Next.js features are not available, because the site is a static export:
 
 The contact page asks people to email `contact@ampnetmedia.com`. There is no contact form. Do not add one that posts to FlexHub.
 
-The works list is still downloaded from FlexHub at build time. `NEXT_PUBLIC_SITE_ID` is not read. The works feed uses `NEXT_PUBLIC_WORKS_SITE_ID`.
+Run `npm run build` when you change the export or a page that must exist as a static file. A dev-server check is not the same thing.
 
-Remote images may come from `flexhub-assets.nyc3.digitaloceanspaces.com`. That host is already allowed in `next.config.ts`.
-
-Run `npm run build` when you change the export, the data fetch, or a page that must exist as a static file. A dev-server check is not the same thing.
-
-Do not commit `out/`, `.next/`, or `src/data/websites-generated.ts`.
+Do not commit `out/` or `.next/`.
 
 ## Where things live
 

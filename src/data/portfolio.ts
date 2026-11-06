@@ -1,7 +1,5 @@
 import type { Website, WorkItem } from '@/types';
 import { SITE } from './site-copy';
-import { getAllWorks } from './api-works';
-import { getAllWebsites } from './websites';
 
 // Public portfolio allowlist, in works-page order.
 // Homepage features are the first six. AutoInk and ampnet.media are omitted.
@@ -43,24 +41,16 @@ const LOCAL_COVER: Record<string, string> = {
   [IDS.txgarage]: '/images/projects/txgarage-cover.webp',
   [IDS.devision]: '/images/projects/devision-cover.webp',
   [IDS.wink]: '/images/projects/wink-cover.webp',
+  [IDS.photopti]: '/images/projects/photopti-cover.jpg',
+  [IDS.scheduleClean]: '/images/projects/schedule-clean-cover.png',
+  [IDS.pirateBen]: '/images/projects/pirate-ben-cover.png',
+  [IDS.deepfakeGoldfish]: '/images/projects/deepfake-goldfish-cover.png',
 };
 
 function isLogoArt(src: string | null | undefined): boolean {
   if (!src) return false;
   return src.split('?')[0].toLowerCase().includes('logo');
 }
-
-const DROPPED_IDS = new Set([
-  'f12af726-c2c4-48b5-8ff7-84d6c7fd6f12',
-  '396fda62-3465-4da0-a934-b82272819e99',
-]);
-
-const DROPPED_DOMAINS = new Set([
-  'autoink.us',
-  'www.autoink.us',
-  'ampnet.media',
-  'www.ampnet.media',
-]);
 
 type PortfolioCopy = {
   title?: string;
@@ -175,8 +165,8 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     'Emizel',
     'emizel.com',
     'Bilingual marketing site and job board for a San Salvador call center. Built by AmpNet.',
-    'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/c88dba6f-b3fa-46fb-8fce-5881dd308043/logo-1751424293056-1751424293056.png',
-    'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/c88dba6f-b3fa-46fb-8fce-5881dd308043/coverImage-1751424258630-1751424258630.png',
+    '/images/projects/emizel-logo.png',
+    '/images/projects/emizel-cover.webp',
     '2025-06-22T11:53:31.223Z',
     '2025-07-02T02:44:53.075Z'
   ),
@@ -185,8 +175,8 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     'TXGarage',
     'txgarage.com',
     'Texas auto magazine site and publishing stack. Built by AmpNet.',
-    'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/a3258a5d-d450-4377-a878-7834701396ce/logo-1751171753353-1751171753353.png',
-    'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/a3258a5d-d450-4377-a878-7834701396ce/coverImage-1751424594033-1751424594033.png',
+    '/images/projects/txgarage-logo.png',
+    '/images/projects/txgarage-cover.webp',
     '2025-06-22T11:44:14.231Z',
     '2025-07-02T02:50:46.769Z'
   ),
@@ -195,8 +185,8 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     'Devision Media',
     'devisionmedia.net',
     'Portfolio and booking site for a media brand. Built by AmpNet.',
-    'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/6e954991-5a93-40ba-81e4-2a813b85ab47/logo-1752896576598-1752896576598.png',
-    'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/6e954991-5a93-40ba-81e4-2a813b85ab47/coverImage-1752896551334-1752896551334.png',
+    '/images/projects/devision-logo.png',
+    '/images/projects/devision-cover.webp',
     '2025-07-17T13:49:35.121Z',
     '2025-07-19T03:42:56.643Z'
   ),
@@ -205,8 +195,8 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     'Schedule Clean',
     'schedulecleandallas.com',
     'Scheduling site for a Dallas cleaning business. Built by AmpNet.',
-    'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/326556ad-58e9-48e1-a13c-00de528d11a0/logo-1752505716765-1752505716765.png',
-    'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/326556ad-58e9-48e1-a13c-00de528d11a0/coverImage-1752505722488-1752505722488.png',
+    '/images/projects/schedule-clean-logo.png',
+    '/images/projects/schedule-clean-cover.png',
     '2025-07-14T15:07:48.918Z',
     '2025-07-14T15:08:42.525Z'
   ),
@@ -215,8 +205,8 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     'Pirate Ben',
     'pirateben.com',
     'Personal site. Built by AmpNet.',
-    'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/36247f43-b687-49b1-a51f-6fad95bd5a94/logo-1751728217448-1751728217448.png',
-    'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/36247f43-b687-49b1-a51f-6fad95bd5a94/coverImage-1751728224403-1751728224403.png',
+    '/images/projects/pirate-ben-logo.png',
+    '/images/projects/pirate-ben-cover.png',
     '2025-06-22T12:02:03.797Z',
     '2025-07-05T16:19:04.206Z'
   ),
@@ -225,8 +215,8 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     'Deepfake Goldfish',
     'deepfakegoldfish.com',
     'Satirical AI news site. Built by AmpNet.',
-    'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/937779d3-41af-47fa-9d99-c01f700d922e/logo-1751171650067-1751171650067.png',
-    'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/sites/937779d3-41af-47fa-9d99-c01f700d922e/coverImage-1751424477776-1751424477776.png',
+    '/images/projects/deepfake-goldfish-logo.png',
+    '/images/projects/deepfake-goldfish-cover.png',
     '2025-06-22T11:54:00.469Z',
     '2025-07-02T02:48:38.760Z'
   ),
@@ -324,7 +314,7 @@ const FALLBACK_WORKS: Record<string, WorkItem> = {
       'Photopti',
       'cli-tool',
       'work',
-      'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/media/ampnet-media/works/1756172569401-Logo-Work-2.jpg',
+      '/images/projects/photopti-cover.jpg',
       'Open-source CLI for resizing, optimizing, and renaming photos. Built by AmpNet.',
       'https://github.com/ampnetmedia/photopti'
     ),
@@ -343,7 +333,7 @@ const FALLBACK_WORKS: Record<string, WorkItem> = {
       'W-Ink',
       'cli-tool',
       'work',
-      'https://flexhub-assets.nyc3.digitaloceanspaces.com/flexhub/media/ampnet-media/works/1758296946370-wink-cover.jpg',
+      '/images/projects/wink-cover.webp',
       'Open-source React WYSIWYG editor. Built by AmpNet.',
       'https://www.npmjs.com/package/@ampnet/wink-wysiwyg'
     ),
@@ -409,42 +399,11 @@ const FALLBACK_WORKS: Record<string, WorkItem> = {
   ),
 };
 
-function isDroppedWebsite(site: Pick<Website, 'id' | 'domain' | 'name'>): boolean {
-  if (DROPPED_IDS.has(site.id)) return true;
-  const domain = (site.domain || '').toLowerCase();
-  if (DROPPED_DOMAINS.has(domain)) return true;
-  const name = site.name.toLowerCase();
-  return name.includes('autoink') || name === 'auto inc' || name === 'ampnet media';
-}
-
-function normalizeApiWork(work: WorkItem): WorkItem {
-  const category = work.category.toLowerCase().replaceAll('_', '-');
-  const rawType = String(work.type).toLowerCase();
-  return {
-    ...work,
-    title: work.title.trim(),
-    category,
-    type: rawType === 'website' ? 'website' : 'work',
-  };
-}
-
 function loadSources(): { works: WorkItem[]; sites: Website[] } {
-  let works: WorkItem[] = [];
-  let sites: Website[] = [];
-
-  try {
-    works = getAllWorks().map(normalizeApiWork);
-  } catch {
-    works = [];
-  }
-
-  try {
-    sites = getAllWebsites().filter(site => !isDroppedWebsite(site));
-  } catch {
-    sites = [];
-  }
-
-  return { works, sites };
+  return {
+    works: [],
+    sites: Object.values(FALLBACK_WEBSITES),
+  };
 }
 
 function curatePortfolio(apiWorks: WorkItem[], sites: Website[]): WorkItem[] {
