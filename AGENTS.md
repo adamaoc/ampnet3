@@ -20,7 +20,7 @@ Dev server: `npm run dev` at http://localhost:3232
 
 Pages: home, about, contact, pricing, magic, works, and the work detail pages under `src/app/works/`.
 
-`__knowledge/` and `__work-plans/` are notes. They are not pages. Do not turn them into site copy unless Adam asks.
+`__knowledge/` holds notes, not pages. `freelance-pricing.md` is the pricing worksheet. `elevator-pitch.md` is how Adam describes the studio. Do not turn these into site copy unless Adam asks. Client quotes live outside this repo. Do not copy them back in.
 
 ## How the site is built
 
