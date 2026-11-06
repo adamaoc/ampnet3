@@ -12,7 +12,7 @@ A modern portfolio website for AmpNet Media - a creative media studio that craft
 - **Portfolio Showcase**: Display of creative works including video projects, web advertising, and social media campaigns
 - **Website Gallery**: Showcase of websites built with features and descriptions (fetched at build time)
 - **Services Overview**: Highlighting our digital media and web development services
-- **Contact Form**: Fully functional contact form with API integration and validation
+- **Contact**: Email `contact@ampnetmedia.com`. There is no form.
 - **Responsive Design**: Mobile-first responsive design with Tailwind CSS
 - **Dark Mode Support**: Built-in dark/light mode toggle
 - **Modern UI**: Beautiful gradient designs and animations
@@ -176,7 +176,7 @@ The project uses a centralized type system:
 - `Services`: Overview of services offered
 - `Work`: Portfolio grid display (uses `getFeaturedWebsites()`)
 - `About`: Company information
-- `Contact`: Contact forms and information
+- `Contact`: Email address and a link to the contact page
 
 ### Styling
 
@@ -235,15 +235,12 @@ For automated deployments, ensure your build pipeline:
 
 See `.env.example`. `NEXT_PUBLIC_*` values are inlined into the static export.
 
-FlexHub data fetching does not need an API key. Works and the contact form share `NEXT_PUBLIC_API_URL` and use **different site ids**. `NEXT_PUBLIC_SITE_ID` is not read.
+FlexHub data fetching does not need an API key. The works list uses `NEXT_PUBLIC_API_URL`. `NEXT_PUBLIC_SITE_ID` is not read. The contact page does not call FlexHub.
 
 | Variable | Default | Used by |
 | --- | --- | --- |
-| `NEXT_PUBLIC_API_URL` | `https://flexhub.ampnet.media/api` in production. `npm run dev` contact posts to `http://localhost:3005/api` when unset. | Works fetch and contact form |
+| `NEXT_PUBLIC_API_URL` | `https://flexhub.ampnet.media/api` when unset | `scripts/fetch-build-data.mjs` |
 | `NEXT_PUBLIC_WORKS_SITE_ID` | `396fda62-3465-4da0-a934-b82272819e99` | `scripts/fetch-build-data.mjs` only (Photopti and W-Ink live on this site) |
-| `NEXT_PUBLIC_CONTACT_SITE_ID` | `8ad1bc58-fdb0-44ac-b021-251a06bd2bec` | Contact form only |
-
-A production build whose API URL is localhost or `127.0.0.1` does not submit the form. The page tells the visitor to email contact@ampnetmedia.com instead.
 
 AmpGauge is optional and is **off unless both variables below are set at build time**. Leave both unset for local `npm run dev` and for preview builds so those builds do not send page views. Set both only on the production build.
 
@@ -270,7 +267,7 @@ Page views only. This site does not call `ampgauge()` for custom events. If eith
 - [x] **Website Portfolio**: Dynamic website gallery from FlexHub
 - [x] **Responsive Design**: Mobile-first responsive layouts
 - [x] **Dark Mode**: Complete light/dark mode support
-- [x] **Contact Form**: Fully functional contact form with FlexHub API integration
+- [x] **Contact**: Email address on the contact page. No form.
 - [x] **About Page Team Section**: Complete team member profiles with professional photos
 
 ### 🔄 Remaining Tasks
