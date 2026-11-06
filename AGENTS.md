@@ -36,9 +36,9 @@ These Next.js features are not available, because the site is a static export:
 
 `images.unoptimized` is `true` on purpose. Leave it on.
 
-The contact form is the exception to "no network calls." The browser posts straight to FlexHub. See `src/lib/contact-api.ts`. Production API: `https://flexhub.ampnet.media/api`.
+The contact page asks people to email `contact@ampnetmedia.com`. There is no contact form. Do not add one that posts to FlexHub.
 
-The works feed and the contact form use different site ids on purpose. `NEXT_PUBLIC_SITE_ID` is not read. Do not point both at one id.
+The works list is still downloaded from FlexHub at build time. `NEXT_PUBLIC_SITE_ID` is not read. The works feed uses `NEXT_PUBLIC_WORKS_SITE_ID`.
 
 Remote images may come from `flexhub-assets.nyc3.digitaloceanspaces.com`. That host is already allowed in `next.config.ts`.
 
@@ -54,7 +54,7 @@ Do not commit `out/`, `.next/`, or `src/data/websites-generated.ts`.
 - `src/components/ui/` — shared UI pieces
 - `src/data/` — copy and content that ships with the site
 - `src/types/` — shared types
-- `src/lib/` — helpers, including the contact API and SEO
+- `src/lib/` — helpers, including SEO
 - `public/` — images and icons that the site serves
 
 Icons come from `lucide-react`.
@@ -85,7 +85,7 @@ Check a visual change in light and dark.
 
 Put new shared types in `src/types/` as `type`, not `interface`. Import them with `import type`.
 
-Use a client component only for something that has to run in the browser, such as the theme toggle or the contact form.
+Use a client component only for something that has to run in the browser, such as the theme toggle.
 
 ## UI review screenshots
 

@@ -13,7 +13,7 @@ export const SITE = {
   contactHeading: 'Have something that needs building?',
   contactLede:
     'Websites, tools, or a product that needs a real interface. Tell us what you’re trying to ship.',
-  contactSecondary: 'Or email us at contact@ampnetmedia.com.',
+  contactSecondary: 'Email contact@ampnetmedia.com.',
   worksIntro: 'Selected websites, tools, and products.',
   footerLine: 'Websites, tools, and digital products, built in Dallas.',
   copyright: '© 2026 AmpNet.',

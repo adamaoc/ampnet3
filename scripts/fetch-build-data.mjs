@@ -3,8 +3,7 @@
 import fs from 'fs';
 import path from 'path';
 
-// Works feed and the contact form use different site ids on purpose.
-// NEXT_PUBLIC_SITE_ID is not read here.
+// NEXT_PUBLIC_SITE_ID is not read here. The works feed uses NEXT_PUBLIC_WORKS_SITE_ID.
 const SITE_ID =
   process.env.NEXT_PUBLIC_WORKS_SITE_ID ||
   '396fda62-3465-4da0-a934-b82272819e99';

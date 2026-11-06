@@ -11,7 +11,7 @@ export default function Contact({ compact = false }: { compact?: boolean }) {
         </h2>
         <p className={`${lede} mt-4`}>{SITE.contactLede}</p>
         <p className={`${lede} mt-3`}>
-          Or email us at{' '}
+          Email{' '}
           <a
             href={`mailto:${SITE.email}`}
             className="font-semibold text-teal-800 underline underline-offset-4 dark:text-teal-300"
