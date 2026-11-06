@@ -5,7 +5,7 @@ A modern portfolio website for AmpNet Media - a creative media studio that craft
 ## 🌐 Live URLs
 
 - **Production**: [https://ampnet.media](https://ampnet.media)
-- **Data Source**: [https://flexhub.ampnet.media](https://flexhub.ampnet.media) (fetched at build time)
+- **Portfolio data**: `src/data/portfolio.ts` and `public/images/projects/`
 
 ## 🚀 Features
 
@@ -51,52 +51,16 @@ src/
 │   ├── data.ts         # Data structure types
 │   └── index.ts        # Type exports
 ├── data/               # Static data files
-│   ├── works.ts        # Portfolio works data
-│   ├── blog.ts         # Blog-related data
-│   ├── websites.ts     # Re-exports from generated data
-│   └── websites-generated.ts # Auto-generated (build time)
+│   ├── portfolio.ts    # Public project list
+│   ├── works.ts        # Portfolio helpers
+│   └── blog.ts         # Blog-related data
 ├── lib/                # Utilities and configurations
-└── scripts/            # Build-time scripts
-    └── fetch-build-data.mjs # Data fetching script
+└── public/images/projects/ # Project covers and logos
 ```
 
-## 🏗 Build-Time Data Fetching
+## Portfolio data
 
-This project uses a **build-time data fetching** approach for optimal static hosting:
-
-### How It Works
-
-1. **Prebuild Script** (`scripts/fetch-build-data.mjs`):
-
-   - Runs automatically before `npm run build`
-   - Fetches fresh data from FlexHub API
-   - Generates `src/data/websites-generated.ts` with TypeScript exports
-   - Includes fallback handling if API is unavailable
-
-2. **Static Data Integration**:
-
-   - Components import from `@/data/websites`
-   - No runtime API calls or loading states needed
-   - Data is embedded in the static build
-
-3. **Graceful Fallbacks**:
-   - If FlexHub API is down during build, uses empty fallback data
-   - Build never fails due to API issues
-   - Site remains functional with available data
-
-### Generated Files
-
-```typescript
-// src/data/websites-generated.ts (auto-generated)
-export const websitesApiData: ApiResponse = {
-  /* fresh data */
-};
-export const featuredWebsitesData: Website[] = [
-  /* latest websites */
-];
-export const getAllWebsites = () => websitesApiData.sites;
-export const getFeaturedWebsites = () => featuredWebsitesData;
-```
+Project names, sentences, and picture paths live in `src/data/portfolio.ts`. The picture files live in `public/images/projects/`. `npm run build` does not download them.
 
 ## 🏗 Getting Started
 
@@ -125,7 +89,7 @@ The application will be available at [http://localhost:3232](http://localhost:32
 
 ```bash
 npm run dev       # Start development server on port 3232
-npm run build     # Fetch data + build for production (static export)
+npm run build     # Build the static site into out/
 npm run start     # Start production server (for testing)
 npm run export    # Alias for build
 npm run lint      # Run ESLint
@@ -139,25 +103,20 @@ npm run build
 
 **What happens:**
 
-1. `prebuild` script fetches latest data from FlexHub API
-2. Generates `websites-generated.ts` with fresh data
-3. Next.js builds with static data embedded
-4. Exports to `out/` folder for deployment
-5. Result: Fully static site with latest data
+1. Next.js builds the pages from the files in this repo
+2. Exports to `out/` folder for deployment
+3. Result: Fully static site
 
 ## 🎨 Portfolio Data
 
-The portfolio uses a hybrid data approach:
-
-1. **Static Data** (`src/data/works.ts`): Creative works like video projects and campaigns
-2. **Build-Time Fetched** (`src/data/websites-generated.ts`): Website portfolio data from FlexHub API
+The public project list is `src/data/portfolio.ts`. Covers and logos are files in `public/images/projects/`.
 
 ### Works Categories
 
 - **Web Video**: Video content and productions
 - **Web Advertising**: Digital advertising campaigns
 - **Social Media**: Social media content and campaigns
-- **Website**: Custom websites with various features (fetched from FlexHub at build time)
+- **Website**: Custom websites
 
 ## 🔧 Development
 
@@ -217,8 +176,7 @@ npm run build
 ✅ **Ready for Production:**
 
 - Static export configured (`output: 'export'`)
-- Build-time data fetching implemented
-- No runtime dependencies
+- No runtime server
 - Optimized for static hosting
 
 ### CI/CD Integration
@@ -226,21 +184,15 @@ npm run build
 For automated deployments, ensure your build pipeline:
 
 1. Runs `npm install`
-2. Runs `npm run build` (includes data fetching)
+2. Runs `npm run build`
 3. Deploys the `out/` folder
-4. Has access to FlexHub API during build time
-5. Sets `NEXT_PUBLIC_AMPGAUGE_SRC` and `NEXT_PUBLIC_AMPGAUGE_SITE` for the production build only (see Environment Variables)
+4. Sets `NEXT_PUBLIC_AMPGAUGE_SRC` and `NEXT_PUBLIC_AMPGAUGE_SITE` for the production build only (see Environment Variables)
 
 ### Environment Variables
 
 See `.env.example`. `NEXT_PUBLIC_*` values are inlined into the static export.
 
-FlexHub data fetching does not need an API key. The works list uses `NEXT_PUBLIC_API_URL`. `NEXT_PUBLIC_SITE_ID` is not read. The contact page does not call FlexHub.
-
-| Variable | Default | Used by |
-| --- | --- | --- |
-| `NEXT_PUBLIC_API_URL` | `https://flexhub.ampnet.media/api` when unset | `scripts/fetch-build-data.mjs` |
-| `NEXT_PUBLIC_WORKS_SITE_ID` | `396fda62-3465-4da0-a934-b82272819e99` | `scripts/fetch-build-data.mjs` only (Photopti and W-Ink live on this site) |
+The contact page does not call an API. Project data is in the repo.
 
 AmpGauge is optional and is **off unless both variables below are set at build time**. Leave both unset for local `npm run dev` and for preview builds so those builds do not send page views. Set both only on the production build.
 
@@ -262,9 +214,9 @@ Page views only. This site does not call `ampgauge()` for custom events. If eith
 ### ✅ Completed Features
 
 - [x] **Static Export Configuration**: Fully configured for static hosting
-- [x] **Build-Time Data Fetching**: FlexHub integration at build time
+- [x] **Portfolio data**: Project list and pictures live in this repo
 - [x] **Type System**: Centralized TypeScript architecture
-- [x] **Website Portfolio**: Dynamic website gallery from FlexHub
+- [x] **Website Portfolio**: Project gallery from `src/data/portfolio.ts`
 - [x] **Responsive Design**: Mobile-first responsive layouts
 - [x] **Dark Mode**: Complete light/dark mode support
 - [x] **Contact**: Email address on the contact page. No form.
@@ -272,31 +224,11 @@ Page views only. This site does not call `ampgauge()` for custom events. If eith
 
 ### 🔄 Remaining Tasks
 
-#### 📊 Content Management
-
-- [ ] **Creative Works API**: Implement FlexHub integration for creative works data
-  - Currently using static data in `src/data/works.ts`
-  - Need FlexHub feature to manage creative projects (video, advertising, social media)
-  - Add to build-time fetching script
-
-#### 📝 Blog/Articles System
-
-- [ ] **Magic Page Implementation**: Build blog/articles functionality
-  - Create FlexHub integration for blog posts/articles
-  - Add to build-time fetching script
-  - Implement article detail pages with dynamic routing
-
-#### 🎨 Final Polish
-
-- [ ] **Design Quality Assurance**: Complete design review
-- [ ] **Performance Optimization**: Run Lighthouse audit
-- [ ] **SEO Enhancement**: Add meta tags and structured data
+- [ ] **Magic page**: The page is still sample posts. It is not linked in the menu.
 
 ## 📋 Notes
 
 - **Static Only**: This site has no server-side runtime features
-- **Fresh Data**: Website data is refreshed on every build
-- **Build Dependencies**: Requires internet access during build for data fetching
-- **Fallback Handling**: Build never fails; uses empty data if API unavailable
+- **Project data**: Names, sentences, and pictures are files in this repo. The build does not download them.
 
 Private project - All rights reserved by AmpNet Media

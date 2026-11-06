@@ -5,14 +5,6 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   images: {
     unoptimized: true,
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'flexhub-assets.nyc3.digitaloceanspaces.com',
-        port: '',
-        pathname: '/**',
-      },
-    ],
   },
   // Disable server-side features for static export
   experimental: {
