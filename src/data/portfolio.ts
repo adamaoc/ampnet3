@@ -1,8 +1,9 @@
 import type { Website, WorkItem } from '@/types';
 import { SITE } from './site-copy';
 
-// Public portfolio allowlist, in works-page order.
-// Homepage features are the first six. AutoInk and ampnet.media are omitted.
+// Public portfolio allowlist. AutoInk and ampnet.media are omitted.
+// Homepage features are the first six listed here. Both pages show work
+// newest first by updatedAt (see sortByUpdated).
 
 const IDS = {
   gravityRail: 'gravity-rail',
@@ -171,7 +172,8 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     '/images/projects/gravity-rail-logo.webp',
     '/images/projects/gravity-rail-cover.webp',
     '',
-    ''
+    // Last change to the site's code. The old CMS had no date for it.
+    '2026-10-17T12:00:00.000Z'
   ),
   [IDS.emizel]: website(
     IDS.emizel,
@@ -241,7 +243,8 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     null,
     null,
     '',
-    ''
+    // Last change to the product's code. The old CMS had no date for it.
+    '2026-10-29T12:00:00.000Z'
   ),
 };
 
@@ -533,9 +536,19 @@ function curatePortfolio(apiWorks: WorkItem[], sites: Website[]): WorkItem[] {
   return projects;
 }
 
+function updatedTime(work: WorkItem): number {
+  const time = Date.parse(work.updatedAt);
+  return Number.isNaN(time) ? 0 : time;
+}
+
+/** Newest updatedAt first. Work without a date goes last, in ORDER. */
+function sortByUpdated(works: WorkItem[]): WorkItem[] {
+  return [...works].sort((a, b) => updatedTime(b) - updatedTime(a));
+}
+
 export function getPortfolioWorks(): WorkItem[] {
   const { works, sites } = loadSources();
-  return curatePortfolio(works, sites);
+  return sortByUpdated(curatePortfolio(works, sites));
 }
 
 export function getFeaturedPortfolio(): WorkItem[] {

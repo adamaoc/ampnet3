@@ -21,16 +21,15 @@ export default function Work() {
           </Link>
         </div>
         <div className="mt-8 grid grid-cols-1 items-start gap-3 md:grid-cols-2">
-          {featuredWorks.map(work => {
+          {featuredWorks.map((work, index) => {
             const lead = isPortfolioLead(work.id);
             return (
               <WorkCard
                 key={work.id}
                 work={work}
                 emphasis={lead ? 'lead' : 'standard'}
-                className={
-                  work.id === 'gravity-rail' ? 'md:col-span-2' : undefined
-                }
+                // Newest work spans the full row.
+                className={index === 0 ? 'md:col-span-2' : undefined}
               />
             );
           })}
