@@ -1,8 +1,9 @@
 import type { Website, WorkItem } from '@/types';
 import { SITE } from './site-copy';
 
-// Public portfolio allowlist, in works-page order.
-// Homepage features are the first six. AutoInk and ampnet.media are omitted.
+// Public portfolio allowlist. AutoInk and ampnet.media are omitted.
+// Homepage features are the first six listed here. Both pages show work
+// newest first by updatedAt (see sortByUpdated).
 
 const IDS = {
   gravityRail: 'gravity-rail',
@@ -45,6 +46,8 @@ const LOCAL_COVER: Record<string, string> = {
   [IDS.scheduleClean]: '/images/projects/schedule-clean-cover.png',
   [IDS.pirateBen]: '/images/projects/pirate-ben-cover.png',
   [IDS.deepfakeGoldfish]: '/images/projects/deepfake-goldfish-cover.png',
+  // AmpFrames board of the live site (four widths), not a hand mockup.
+  [IDS.realview]: '/images/projects/realview-cover.webp',
 };
 
 function isLogoArt(src: string | null | undefined): boolean {
@@ -66,6 +69,9 @@ const PHOTOPTI_DESCRIPTION = `<p>Drop in a folder of photos, pick a size and qua
 <li>Keep or strip photo metadata. Cancel a batch while it runs.</li>
 </ul>
 <p>Built with Electron and Sharp. The code is MIT licensed.</p>`;
+
+const REALVIEW_SUMMARY =
+  'Home-tour review site. Buyers review listings after in-person showings. Built by AmpNet.';
 
 type PortfolioCopy = {
   title?: string;
@@ -125,14 +131,10 @@ const COPY: Record<string, PortfolioCopy> = {
     description: 'Satirical AI news site. Built by AmpNet.',
     creditOnly: true,
   },
-  // One-liner reused from Adam's public projects list. Staging stays visible
-  // so this is a credit, not a claim that the product has launched.
   [IDS.realview]: {
     title: 'RealView',
-    summary:
-      'Home-tour review product. Buyers review listings after in-person showings. Built by AmpNet. Staging site, not production.',
-    description:
-      'Home-tour review product. Buyers review listings after in-person showings. Built by AmpNet. Staging site, not production.',
+    summary: REALVIEW_SUMMARY,
+    description: REALVIEW_SUMMARY,
     creditOnly: true,
   },
 };
@@ -171,7 +173,8 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
     '/images/projects/gravity-rail-logo.webp',
     '/images/projects/gravity-rail-cover.webp',
     '',
-    ''
+    // Last change to the site's code. The old CMS had no date for it.
+    '2026-10-17T12:00:00.000Z'
   ),
   [IDS.emizel]: website(
     IDS.emizel,
@@ -236,12 +239,13 @@ const FALLBACK_WEBSITES: Record<string, Website> = {
   [IDS.realview]: website(
     IDS.realview,
     'RealView',
-    'stage.realview.house',
-    'Home-tour review product. Buyers review listings after in-person showings. Built by AmpNet. Staging site, not production.',
-    null,
-    null,
+    'realview.house',
+    REALVIEW_SUMMARY,
+    '/images/projects/realview-logo.png',
+    '/images/projects/realview-cover.webp',
     '',
-    ''
+    // Last change to the product's code. The old CMS had no date for it.
+    '2026-10-29T12:00:00.000Z'
   ),
 };
 
@@ -444,9 +448,9 @@ const FALLBACK_WORKS: Record<string, WorkItem> = {
     'RealView',
     'website',
     'website',
-    '',
-    'Home-tour review product. Buyers review listings after in-person showings. Built by AmpNet. Staging site, not production.',
-    'https://stage.realview.house'
+    '/images/projects/realview-logo.png',
+    REALVIEW_SUMMARY,
+    'https://realview.house'
   ),
 };
 
@@ -533,9 +537,19 @@ function curatePortfolio(apiWorks: WorkItem[], sites: Website[]): WorkItem[] {
   return projects;
 }
 
+function updatedTime(work: WorkItem): number {
+  const time = Date.parse(work.updatedAt);
+  return Number.isNaN(time) ? 0 : time;
+}
+
+/** Newest updatedAt first. Work without a date goes last, in ORDER. */
+function sortByUpdated(works: WorkItem[]): WorkItem[] {
+  return [...works].sort((a, b) => updatedTime(b) - updatedTime(a));
+}
+
 export function getPortfolioWorks(): WorkItem[] {
   const { works, sites } = loadSources();
-  return curatePortfolio(works, sites);
+  return sortByUpdated(curatePortfolio(works, sites));
 }
 
 export function getFeaturedPortfolio(): WorkItem[] {
