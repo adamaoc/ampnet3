@@ -15,6 +15,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import OpenSourceSection from '../_components/OpenSourceSection';
 import SafeHtml from '../_components/SafeHtml';
+import ScreenshotsSection from '../_components/ScreenshotsSection';
+import TryItSection from '../_components/TryItSection';
 import VideoSection from '../_components/VideoSection';
 
 export function generateStaticParams() {
@@ -86,9 +88,9 @@ export default async function WorkCaseStudy({
         <div className={`${surface} mt-6 p-6 md:p-8`}>
           <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
             <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800">
-              {work.image ? (
+              {work.logo || work.image ? (
                 <Image
-                  src={work.image}
+                  src={work.logo || work.image}
                   alt=""
                   width={64}
                   height={64}
@@ -178,6 +180,10 @@ export default async function WorkCaseStudy({
         </div>
       </div>
 
+      {work.screenshots?.length ? (
+        <ScreenshotsSection screenshots={work.screenshots} />
+      ) : null}
+      {work.tryIt ? <TryItSection tryIt={work.tryIt} /> : null}
       {work.client === 'Open Source' ? <OpenSourceSection /> : null}
       {work.videoUrl ? <VideoSection videoUrl={work.videoUrl} /> : null}
 

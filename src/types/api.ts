@@ -33,6 +33,8 @@ export type WorkItem = {
   image: string;
   /** True when `image` is a real cover, not a logo mark. */
   hasCover?: boolean;
+  /** Square mark shown beside the title when `image` is a screenshot. */
+  logo?: string;
   description: string;
   excerpt?: string;
   /** One-line public credit. Cards use this; case studies may also show description. */
@@ -52,6 +54,27 @@ export type WorkItem = {
   createdAt: string;
   updatedAt: string;
   features?: WebsiteFeature[];
+  /** App screenshots shown under the case study, in order. */
+  screenshots?: WorkScreenshot[];
+  /** How to run an open-source project from its code. */
+  tryIt?: WorkTryIt;
+};
+
+export type WorkScreenshot = {
+  src: string;
+  alt: string;
+  caption: string;
+  width: number;
+  height: number;
+};
+
+export type WorkTryIt = {
+  intro: string;
+  /** Shell commands, one per line in the code block. */
+  commands: string[];
+  note?: string;
+  repoUrl: string;
+  issuesUrl?: string;
 };
 
 export type WorksApiResponse = {

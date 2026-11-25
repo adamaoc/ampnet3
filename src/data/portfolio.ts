@@ -41,7 +41,7 @@ const LOCAL_COVER: Record<string, string> = {
   [IDS.txgarage]: '/images/projects/txgarage-cover.webp',
   [IDS.devision]: '/images/projects/devision-cover.webp',
   [IDS.wink]: '/images/projects/wink-cover.webp',
-  [IDS.photopti]: '/images/projects/photopti-cover.jpg',
+  [IDS.photopti]: '/images/projects/photopti-gallery.webp',
   [IDS.scheduleClean]: '/images/projects/schedule-clean-cover.png',
   [IDS.pirateBen]: '/images/projects/pirate-ben-cover.png',
   [IDS.deepfakeGoldfish]: '/images/projects/deepfake-goldfish-cover.png',
@@ -51,6 +51,21 @@ function isLogoArt(src: string | null | undefined): boolean {
   if (!src) return false;
   return src.split('?')[0].toLowerCase().includes('logo');
 }
+
+const PHOTOPTI_REPO = 'https://github.com/adamaoc/photopti-app';
+
+const PHOTOPTI_SUMMARY =
+  'Open-source desktop app that resizes and compresses batches of photos on your own computer. Built by AmpNet.';
+
+const PHOTOPTI_DESCRIPTION = `<p>Drop in a folder of photos, pick a size and quality, and Photopti writes smaller copies to an <code>Opti</code> folder next to them. Your originals are never changed, and nothing is uploaded.</p>
+<ul>
+<li>Resize by width or by percentage, with a quality slider.</li>
+<li>Save as JPEG, WebP, or AVIF. Reads PNG, JPEG, WebP, GIF, TIFF, BMP, AVIF, HEIC, and HEIF.</li>
+<li>Rename a batch with numbered file names.</li>
+<li>Crop one photo as a cover image at a set size.</li>
+<li>Keep or strip photo metadata. Cancel a batch while it runs.</li>
+</ul>
+<p>Built with Electron and Sharp. The code is MIT licensed.</p>`;
 
 type PortfolioCopy = {
   title?: string;
@@ -86,10 +101,8 @@ const COPY: Record<string, PortfolioCopy> = {
   },
   [IDS.photopti]: {
     title: 'Photopti',
-    summary:
-      'Open-source CLI for resizing, optimizing, and renaming photos. Built by AmpNet.',
-    description:
-      'Open-source CLI for resizing, optimizing, and renaming photos. Built by AmpNet.',
+    summary: PHOTOPTI_SUMMARY,
+    description: PHOTOPTI_DESCRIPTION,
   },
   [IDS.wink]: {
     title: 'W-Ink',
@@ -312,20 +325,58 @@ const FALLBACK_WORKS: Record<string, WorkItem> = {
     ...baseWork(
       IDS.photopti,
       'Photopti',
-      'cli-tool',
+      'app',
       'work',
-      '/images/projects/photopti-cover.jpg',
-      'Open-source CLI for resizing, optimizing, and renaming photos. Built by AmpNet.',
-      'https://github.com/ampnetmedia/photopti'
+      '/images/projects/photopti-gallery.webp',
+      PHOTOPTI_SUMMARY
     ),
-    excerpt:
-      'Open-source CLI for resizing, optimizing, and renaming photos. Built by AmpNet.',
+    excerpt: PHOTOPTI_SUMMARY,
+    logo: '/images/projects/photopti-logo.png',
     client: 'Open Source',
-    technologies: ['Typescript', 'Javascript'],
-    githubUrl: 'https://github.com/ampnetmedia/photopti',
-    date: '2025-08-04T00:00:00.000Z',
-    createdAt: '2025-08-26T01:45:45.351Z',
-    updatedAt: '2025-09-04T03:34:59.946Z',
+    technologies: ['Electron', 'Sharp', 'JavaScript', 'Node.js'],
+    githubUrl: PHOTOPTI_REPO,
+    date: '2026-06-23T12:00:00.000Z',
+    createdAt: '2026-06-23T12:00:00.000Z',
+    updatedAt: '2026-11-25T12:00:00.000Z',
+    screenshots: [
+      {
+        src: '/images/projects/photopti-image-details.webp',
+        alt: 'Photopti gallery with one photo selected, showing its name, size, dimensions, and format, beside the batch settings.',
+        caption:
+          'Drop in files or whole folders. Click a photo to see its size and format, then set width, quality, and format for the batch.',
+        width: 1440,
+        height: 900,
+      },
+      {
+        src: '/images/projects/photopti-cover-crop.webp',
+        alt: 'Photopti cover crop editor with a 16:9 crop box over a photo and controls for aspect, orientation, and output size.',
+        caption:
+          'Crop one photo as the cover image. 16:9, 1:1, 4:3, or free, by mouse or keyboard.',
+        width: 1440,
+        height: 900,
+      },
+      {
+        src: '/images/projects/photopti-results.webp',
+        alt: 'Photopti after a batch, showing 98 percent saved, 16.8 MB down to 414.7 KB, and one file that could not be processed.',
+        caption:
+          'See how much space the batch saved. Any file that fails is listed, and the rest still finish.',
+        width: 1440,
+        height: 900,
+      },
+    ],
+    tryIt: {
+      intro:
+        'Photopti is not signed, so there is no app store listing or download button. To try it, get the code from GitHub and run it on your own computer. You need Git and Node.js 22.12 or newer.',
+      commands: [
+        `git clone ${PHOTOPTI_REPO}.git`,
+        'cd photopti-app',
+        'npm ci',
+        'npm start',
+      ],
+      note: 'The README on GitHub shows how to build an app for macOS, Windows, or Linux. Try it on a folder of your own photos, and open an issue if something breaks or you want a feature.',
+      repoUrl: PHOTOPTI_REPO,
+      issuesUrl: `${PHOTOPTI_REPO}/issues`,
+    },
   },
   [IDS.wink]: {
     ...baseWork(
@@ -526,6 +577,7 @@ export function getCategoryLabel(category: string): string {
   const labels: Record<string, string> = {
     website: 'Website',
     'cli-tool': 'Tool',
+    app: 'App',
     video: 'Video',
     seo: 'SEO',
     'social-media': 'Social',
@@ -539,6 +591,7 @@ export function getCategoryLabel(category: string): string {
 export function getCategoryGroupLabel(category: string): string {
   if (category === 'website') return 'Websites';
   if (category === 'cli-tool') return 'Tools';
+  if (category === 'app') return 'Apps';
   return getCategoryLabel(category);
 }
 

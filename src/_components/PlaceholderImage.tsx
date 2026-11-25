@@ -1,5 +1,6 @@
 import type { LucideIcon } from 'lucide-react';
 import {
+  AppWindow,
   Megaphone,
   Monitor,
   Palette,
@@ -23,6 +24,7 @@ const getIconForCategory = (category?: string): LucideIcon => {
     website: Monitor,
     video: Video,
     'cli-tool': Terminal,
+    app: AppWindow,
     seo: Search,
     'social-media': Share2,
     advertising: Megaphone,
